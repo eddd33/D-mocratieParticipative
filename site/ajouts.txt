@@ -1,0 +1,13 @@
+Layout pour la partie gauche
+Trouver comment mettre sur la meme ligne deux choses
+remplacer tout ce qui est a remplacer
+Adapter nom etc
+
+systeme de login
+
+
+
+
+Base de données à lié
+
+VISUELS
