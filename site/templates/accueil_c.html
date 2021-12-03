@@ -1,4 +1,26 @@
 {% extends "layout.html" %}
 {% block body %}
-    
-{% end block %}
+    <style>
+        .listeref{position:absolute;top:20px;left:20px;font-size: x-large; font-weight: bold;}
+        .titre{position:absolute;top:20px;left:700px;font-size: x-large; font-weight: bold;}
+        .listereffond{position:absolute;top:150px;left:400px;width: 1000px;height: 850px;background-color: rgb(185, 212, 238);}
+        .laliste{position:absolute;top:60px;left:20px}
+        .PP{position:absolute;top:10px;right:180px}
+        .nomutilisateur{position:absolute;top:20px;right:20px}
+        .deconnect{position: absolute; top:40px; right:20px}
+    </style>
+    <title>Accueil Citoyen</title>
+    <h1 class=titre>
+        Bienvenue sur LENA
+    </h1>
+    <a href="login" class=deconnect>Se déconnecter</a>
+    <img src="{{url_for('static',filename='citoyen.jpg')}}" width="60" height="60" class=PP>
+    <a class=nomutilisateur>Utilisateur</a>
+    <div class=listereffond>
+        <h1 class=listeref>Liste des référendums</h1>
+        <ul class=laliste>
+            <li><a href="citoyen">Premier référundum</a></li>
+            <li>Deuxième référundum</li>
+        </ul>
+    </div>
+{% endblock %}
