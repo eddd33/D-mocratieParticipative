@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<html>
+
+    <style>
+        .creationref{position:absolute;top:20px;left:20px;font-size: x-large; font-weight: bold;}
+        .creationreffond{position:absolute;top:150px;left:400px;width: 1000px;height: 850px;background-color: rgb(185, 212, 238);}
+        .elements{position:absolute;top:60px;left:20px}
+    </style>
+
+    <div class=creationreffond>
+        <h1 class=creationref>Création d'un nouveau référendum :</h1>
+        <ul class=elements>
+            <form action="/refcree" method="get">
+            <br><br><a>Titre du référendum : </a><input name="titre" type="text">
+            <br><br><a>Catégorie 1: </a><select name="cat1_ref">
+                <option value="null">/</option>
+                <option value="ecologie">Écologie</option>
+                <option value="education">Éducation</option>
+                <option value="transport">Transport</option>
+                <option value="commerce">Commerce</option>
+                <option value="tourisme">Tourisme</option>
+            </select>
+            <br><br><a>Catégorie 2: </a><select name="cat2_ref">
+                <option value="null">/</option>
+                <option value="ecologie">Écologie</option>
+                <option value="education">Éducation</option>
+                <option value="transport">Transport</option>
+                <option value="commerce">Commerce</option>
+                <option value="tourisme">Tourisme</option>
+            </select>
+            <br><br><a>Ville : </a><input name="ville" type="text">
+            <br><br><a>Numéro du département : </a><input name="dep" type="integer">
+            <br><br><a>Région : </a><select name="region">
+                <option value=auvergnerhonealpes>Auvergne-Rhône-Alpes</option>
+                <option value=bourgognefranchecomte>Bourgogne-Franche-Comté</option>
+                <option value=bretagne>Bretagne</option>
+                <option value=centrevaldeloire>Centre-Val de Loire</option>
+                <option value=corse>Corse</option>
+                <option value=grandest>Grand Est</option>
+                <option value=hautsdefrance>Hauts-de-France</option>
+                <option value=iledefrance>Île-de-France</option>
+                <option value=normandie>Normandie</option>
+                <option value=nouvelleaquitaine>Nouvelle-Aquitaine</option>
+                <option value=occitanie>Occitanie</option>
+                <option value=paysdelaloire>Pays de la Loire</option>
+                <option value=paca>Provence-Alpes-Côte d'Azur</option>
+            </select>
+            <br><br><a>Résumé : </a><input name="resume" type="text">
+            <br><br><br><input  type="submit" value="Soumettre le référendum">
+            </form>
+
+        </ul>
+</html>
+
+
+
+
+{% endblock %}
