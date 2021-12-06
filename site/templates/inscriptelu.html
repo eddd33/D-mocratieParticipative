@@ -1,0 +1,30 @@
+<html>
+    <title>Inscription Elu</title>
+    <h1>Inscription:</h1>
+    <form action="/registere" method="post">
+        <input name="email" type="text" placeholder="E-mail">
+        <input name="mdp" type="text" placeholder="Mot de passe">
+        <br>
+        <input name="nom" type="text" placeholder="Nom">
+        <input name="prenom" type="text" placeholder="Prénom">
+        <br>
+        
+        <input name="parti" type="text" placeholder="Parti">
+        <input name="role" type="text" placeholder="Rôle">
+        <input name="ville" type="text" placeholder="Ville">
+        <select name="dep">
+            <option disabled selected value="">Département</option>
+            {% for dep in departements %}
+                <option value="{{ dep }}">{{ dep }}</option>
+            {% endfor %}
+        </select>
+        <select name="region">
+            <option disabled selected value="">Région</option>
+            {% for reg in regions %}
+                <option value="{{ reg }}">{{ reg }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <input type="submit" value="S'enregistrer">
+    </form>
+</html>
