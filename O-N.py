@@ -30,7 +30,7 @@ def graphe_sociopro(oui:list,non:list):
     plt.legend(loc=1)
     plt.show()
 
-def camembert(p:list):   #p la liste du nombre de votes par catégorie
+def catembert(p:list):   #p la liste du nombre de votes par catégorie
     explode=[0,0,0,0,0,0,0,0,0,0]
     explode[max_indice(p)]=0.1
     explode=tuple(explode)
@@ -60,3 +60,29 @@ def calcul_age(date): #format JJ/MM/AAAA
     auj=datetime.date.today()
     return auj.year - date.year - ((auj.month, auj.day) < (date.month, date.day))
 
+def camemb_age(date:list):
+    for k in range (len(date)):
+        date[k]=calcul_age(date[k])
+    age=[0,0,0,0,0,0,0]
+    for t in range (len(age)):
+        if date[t]>=18 and date[t]<=25:
+            age[0]+=1
+        if date[t]>=26 and date[t]<=35:
+            age[1]+=1
+        if date[t]>=36 and date[t]<=45:
+            age[2]+=1
+        if date[t]>=46 and date[t]<=55:
+            age[3]+=1
+        if date[t]>=56 and date[t]<=65:
+            age[4]+=1
+        if date[t]>=66 and date[t]<=75:
+            age[5]+=1
+        if date[t]>=76:
+            age[6]+=1
+    explode=[0,0,0,0,0,0,0]
+    explode[max_indice(age)]=0.1
+    explode=tuple(explode)
+    plt.figure(figsize = (8, 8))
+    plt.pie(age, explode=explode,labels = ['18-25 ans','26-35 ans','36-45 ans',
+    '46-55 ans','56-65 ans','66-75 ans',
+    '76 ans et plus'],autopct='%1.1f%%')
