@@ -63,8 +63,8 @@ def calcul_age(date): #format JJ/MM/AAAA
 def camemb_age(date:list):
     for k in range (len(date)):
         date[k]=calcul_age(date[k])
-    age=[0,0,0,0,0,0,0]
-    for t in range (len(age)):
+    age=7*[0]
+    for t in range (len(date)):
         if date[t]>=18 and date[t]<=25:
             age[0]+=1
         if date[t]>=26 and date[t]<=35:
@@ -79,10 +79,17 @@ def camemb_age(date:list):
             age[5]+=1
         if date[t]>=76:
             age[6]+=1
-    explode=[0,0,0,0,0,0,0]
-    explode[max_indice(age)]=0.1
-    explode=tuple(explode)
-    plt.figure(figsize = (8, 8))
-    plt.pie(age, explode=explode,labels = ['18-25 ans','26-35 ans','36-45 ans',
+    labels=[]
+    age_présent=[]
+    cat=['18-25 ans','26-35 ans','36-45 ans',
     '46-55 ans','56-65 ans','66-75 ans',
-    '76 ans et plus'],autopct='%1.1f%%')
+    '76 ans et plus']
+    for j in range (len(age)):
+        if age[j]!=0:
+            labels.append(cat[j])
+            age_présent.append(age[j])
+    explode=len(labels)*[0]
+    explode[max_indice(age_présent)]=0.1
+    explode=tuple(explode)
+    plt.figure(figsize = (15, 15))
+    plt.pie(age_présent, explode=explode,labels = labels,autopct='%1.1f%%')
