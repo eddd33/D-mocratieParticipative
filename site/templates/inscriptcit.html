@@ -1,7 +1,7 @@
 <html>
     <title>Inscription Citoyen</title>
     <h1>Inscription:</h1>
-    <form action="/accueil_c" method="get">
+    <form action="/registerc" method="post">
         <input name="email" type="text" placeholder="E-mail">
         <input name="mdp" type="text" placeholder="Mot de passe">
         <br>
@@ -9,19 +9,33 @@
         <input name="prenom" type="text" placeholder="Prénom">
         <input name="annee_naissance" type="integer" placeholder="Anné de Naissance jj/mm/aaaa">
         <select name="sexe">
-            <option>M.</option>
-            <option>Mme.</option>
-            <option>Autre</option>
+            <option disabled selected value="">Sexe</option> 
+            {% for sexe in sexes %}
+                <option value="{{ sexe }}">{{ sexe }}</option>
+            {% endfor %}
         </select>
         <br>
         <select name="cat_soc_pro">
-            <option disabled>Catégorie Socioprofessionelle</option>
-            <option>Option1</option>
+            <option disabled selected value="">Catégorie Socioprofessionelle</option>
+            {% for cat in categories %}
+                <option value="{{ cat }}">{{ cat }}</option>
+            {% endfor %}
         </select>
         <br>
         <input name="ville" type="text" placeholder="Ville">
-        <input name="dep" type="text" placeholder="Département">
-        <input name="region" type="text" placeholder="Région">
+        <select name="dep">
+            <option disabled selected value="">Département</option>
+            {% for dep in departements %}
+                <option value="{{ dep }}">{{ dep }}</option>
+            {% endfor %}
+        </select>
+        <select name="region">
+            <option disabled selected value="">Région</option>
+            {% for reg in regions %}
+                <option value="{{ reg }}">{{ reg }}</option>
+            {% endfor %}
+        </select>
+
         <br>
         <input name="nb_enfants" type="integer" placeholder="Nombre d'enfants">
         <br>
