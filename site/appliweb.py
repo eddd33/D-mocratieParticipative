@@ -43,8 +43,10 @@ def inscriptelu():
     regions=['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-Val de Loire','Corse','Grand Est','Hauts-de-France','Île-de-France','Normandie','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d''Azur','Guadeloupe','Martinique','Guyane','La Réunion','Mayotte']
     return render_template('inscriptelu.html',regions=regions,departements=departements)
 
-@app.route('/registere')
+@app.route('/registere',methods=["POST"])
 def registere():
+    departements=[i for i in range(1,96)]
+    regions=['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-Val de Loire','Corse','Grand Est','Hauts-de-France','Île-de-France','Normandie','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d''Azur']
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
     nom=request.form.get("nom")
@@ -53,9 +55,31 @@ def registere():
     mdp=request.form.get("mdp")
     ville=request.form.get("ville")
     region=request.form.get("region")
-    dep=request.form.get("dep")
+    dep=int(request.form.get("dep"))
     role=request.form.get("role")
     parti=request.form.get("parti")
+    if not nom:
+        return render_template("error.html",message="Nom non renseigné")
+    if not prenom:
+        return render_template("error.html",message="Prénom non renseigné")
+    if not ville:
+        return render_template("error.html",message="Ville non renseignée")
+    if not role:
+        return render_template("error.html",message="Rôle non renseigné")
+    if not parti:
+        return render_template("error.html",message="Parti non renseigné")
+    if not dep:
+        return render_template("error.html",message="Département non renseigné")
+    if dep not in departements:
+        return render_template("error.html",message="Département non existant")
+    if not region:
+        return render_template("error.html",message="Région non renseigné")
+    if region not in regions:
+        return render_template("error.html",message="Région non existante")
+    if not email:
+        return render_template("error.html",message="Adresse email non renseignée")
+    if not mdp:
+        return render_template("error.html",message="Mot de passe non renseigné")
     cur.execute("INSERT INTO elu (nom,prenom,role,parti,ville,dep,region,email,mdp) VALUES (?,?,?,?,?,?,?,?,?)",(nom,prenom,role,parti,ville,dep,region,email,mdp))
     cur.execute("SELECT * FROM utilisateur")
     db.commit()
@@ -81,7 +105,8 @@ def registerc():
     cat_soc_pro=request.form.get("cat_soc_pro")
     ville=request.form.get("ville")
     region=request.form.get("region")
-    dep=request.form.get("dep")
+    dep=int(request.form.get("dep"))
+    print(dep)
     nb_enfants=request.form.get("nb_enfants")
 
     if not nom:
