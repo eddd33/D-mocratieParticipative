@@ -43,6 +43,7 @@ def inscriptelu():
     regions=['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-Val de Loire','Corse','Grand Est','Hauts-de-France','Île-de-France','Normandie','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d''Azur','Guadeloupe','Martinique','Guyane','La Réunion','Mayotte']
     return render_template('inscriptelu.html',regions=regions,departements=departements)
 
+
 @app.route('/registere',methods=["POST"])
 def registere():
     departements=[i for i in range(1,96)]
@@ -81,7 +82,7 @@ def registere():
     if not mdp:
         return render_template("error.html",message="Mot de passe non renseigné")
     cur.execute("INSERT INTO elu (nom,prenom,role,parti,ville,dep,region,email,mdp) VALUES (?,?,?,?,?,?,?,?,?)",(nom,prenom,role,parti,ville,dep,region,email,mdp))
-    cur.execute("SELECT * FROM utilisateur")
+    cur.execute("SELECT * FROM elu")
     db.commit()
     db.close()
     return render_template('registere.html')
@@ -146,9 +147,12 @@ def registerc():
     db.close()
 
     return render_template('registerc.html')
+
+
 @app.route('/logincit')
 def logincit():
     return render_template("logincit.html")
+
 @app.route('/logincitdeux',methods=["POST"])
 def logincitdeux():
     db=sqlite3.connect('projet.db')
@@ -169,16 +173,18 @@ def logincitdeux():
 @app.route('/loginelu')
 def loginelu():
     return render_template('loginelu.html')
-@app.route('/logineludeux')
+
+@app.route('/logineludeux',methods=["POST"])
 def logineludeux():
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
     email=request.form.get("email")
     mdp=request.form.get("mdp")
-    
+    print("Oskur",mdp)
 
     cur.execute("""SELECT mdp FROM elu WHERE email='{}'""".format(email))
     mdpnormalement=cur.fetchone()[0]
+    print(mdp,mdpnormalement)
     db.commit()
     db.close()
     if mdp==mdpnormalement:
