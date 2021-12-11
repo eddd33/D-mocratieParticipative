@@ -2,12 +2,16 @@
     <title>Inscription Citoyen</title>
     <h1>Inscription:</h1>
     <form action="/registerc" method="post">
-        <input name="email" type="text" placeholder="E-mail">
-        <input name="mdp" type="text" placeholder="Mot de passe">
+        <input autocomplete="off" name="email" type="text" placeholder="E-mail">
         <br>
-        <input name="nom" type="text" placeholder="Nom">
-        <input name="prenom" type="text" placeholder="Prénom">
-        <input name="annee_naissance" type="integer" placeholder="Anné de Naissance jj/mm/aaaa">
+        <input autocomplete="off" name="mdp" type="text" placeholder="Mot de passe">
+        <br>
+        <input autocomplete="off" name="nom" type="text" placeholder="Nom">
+        <br>
+        <input autocomplete="off" name="prenom" type="text" placeholder="Prénom">
+        <br>
+        <input autocomplete="off" name="date_naissance" type="integer" placeholder="Date de Naissance jj/mm/aaaa">
+        <br>
         <select name="sexe">
             <option disabled selected value="">Sexe</option> 
             {% for sexe in sexes %}
@@ -22,7 +26,7 @@
             {% endfor %}
         </select>
         <br>
-        <input name="ville" type="text" placeholder="Ville">
+        <input autocomplete="off" name="ville" type="text" placeholder="Ville">
         <select name="dep">
             <option disabled selected value="">Département</option>
             {% for dep in departements %}

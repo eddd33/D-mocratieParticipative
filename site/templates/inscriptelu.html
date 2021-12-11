@@ -2,16 +2,19 @@
     <title>Inscription Elu</title>
     <h1>Inscription:</h1>
     <form action="/registere" method="post">
-        <input name="email" type="text" placeholder="E-mail">
-        <input name="mdp" type="text" placeholder="Mot de passe">
+        <input autocomplete="off" name="email" type="text" placeholder="E-mail">
         <br>
-        <input name="nom" type="text" placeholder="Nom">
-        <input name="prenom" type="text" placeholder="Prénom">
+        <input autocomplete="off" name="mdp" type="text" placeholder="Mot de passe">
+        <br>
+        <input autocomplete="off" name="nom" type="text" placeholder="Nom">
+        <br>
+        <input  autocomplete="off"name="prenom" type="text" placeholder="Prénom">
         <br>
         
-        <input name="parti" type="text" placeholder="Parti">
-        <input name="role" type="text" placeholder="Rôle">
-        <input name="ville" type="text" placeholder="Ville">
+        <input autocomplete="off" name="parti" type="text" placeholder="Parti">
+        <input autocomplete="off" name="role" type="text" placeholder="Rôle">
+        <br>
+        <input autocomplete="off" name="ville" type="text" placeholder="Ville">
         <select name="dep">
             <option disabled selected value="">Département</option>
             {% for dep in departements %}
