@@ -39,9 +39,12 @@
                 <option value="{{ reg }}">{{ reg }}</option>
             {% endfor %}
         </select>
-
         <br>
-        <input name="nb_enfants" type="integer" placeholder="Nombre d'enfants">
+        <select name="parent">
+            <option disabled selected value="">Êtes-vous parent?</option>
+            <option value="oui">oui</option>
+            <option value="non">non</option>
+        </select>
         <br>
         <input type="submit" value="S'enregistrer">
     </form>
