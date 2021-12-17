@@ -102,7 +102,7 @@ def registerc():
     prenom=request.form.get("prenom")
     email=request.form.get("email")
     mdp=request.form.get("mdp")
-    annee_naissance=request.form.get("annee_naissance")
+    annee_naissance=request.form.get("date_naissance")
     sexe=request.form.get("sexe")
     cat_soc_pro=request.form.get("cat_soc_pro")
     ville=request.form.get("ville")
