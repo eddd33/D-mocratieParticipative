@@ -4,14 +4,18 @@
     <form action="/registere" method="post">
         <input autocomplete="off" name="email" type="text" placeholder="E-mail">
         <br>
-        <input autocomplete="off" name="mdp" type="text" placeholder="Mot de passe">
+        <input autocomplete="off" name="mdp" type="password" placeholder="Mot de passe">
         <br>
         <input autocomplete="off" name="nom" type="text" placeholder="Nom">
         <br>
         <input  autocomplete="off"name="prenom" type="text" placeholder="Prénom">
         <br>
-        
-        <input autocomplete="off" name="parti" type="text" placeholder="Parti">
+        <select name="parti">
+            <option disabled selected value="">Parti</option>
+            {% for part in partis %}
+                <option value="{{ part }}">{{ part }}</option>
+            {% endfor %}
+        </select>
         <input autocomplete="off" name="role" type="text" placeholder="Rôle">
         <br>
         <input autocomplete="off" name="ville" type="text" placeholder="Ville">

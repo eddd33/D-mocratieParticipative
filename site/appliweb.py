@@ -39,9 +39,10 @@ def inscriptcit():
 @app.route('/inscriptelu')
 def inscriptelu():
     
+    partis=['Gauche démocrate et républicaine','La France insoumise','Socialistes et apparentés','Libertés et territoires','La République en marche','Mouvement démocrate et démocrates apparentés','Agir ensemble','UDI et indépendants','Les Républicains','Non-inscrits']
     departements=[i for i in range(1,96)]+[262,590,594,596,976]
     regions=['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-Val de Loire','Corse','Grand Est','Hauts-de-France','Île-de-France','Normandie','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d''Azur','Guadeloupe','Martinique','Guyane','La Réunion','Mayotte']
-    return render_template('inscriptelu.html',regions=regions,departements=departements)
+    return render_template('inscriptelu.html',regions=regions,departements=departements,partis=partis)
 
 
 @app.route('/registere',methods=["POST"])
@@ -114,8 +115,6 @@ def registerc():
         return render_template("error.html",message="Nom non renseigné")
     if not prenom:
         return render_template("error.html",message="Prénom non renseigné")
-    if not annee_naissance:
-        return render_template("error.html",message="Année de naissance non renseignée")
     if not sexe:
         return render_template("error.html",message="Sexe non renseigné")
     if sexe not in sexes:
@@ -134,8 +133,6 @@ def registerc():
         return render_template("error.html",message="Région non renseigne")
     if region not in regions:
         return render_template("error.html",message="Région non existante")
-    if not nb_enfants:
-        return render_template("error.html",message="Nombre d'enfants non renseigné")
     if not email:
         return render_template("error.html",message="Adresse email non renseignée")
     if not mdp:
