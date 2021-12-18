@@ -3,6 +3,7 @@ from flask import render_template
 from flask import redirect
 from flask import request
 import sqlite3
+from ON import *
 app=Flask(__name__)
 
 
@@ -188,8 +189,28 @@ def logineludeux():
         return redirect('/accueil_e')
     else:
         return redirect('/loginelu')
+@app.route('/resultats/<int:ref>')
+def resultats(ref):
+    db=sqlite3.connect('projet.db')
+    cur=db.cursor()
 
-    
+    cur.execute("""SELECT enonce,presentation,oui,non,debut,fin,createur FROM referendum WHERE ref_id={}""".format(ref))
+    L=cur.fetchone()
+    enonce,presentation,oui,non,debut,fin,createur=L[0],L[1],L[2],L[3],L[4],L[5],L[6]
+    cur.execute("""SELECT nom,prenom FROM elu WHERE elu_id={}""".format(createur))
+    T=cur.fetchone()
+    nom,prenom=T[0],T[1]
+
+    ouinon=pourcentage(oui,non)
+    oui,non=ouinon[0],ouinon[1]
+
+
+
+
+    db.commit()
+    db.close()
+
+    return render_template('resultats.html',e=enonce,pres=presentation,o=oui,n=non,d=debut,f=fin,nom=nom,pren=prenom)
 
     
     
