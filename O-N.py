@@ -111,7 +111,31 @@ def parents(oui:list,non:list):
     plt.legend(loc=1)
     plt.show()
 
-def parembert(p:list):    #p la liste du nombre de votes par catégories
+def parembert(p:list):
+    explode=2*[0]
+    explode[max_indice(p)]=0.1
+    plt.figure(figsize = (8, 8))
+    plt.pie(p, explode=explode,labels = ['Parents','Pas Parents'] ,
+    autopct='%1.1f%%')
+
+def sexe(oui:list,non:list):
+    for k in range (len(oui)):
+        p=oui[k]
+        oui[k]=(100*p)/(p+non[k])
+        non[k]=(100*non[k])/(p+non[k])
+    sexe=['Homme','Femme','Autres']
+    position=np.arange(len(sexe))
+    width=0.45
+    plt.bar(position - width/2, oui, width, color='lightsteelblue')
+    plt.bar(position + width/2, non, width, color='IndianRed')
+    plt.xticks(position, sexe,fontsize=10)
+    plt.xlabel('Sexe', fontsize=8)
+    plt.title('Diagramme en bâtons - répartition des votes en fonction du sexe',
+    fontsize=12)
+    plt.legend(loc=1)
+    plt.show()
+
+def camembert_s(p:list):    #p la liste du nombre de votes par catégories
     explode=[]
     présence=[]
     for k in range (len(p)):
@@ -132,22 +156,3 @@ def parembert(p:list):    #p la liste du nombre de votes par catégories
     explode=tuple(explode)
     plt.figure(figsize = (8, 8))
     plt.pie(p, explode=explode,labels = sexe ,autopct='%1.1f%%')
-
-
-
-def sexe(oui:list,non:list):
-    for k in range (len(oui)):
-        p=oui[k]
-        oui[k]=(100*p)/(p+non[k])
-        non[k]=(100*non[k])/(p+non[k])
-    sexe=['Homme','Femme','Autres']
-    position=np.arange(len(sexe))
-    width=0.45
-    plt.bar(position - width/2, oui, width, color='lightsteelblue')
-    plt.bar(position + width/2, non, width, color='IndianRed')
-    plt.xticks(position, sexe,fontsize=10)
-    plt.xlabel('Sexe', fontsize=8)
-    plt.title('Diagramme en bâtons - répartition des votes en fonction du sexe',
-    fontsize=12)
-    plt.legend(loc=1)
-    plt.show()
