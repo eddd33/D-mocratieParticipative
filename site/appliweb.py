@@ -1,3 +1,4 @@
+from os import memfd_create
 from flask import Flask
 from flask import render_template
 from flask import redirect
@@ -10,21 +11,36 @@ app=Flask(__name__)
 @app.route('/')
 def initial():
     return redirect("/login")
+
 @app.route('/login')
 def login():
     return render_template('login.html')
+
 @app.route('/citoyen')
 def citoyen():
     return render_template('citoyen.html',methods=["POST","GET"])
+    
 @app.route('/elu')
 def elu():
     return render_template('elu.html')
+
 @app.route('/accueil_c')
 def accueil_c():
-    return render_template('accueil_c.html')
+    db=sqlite3.connect('projet.db')
+    cur=db.cursor()
+    cur.execute("""SELECT nom FROM citoyen WHERE email='{}'""".format(email))
+    nom=cur.fetchone()[0]
+    cur.execute("""SELECT prénom FROM citoyen WHERE email='{}'""".format(email))
+    prénom=cur.fetchone()[0]
+    db.commit()
+    db.close()
+    return render_template('accueil_c.html',nom=nom,prénom=prénom)
+
 @app.route('/accueil_e')
 def accueil_e():
+    
     return render_template('accueil_e.html')
+
 @app.route('/reponse')
 def reponse():
     return render_template('login.html',methods=["POST","GET"])
@@ -157,14 +173,16 @@ def logincitdeux():
     cur=db.cursor()
     email=request.form.get("email")
     mdp=request.form.get("mdp")
-    
-
     cur.execute("""SELECT mdp FROM utilisateur WHERE email='{}'""".format(email))
     mdpnormalement=cur.fetchone()[0]
+    cur.execute("""SELECT nom FROM utilisateur WHERE email='{}'""".format(email))
+    nom=cur.fetchone()[0]
+    cur.execute("""SELECT prenom FROM utilisateur WHERE email='{}'""".format(email))
+    prénom=cur.fetchone()[0]
     db.commit()
     db.close()
     if mdp==mdpnormalement:
-        return redirect('/accueil_c')
+        return render_template('accueil_c.html',nom=nom,prénom=prénom)
     else:
         return redirect('/logincit')
 
@@ -183,12 +201,17 @@ def logineludeux():
     cur.execute("""SELECT mdp FROM elu WHERE email='{}'""".format(email))
     mdpnormalement=cur.fetchone()[0]
     print(mdp,mdpnormalement)
+    cur.execute("""SELECT nom FROM elu WHERE email='{}'""".format(email))
+    nom=cur.fetchone()[0]
+    cur.execute("""SELECT prenom FROM elu WHERE email='{}'""".format(email))
+    prénom=cur.fetchone()[0]
     db.commit()
     db.close()
     if mdp==mdpnormalement:
-        return redirect('/accueil_e')
+        return render_template('accueil_e.html',nom=nom,prénom=prénom)
     else:
         return redirect('/loginelu')
+
 @app.route('/resultats/<int:ref>')
 def resultats(ref):
     db=sqlite3.connect('projet.db')
@@ -203,9 +226,6 @@ def resultats(ref):
 
     ouinon=pourcentage(oui,non)
     oui,non=ouinon[0],ouinon[1]
-
-
-
 
     db.commit()
     db.close()
