@@ -93,3 +93,61 @@ def camemb_age(date:list):
     explode=tuple(explode)
     plt.figure(figsize = (15, 15))
     plt.pie(age_présent, explode=explode,labels = labels,autopct='%1.1f%%')
+
+def parents(oui:list,non:list):
+    for k in range (len(oui)):
+        p=oui[k]
+        oui[k]=(100*p)/(p+non[k])
+        non[k]=(100*non[k])/(p+non[k])
+    situation=['Parents','Pas parents']
+    position=np.arange(len(situation))
+    width=0.45
+    plt.bar(position - width/2, oui, width, color='lightsteelblue')
+    plt.bar(position + width/2, non, width, color='IndianRed')
+    plt.xticks(position, situation,fontsize=10)
+    plt.xlabel('Situation familiale', fontsize=8)
+    plt.title('Diagramme en bâtons - répartition des votes en fonction de la situation familiale',
+    fontsize=12)
+    plt.legend(loc=1)
+    plt.show()
+
+def parembert(p:list):    #p la liste du nombre de votes par catégories
+    explode=[]
+    présence=[]
+    for k in range (len(p)):
+        if p[k]!=0:
+            explode.append(0)
+            présence.append(k)
+        if p[k]==0:
+            p.pop(k)
+    sexe=[]
+    for t in range (len(présence)):
+        if présence[t]==0:
+            sexe.append('Homme')
+        if présence[t]==1:
+            sexe.append('Femme')
+        if présence[t]==2:
+            sexe.append('Autres')
+    explode[max_indice(p)]=0.1
+    explode=tuple(explode)
+    plt.figure(figsize = (8, 8))
+    plt.pie(p, explode=explode,labels = sexe ,autopct='%1.1f%%')
+
+
+
+def sexe(oui:list,non:list):
+    for k in range (len(oui)):
+        p=oui[k]
+        oui[k]=(100*p)/(p+non[k])
+        non[k]=(100*non[k])/(p+non[k])
+    sexe=['Homme','Femme','Autres']
+    position=np.arange(len(sexe))
+    width=0.45
+    plt.bar(position - width/2, oui, width, color='lightsteelblue')
+    plt.bar(position + width/2, non, width, color='IndianRed')
+    plt.xticks(position, sexe,fontsize=10)
+    plt.xlabel('Sexe', fontsize=8)
+    plt.title('Diagramme en bâtons - répartition des votes en fonction du sexe',
+    fontsize=12)
+    plt.legend(loc=1)
+    plt.show()
