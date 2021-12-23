@@ -217,12 +217,25 @@ def resultats(ref):
 
 @app.route('/creationreferendum')
 def creationreferendum():
-
     departements=[i for i in range(1,96)]
     regions=['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-Val de Loire','Corse','Grand Est','Hauts-de-France','Île-de-France','Normandie','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d''Azur']
-   
-    
     return render_template('creationreferendum.html',regions=regions,departements=departements)
+
+@app.route('/refcree',methods=['POST'])
+def refcree():
+    db=sqlite3.connect('projet.db')
+    cur=db.cursor()
+    titre=request.form.get("titre")
+    ville=request.form.get("ville")
+    region=request.form.get("region")
+    dep=int(request.form.get("dep")
+    debut=request.form.get("debut")
+    fin=request.form.get("fin")
+    oui=0
+    non=0
+    cur.execute("INSERT INTO referendums (categorie1,categorie2,ville,dep,region,oui,non,enonce,presentation,debut,fin) VALUES (?,?,?,?,?,?,?,?,?,?,?)",(categorie1,categorie2,ville,dep,region,oui,non,titre,debu,fin))
+
+
 
 @app.route('/referendum/<int:ref_id>')
 def referendum(ref_id):
@@ -238,4 +251,8 @@ def referendum(ref_id):
     db.commit()
     db.close()
     return render_template('referendum.html',enonce=enonce,presentation=presentation,debut=debut,fin=fin,createur=createur)
+
+
+
+
 
