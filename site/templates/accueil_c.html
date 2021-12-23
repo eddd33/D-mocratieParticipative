@@ -19,8 +19,11 @@
     <div class=listereffond>
         <h1 class=listeref>Liste des référendums</h1>
         <ul class=laliste>
-            <li><a href="referendum1">Premier référundum</a></li>
-            <li><a href="referendum2">Deuxième référendum</a></li>
+            {% for L in liste %}
+            
+            <li><a href="referendum/{{ L[0] }}">{{ L[1] }}</a></li>
+
+            {% endfor %}
         </ul>
     </div>
 {% endblock %}

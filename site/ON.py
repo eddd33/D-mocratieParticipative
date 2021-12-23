@@ -2,6 +2,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 import datetime
 
+def separeidtitre(L):
+    T=[]
+    for i in range(len(L)):
+        T.append([L[i][0],L[i][1]])
+    return T
+
 def pourcentage(o,n):
     t=o+n
     po=o*100/t

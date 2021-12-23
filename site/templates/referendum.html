@@ -1,19 +1,37 @@
 {% extends "layout.html" %}
 {% block body %}
+    <title>LENA</title>
+    <STYLE>
+        .titre{position: absolute; top:20px;left:750px;}
+        .deconnect{position: absolute; top:40px; right:20px}
+        .icone{position: absolute; top: 300px; left: 500px;}
+        .nomelu{position: absolute; top:410px;left: 500px;}
+        .referendum{position: absolute; top:300px; left: 700px;font-size: x-large; font-weight: bold;}
+        .oui{position: absolute; top:400px; left:850px}
+        .non{position: absolute; top:400px; left:930px}
+        .presentation{position: absolute; top:800px; left:760px;}
+        .PP{position:absolute;top:10px;right:180px}
+        .nomutilisateur{position:absolute;top:20px;right:20px}
+        .periode{position:absolute;top:450px;left:850px}
+        </STYLE>
 
-<style>
+    <h1><a><center>{{ titre }}</center></a></h1>
 
-</style>
+    <a href="login" class=deconnect>Se déconnecter</a>
+    <img src="{{url_for('static',filename='citoyen.jpg')}}" width="60" height="60" class=PP>
+    <a class=nomutilisateur>{{ nom }} {{ prenom }}</a>
 
-<p class=periode> Du {{debut}} au {{fin}} </p>
-<p class=present>{{presentation}}</p>
-<p class=enonce>{{enonce}}</p>
 
-<form action='/reponse' method='POST'>
-    <center>
+    <center><img src="{{url_for('static',filename='eluexemple.jpg')}}" width="100" height="100" class=icone>
+    <a class=nomelu>{{ elu[0] }} {{ elu[1] }}</a></center>
+    <h3 class=referendum><center>{{ enonce }}</center></h3>
+
+    <form action='/reponse' method="post">
+        <center>
         <input type="submit" value="Oui" class=oui>
         <input type="submit" value="Non" class=non>
-    </center>
-</form>
-
+        </center>
+    </form>
+    <a class=periode>Du {{ debut }} à {{ fin }}</a>
+    <a class=presentation><center>{{ presentation}}</center></a>
 {% endblock %}

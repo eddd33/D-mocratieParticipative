@@ -162,10 +162,20 @@ def logincitdeux():
     nom=cur.fetchone()[0]
     cur.execute("""SELECT prenom FROM utilisateur WHERE email='{}'""".format(email))
     prénom=cur.fetchone()[0]
+
+    cur.execute("""SELECT ref_id,titre FROM referendum""")
+    L=cur.fetchall()
+    T=separeidtitre(L)
+
+
     db.commit()
     db.close()
     if mdp==mdpnormalement:
-        return render_template('accueil_c.html',nom=nom,prénom=prénom)
+        global nomut
+        global prenomut
+        nomut=nom
+        prenomut=prénom
+        return render_template('accueil_c.html',nom=nomut,prénom=prenomut,liste=T)
     else:
         return redirect('/logincit')
 
@@ -191,7 +201,11 @@ def logineludeux():
     db.commit()
     db.close()
     if mdp==mdpnormalement:
-        return render_template('accueil_e.html',nom=nom,prénom=prénom)
+        global nomut
+        global prenomut
+        nomut=nom
+        prenomut=prénom
+        return render_template('accueil_e.html',nom=nomut,prénom=prenomut)
     else:
         return redirect('/loginelu')
 
@@ -228,7 +242,7 @@ def refcree():
     titre=request.form.get("titre")
     ville=request.form.get("ville")
     region=request.form.get("region")
-    dep=int(request.form.get("dep")
+    dep=int(request.form.get("dep"))
     debut=request.form.get("debut")
     fin=request.form.get("fin")
     oui=0
@@ -239,18 +253,25 @@ def refcree():
 
 @app.route('/referendum/<int:ref_id>')
 def referendum(ref_id):
+    global nomut,prenomut
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
-    cur.execute ("""SELECT enonce,presentation,debut,fin,createur FROM referendum WHERE ref_id={}""".format(ref_id))
+    cur.execute ("""SELECT enonce,presentation,debut,fin,createur,titre FROM referendum WHERE ref_id={}""".format(ref_id))
     L=cur.fetchone()
-    L[0]=enonce
-    L[1]=presentation
-    L[2]=debut
-    L[3]=fin
-    L[4]=createur
+    print(L)
+    enonce=L[0]
+    presentation=L[1]
+    debut=L[2]
+    fin=L[3]
+    createur=L[4]
+    titre=L[5]
+    cur.execute("""SELECT nom,prenom FROM elu WHERE elu_id={}""".format(createur) )
+    T=cur.fetchone()
+    nom,prenom=T[0],T[1]
+    elu=[nom,prenom]
     db.commit()
     db.close()
-    return render_template('referendum.html',enonce=enonce,presentation=presentation,debut=debut,fin=fin,createur=createur)
+    return render_template('referendum.html',enonce=enonce,presentation=presentation,debut=debut,fin=fin,createur=createur,titre=titre,elu=elu,nom=nomut,prenom=prenomut)
 
 
 
