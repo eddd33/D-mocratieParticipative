@@ -24,23 +24,6 @@ def citoyen():
 def elu():
     return render_template('elu.html')
 
-@app.route('/accueil_c')
-def accueil_c():
-    db=sqlite3.connect('projet.db')
-    cur=db.cursor()
-    cur.execute("""SELECT nom FROM citoyen WHERE email='{}'""".format(email))
-    nom=cur.fetchone()[0]
-    cur.execute("""SELECT prénom FROM citoyen WHERE email='{}'""".format(email))
-    prénom=cur.fetchone()[0]
-    db.commit()
-    db.close()
-    return render_template('accueil_c.html',nom=nom,prénom=prénom)
-
-@app.route('/accueil_e')
-def accueil_e():
-    
-    return render_template('accueil_e.html')
-
 @app.route('/reponse')
 def reponse():
     return render_template('login.html',methods=["POST","GET"])
@@ -232,6 +215,22 @@ def resultats(ref):
 
     return render_template('resultats.html',e=enonce,pres=presentation,o=oui,n=non,d=debut,f=fin,nom=nom,pren=prenom)
 
+@app.route('/creationreferendum')
+def creationreferendum():
+    return render_template('creationreferendum.html')
 
-    
-    
+@app.route('/referendum/<int:ref_id>')
+def referendum(ref_id):
+    db=sqlite3.connect('projet.db')
+    cur=db.cursor()
+    cur.execute ("""SELECT enonce,presentation,debut,fin,createur FROM referendum WHERE ref_id={}""".format(ref_id))
+    L=cur.fetchone()
+    L[0]=enonce
+    L[1]=presentation
+    L[2]=debut
+    L[3]=fin
+    L[4]=createur
+    db.commit()
+    db.close()
+    return render_template('referendum.html',enonce=enonce,presentation=presentation,debut=debut,fin=fin,createur=createur)
+

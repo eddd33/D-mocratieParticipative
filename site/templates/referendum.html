@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<style>
+
+</style>
+
+<p class=periode> Du {{debut}} au {{fin}} </p>
+<p class=present>{{presentation}}</p>
+<p class=enonce>{{enonce}}</p>
+
+<form action='/reponse' method='POST'>
+    <center>
+        <input type="submit" value="Oui" class=oui>
+        <input type="submit" value="Non" class=non>
+    </center>
+</form>
+
+{% endblock %}
