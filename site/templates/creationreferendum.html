@@ -12,7 +12,7 @@
     <div class=creationreffond>
         <h1 class=creationref>Création d'un nouveau référendum :</h1>
         <ul class=elements>
-            <form action="/refcree" method="get">
+            <form action="/refcree" method="post">
             <br><br><a>Titre du référendum : </a><input name="titre" type="text">
             <br><br><a>Catégorie 1: </a><select name="cat1_ref">
                 <option value="null">/</option>
@@ -30,24 +30,22 @@
                 <option value="commerce">Commerce</option>
                 <option value="tourisme">Tourisme</option>
             </select>
-            <br><br><a>Ville : </a><input name="ville" type="text">
-            <br><br><a>Numéro du département : </a><input name="dep" type="integer">
-            <br><br><a>Région : </a><select name="region">
-                <option value=auvergnerhonealpes>Auvergne-Rhône-Alpes</option>
-                <option value=bourgognefranchecomte>Bourgogne-Franche-Comté</option>
-                <option value=bretagne>Bretagne</option>
-                <option value=centrevaldeloire>Centre-Val de Loire</option>
-                <option value=corse>Corse</option>
-                <option value=grandest>Grand Est</option>
-                <option value=hautsdefrance>Hauts-de-France</option>
-                <option value=iledefrance>Île-de-France</option>
-                <option value=normandie>Normandie</option>
-                <option value=nouvelleaquitaine>Nouvelle-Aquitaine</option>
-                <option value=occitanie>Occitanie</option>
-                <option value=paysdelaloire>Pays de la Loire</option>
-                <option value=paca>Provence-Alpes-Côte d'Azur</option>
+            <br><br><a>Ville : </a><input autocomplete="off" name="ville" type="text">
+            <br><br><select name="dep">
+                <option disabled selected value="">Département</option>
+                {% for dep in departements %}
+                    <option value="{{ dep }}">{{ dep }}</option>
+                {% endfor %}
             </select>
-            <br><br><a>Résumé : </a><input name="resume" type="text">
+            <br><br><select name="region">
+                <option disabled selected value="">Région</option>
+                {% for reg in regions %}
+                    <option value="{{ reg }}">{{ reg }}</option>
+                {% endfor %}
+            </select>
+            <br><br><a>Résumé : </a><input autocomplete="off" name="resume" type="text">
+            <br><br><a>Date de début : </a><input autocomplete="off" name="debut" type="date" placeholder="Date de début mm/jj/aaaa">
+            <br><br><a>Date de fin : </a><input autocomplete="off" name="fin" type="date" placeholder="Date de fin mm/jj/aaaa">
             <br><br><br><input  type="submit" value="Soumettre le référendum">
             </form>
 

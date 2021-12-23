@@ -217,7 +217,12 @@ def resultats(ref):
 
 @app.route('/creationreferendum')
 def creationreferendum():
-    return render_template('creationreferendum.html')
+
+    departements=[i for i in range(1,96)]
+    regions=['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-Val de Loire','Corse','Grand Est','Hauts-de-France','Île-de-France','Normandie','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d''Azur']
+   
+    
+    return render_template('creationreferendum.html',regions=regions,departements=departements)
 
 @app.route('/referendum/<int:ref_id>')
 def referendum(ref_id):
