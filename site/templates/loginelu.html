@@ -1,10 +1,23 @@
 <!DOCTYPE html>
+
+{% extends "prelayout.html" %}
+{% block body %}
+
 <html>
+
+    <style>
+        .titre{position:absolute;top:20px;left:700px;font-size: x-large; font-weight: bold;}
+        .form{position:absolute;top:125px;left:525px;font-size: large; font-weight:bold;}
+        
+    </style>
+
     <title>Login Elu</title>
-    <h1> Connexion </h1>
-    <form action="/logineludeux" method="post">
+    <h1 class=titre> Connexion </h1>
+    <form action="/logineludeux" method="post" class=form>
         <input autocomplete="off" name="email" type="text" placeholder="E-mail">
         <input autocomplete="off" name="mdp" type="password" placeholder="Mot de passe">
         <input type="submit" value="Se connecter">
     </form>
 </html>
+
+{% endblock %}

@@ -1,10 +1,36 @@
+{% extends "prelayout.html" %}
+{% block body %}
+
+
 <html>
-    <title>Page de Login</title>
-    <h1>Bienvenue, vous êtes :</h1>
-    <h2>Citoyen</h2>
-    <a href="inscriptcit">S'incrire</a>
-    <a href="logincit">Se connecter</a>
-    <h2>Elu</h2>
-    <a href="inscriptelu">S'inscrire</a>
-    <a href="loginelu">Se connecter</a>
+
+    <style>
+        .titre{position:absolute;top:20px;left:700px;font-size: x-large; font-weight: bold;}
+        .citoyen{position:absolute;top:60px;left:150px;font-size: large; font-weight:bold;}
+        .elu{position:absolute;top:160px;left:150px;font-size: large; font-weight:bold;}
+        .inscit{position:absolute;top:70px;left:350px;font-size: large;}
+        .inselu{position:absolute;top:170px;left:350px;font-size: large;}
+        .cocit{position:absolute;top:70px;left:450px;font-size: large;}
+        .coelu{position:absolute;top:170px;left:450px;font-size: large;}
+        .fond{position:absolute;top:150px;left:500px;width: 750px;height: 300px;background-color: rgb(143, 248, 255);}
+    
+    </style>
+
+
+<title>
+    Page de Login
+</title>
+    <h1 class=titre>
+        Bienvenue, vous êtes :
+    </h1>
+    <div class=fond>
+    <h2 class=citoyen>Citoyen</h2>
+    <a class=inscit href="inscriptcit">S'incrire</a>
+    <a class=cocit href="logincit">Se connecter</a>
+    <h2 class=elu>Elu</h2>
+    <a class=inselu href="inscriptelu">S'inscrire</a>
+    <a class=coelu href="loginelu">Se connecter</a></div>
+
 </html>
+
+{% endblock %}

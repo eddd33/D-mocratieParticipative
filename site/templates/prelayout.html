@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        .logo{position:absolute; top:20px; left:20px;max-width:60px;max-height: 60px;}
+        .nomsite{position:absolute;top:30px;left:90px;font-size: x-large; font-weight: bold;color:white;}
+        .accueil{position:absolute;top:150px;left:60px;font-size: x-large; font-weight: bold;color:white;}
+        .apropos{position:absolute;top:220px;left:30px;width: 250px;height:80px;color:white;font-size: large; font-weight: bold;}
+        .nouscontacter{position: absolute; top:750px;left:20px;font-size: x-large; font-weight: bold;color:white;}
+        .credits{position:absolute;top:800px;left:60px;font-size: x-large; font-weight: bold;color:white;}
+        
+        .menugauche{background-color:rgb(52, 203, 214);width: 250px;height: 1000px;position: absolute; top:0px;left:0px;}
+    </style>
+    <div class=menugauche>
+        <img src="{{url_for('static',filename='Tnews_1.png')}}" class=logo>
+        <a class=nomsite>LENA</a>
+        <a class=accueil href=login>Accueil</a>
+        <a class=apropos href=apropos>A propos de nous</a>
+        <a class=nouscontacter href=contact>Nous contacter</a>
+        <a class=credits>Crédits</a>
+    </div>
+    
+    {% block body %}{% endblock %}
+    
+</html>

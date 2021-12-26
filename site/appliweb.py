@@ -356,3 +356,11 @@ def filtre():
         return redirect(f"/accueil_c/{catfiltre}")
     else:
         return redirect(f"/accueil_e/{catfiltre}")
+
+@app.route('/apropos')
+def apropos():
+    return render_template('apropos.html')
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
