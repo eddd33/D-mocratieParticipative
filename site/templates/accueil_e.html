@@ -20,8 +20,11 @@
     <a href="creationreferendum" class=creerref >Créer un référendum</a>
     <h1 class=listeref>Liste des référendums</h1>
     <ul class=laliste>
-        <li><a href="elu">Premier référundum</a></li>
-        <li>Deuxième référundum</li>
+        {% for L in liste %}
+        
+        <li><a href="referendum/{{ L[0] }}">{{ L[1] }}</a></li>
+
+        {% endfor %}
     </ul>
 </div>
 

@@ -150,38 +150,62 @@ def registerc():
 def logincit():
     return render_template("logincit.html")
 
-@app.route('/logincitdeux',methods=["POST"])
+@app.route('/logincitdeux',methods=["GET","POST"])
 def logincitdeux():
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
     email=request.form.get("email")
     mdp=request.form.get("mdp")
     cur.execute("""SELECT mdp FROM utilisateur WHERE email='{}'""".format(email))
-    mdpnormalement=cur.fetchone()[0]
+    mdptest=cur.fetchone()
+    if not mdptest:
+        return redirect('/logincit')
+    mdpnormalement=mdptest[0]
     cur.execute("""SELECT nom FROM utilisateur WHERE email='{}'""".format(email))
     nom=cur.fetchone()[0]
     cur.execute("""SELECT prenom FROM utilisateur WHERE email='{}'""".format(email))
     prénom=cur.fetchone()[0]
-
-    cur.execute("""SELECT ref_id,titre FROM referendum""")
-    L=cur.fetchall()
-    T=separeidtitre(L)
-
 
     db.commit()
     db.close()
     if mdp==mdpnormalement:
         global nomut
         global prenomut
+        global idut
         nomut=nom
         prenomut=prénom
-        return render_template('accueil_c.html',nom=nomut,prénom=prenomut,liste=T)
+        idut=0
+        return redirect('/accueil_c/""')
     else:
         return redirect('/logincit')
+
+@app.route('/accueil_c/<string:cat>',methods=["GET","POST"])
+def accueil_c(cat=""):
+    global nomut,prenomut,idut
+    db=sqlite3.connect('projet.db')
+    cur=db.cursor()
+    print(cat)
+    if cat=='""':
+        print("rien")
+        cur.execute("""SELECT ref_id,titre FROM referendum""")
+        L=cur.fetchall()
+        T=separeidtitre(L)
+    else:
+        print("catego")
+        cur.execute("""SELECT ref_id,titre FROM referendum WHERE categorie1='{}' OR categorie2='{}'""".format(cat,cat))
+        L=cur.fetchall()
+        T=separeidtitre(L)
+
+
+    db.commit()
+    db.close()
+    return render_template('accueil_c.html',nom=nomut,prénom=prenomut,liste=T)
+
 
 @app.route('/loginelu')
 def loginelu():
     return render_template('loginelu.html')
+
 
 @app.route('/logineludeux',methods=["POST"])
 def logineludeux():
@@ -192,25 +216,62 @@ def logineludeux():
     print("Oskur",mdp)
 
     cur.execute("""SELECT mdp FROM elu WHERE email='{}'""".format(email))
-    mdpnormalement=cur.fetchone()[0]
+    mdptest=cur.fetchone()
+    if not mdptest:
+        return redirect('/loginelu')
+    mdpnormalement=mdptest[0]
     print(mdp,mdpnormalement)
     cur.execute("""SELECT nom FROM elu WHERE email='{}'""".format(email))
     nom=cur.fetchone()[0]
     cur.execute("""SELECT prenom FROM elu WHERE email='{}'""".format(email))
     prénom=cur.fetchone()[0]
-    db.commit()
-    db.close()
+    
     if mdp==mdpnormalement:
         global nomut
         global prenomut
+        global idut
         nomut=nom
         prenomut=prénom
-        return render_template('accueil_e.html',nom=nomut,prénom=prenomut)
+        cur.execute("""SELECT elu_id FROM elu WHERE email='{}' and mdp='{}'""".format(email,mdp))
+        idut=cur.fetchone()[0]
+        print(idut)
+        db.commit()
+        db.close()
+        return redirect('/accueil_e/""')
+        
     else:
+        db.commit()
+        db.close()
         return redirect('/loginelu')
+
+@app.route('/accueil_e/<string:cat>',methods=["GET","POST"])
+def accueil_e(cat=""):
+    global nomut,prenomut,idut
+    db=sqlite3.connect('projet.db')
+    cur=db.cursor()
+
+
+    if cat=='""':
+        cur.execute("""SELECT ref_id,titre FROM referendum""")
+        L=cur.fetchall()
+        T=separeidtitre(L)
+    else:
+        cur.execute("""SELECT ref_id,titre FROM referendum WHERE categorie1='{}' OR categorie2='{}'""".format(cat,cat))
+        L=cur.fetchall()
+        T=separeidtitre(L)
+
+
+    db.commit()
+    db.close()
+    return render_template('accueil_e.html',nom=nomut,prénom=prenomut,liste=T)
+
+
+
+
 
 @app.route('/resultats/<int:ref>')
 def resultats(ref):
+    global prenomut,nomut,idut
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
 
@@ -231,24 +292,36 @@ def resultats(ref):
 
 @app.route('/creationreferendum')
 def creationreferendum():
+    global prenomut,nomut,idut
     departements=[i for i in range(1,96)]
     regions=['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-Val de Loire','Corse','Grand Est','Hauts-de-France','Île-de-France','Normandie','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d''Azur']
-    return render_template('creationreferendum.html',regions=regions,departements=departements)
+    if idut==0:
+        return redirect('/accueil_c')
+    else:
+    
+        return render_template('creationreferendum.html',regions=regions,departements=departements,nom=nomut,prénom=nomut)
 
 @app.route('/refcree',methods=['POST'])
 def refcree():
+    global prenomut,idut,nomut
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
-    titre=request.form.get("titre")
+    enonce=request.form.get("enonce")
     ville=request.form.get("ville")
     region=request.form.get("region")
     dep=int(request.form.get("dep"))
     debut=request.form.get("debut")
     fin=request.form.get("fin")
+    cat1=request.form.get("cat1_ref")
+    cat2=request.form.get("cat2_ref")
+    titre=request.form.get("titre")
+    presentation=request.form.get("resume")
     oui=0
     non=0
-    cur.execute("INSERT INTO referendums (categorie1,categorie2,ville,dep,region,oui,non,enonce,presentation,debut,fin) VALUES (?,?,?,?,?,?,?,?,?,?,?)",(categorie1,categorie2,ville,dep,region,oui,non,titre,debu,fin))
-
+    cur.execute("INSERT INTO referendum (categorie1,categorie2,ville,dep,region,oui,non,enonce,presentation,debut,fin,createur,titre) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",(cat1,cat2,ville,dep,region,0,0,enonce,presentation,debut,fin,idut,titre))
+    db.commit()
+    db.close()
+    return render_template('refcree.html')
 
 
 @app.route('/referendum/<int:ref_id>')
@@ -271,9 +344,15 @@ def referendum(ref_id):
     elu=[nom,prenom]
     db.commit()
     db.close()
-    return render_template('referendum.html',enonce=enonce,presentation=presentation,debut=debut,fin=fin,createur=createur,titre=titre,elu=elu,nom=nomut,prenom=prenomut)
+    return render_template('referendum.html',enonce=enonce,presentation=presentation,debut=debut,fin=fin,createur=createur,titre=titre,elu=elu,nom=nomut,prénom=prenomut)
 
+@app.route('/filtre',methods=["POST"])
+def filtre():
+    global idut
+    catfiltre=request.form.get("categories")
+    print(catfiltre)
+    if idut==0:
 
-
-
-
+        return redirect(f"/accueil_c/{catfiltre}")
+    else:
+        return redirect(f"/accueil_e/{catfiltre}")
