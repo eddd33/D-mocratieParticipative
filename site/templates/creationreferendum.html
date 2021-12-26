@@ -39,6 +39,7 @@
                 <option value="commerce">Commerce</option>
                 <option value="tourisme">Tourisme</option>
             </select>
+            <br><br><a>Résumé : </a><input autocomplete="off" name="resume" type="text">
             <br><br><a>Ville : </a><input autocomplete="off" name="ville" type="text">
             <br><br><select name="dep">
                 <option disabled selected value="">Département</option>
@@ -52,7 +53,6 @@
                     <option value="{{ reg }}">{{ reg }}</option>
                 {% endfor %}
             </select>
-            <br><br><a>Résumé : </a><input autocomplete="off" name="resume" type="text">
             <br><br><a>Date de début : </a><input autocomplete="off" name="debut" type="date" placeholder="Date de début mm/jj/aaaa">
             <br><br><a>Date de fin : </a><input autocomplete="off" name="fin" type="date" placeholder="Date de fin mm/jj/aaaa">
             <br><br><br><input  type="submit" value="Soumettre le référendum">

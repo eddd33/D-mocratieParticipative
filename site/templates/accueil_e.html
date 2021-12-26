@@ -13,8 +13,7 @@
 <h1 class=titre>
     Bienvenue sur LENA
 </h1>
-<a href="login" class=deconnect>Se déconnecter</a>
-<img src="{{url_for('static',filename='eluexemple.jpg')}}" width="60" height="60" class=PP>
+<a href="/login" class=deconnect>Se déconnecter</a>
 <a class=nomutilisateur>{{nom}} {{prénom}}</a>
 <div class=listereffond>
     <a href="/creationreferendum" class=creerref >Créer un référendum</a>
@@ -22,7 +21,7 @@
     <ul class=laliste>
         {% for L in liste %}
         
-        <li><a href="referendum/{{ L[0] }}">{{ L[1] }}</a></li>
+        <li><a href="/referendum/{{ L[0] }}">{{ L[1] }}</a></li>
 
         {% endfor %}
     </ul>

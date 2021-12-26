@@ -295,7 +295,7 @@ def refcree():
     enonce=request.form.get("enonce")
     ville=request.form.get("ville")
     region=request.form.get("region")
-    dep=int(request.form.get("dep"))
+    dep=request.form.get("dep")
     debut=request.form.get("debut")
     fin=request.form.get("fin")
     cat1=request.form.get("cat1_ref")
@@ -305,9 +305,17 @@ def refcree():
     oui=0
     non=0
 
+    if not titre:
+        return render_template("error.html",message="Titre non renseigné")
     if not enonce:
-        return render_template("error.html",message="Enoncé non renseigné")
-    if not ville:
+        return render_template("error.html",message="Question non renseignée")
+    if cat1 not in categories:
+        return render_template("error.html",message="Catégorie1 non eistante")
+    if cat2 not in categories:
+        return render_template("error.html",message="Catégorie2 non eistante")
+    if not presentation:
+        return render_template("error.html",message="Résumé non renseignée")
+    if not ville:    
         return render_template("error.html",message="Ville non renseigné")
     if not region:
         return render_template("error.html",message="Région non renseigne")
@@ -321,16 +329,9 @@ def refcree():
         return render_template("error.html",message="Date de début non renseignée")
     if not fin:
         return render_template("error.html",message="Date de fin non renseignée")
-    if not titre:
-        return render_template("error.html",message="Titre non renseigné")
-    if not presentation:
-        return render_template("error.html",message="Présentation non renseignée")
-    if not cat1:
-        return render_template("error.html",message="Aucune catégorie renseignée")
-    if cat1 not in categories:
-        return render_template("error.html",message="Catégorie1 non eistante")
-    if cat2 not in categories:
-        return render_template("error.html",message="Catégorie2 non eistante")
+
+    
+    
 
    
 
