@@ -281,8 +281,10 @@ def resultats(ref):
 def creationreferendum():
     global prenomut,nomut,idut
     if idut==0:
+        print("non")
         return redirect('/accueil_c')
     else:
+        print("oui")
         return render_template('creationreferendum.html',regions=regions,departements=departements,nom=nomut,prénom=nomut)
 
 @app.route('/refcree',methods=['POST'])
