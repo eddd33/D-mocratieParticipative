@@ -7,6 +7,11 @@ import sqlite3
 from ON import *
 app=Flask(__name__)
 
+departements=[i for i in range(1,96)]
+regions=['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-Val de Loire','Corse','Grand Est','Hauts-de-France','Île-de-France','Normandie','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d''Azur']
+categories=['Etudiant','Retraité','Agriculteurs exploitants','Cadres et professions intellectuelles supérieures','Artisans, commerçants, chefs d entreprise','Professions intermédiaires','Employés qualifiés','Employés non qualifiés','Ouvriers qualifiés','Ouvriers non qualifiés']
+sexes=['M.','Mme.','Autre']
+partis=['Gauche démocrate et républicaine','La France insoumise','Socialistes et apparentés','Libertés et territoires','La République en marche','Mouvement démocrate et démocrates apparentés','Agir ensemble','UDI et indépendants','Les Républicains','Non-inscrits']
 
 @app.route('/')
 def initial():
@@ -30,25 +35,15 @@ def reponse():
 
 @app.route('/inscriptcit')
 def inscriptcit():
-    categories=['Etudiant','Retraité','Agriculteurs exploitants','Cadres et professions intellectuelles supérieures','Artisans, commerçants, chefs d entreprise','Professions intermédiaires','Employés qualifiés','Employés non qualifiés','Ouvriers qualifiés','Ouvriers non qualifiés']
-    sexes=['M.','Mme.','Autre']
-    departements=[i for i in range(1,96)]+[262,590,594,596,976]
-    regions=['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-Val de Loire','Corse','Grand Est','Hauts-de-France','Île-de-France','Normandie','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d''Azur','Guadeloupe','Martinique','Guyane','La Réunion','Mayotte']
     return render_template('inscriptcit.html',categories=categories,sexes=sexes,departements=departements,regions=regions)
 
 @app.route('/inscriptelu')
 def inscriptelu():
-    
-    partis=['Gauche démocrate et républicaine','La France insoumise','Socialistes et apparentés','Libertés et territoires','La République en marche','Mouvement démocrate et démocrates apparentés','Agir ensemble','UDI et indépendants','Les Républicains','Non-inscrits']
-    departements=[i for i in range(1,96)]+[262,590,594,596,976]
-    regions=['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-Val de Loire','Corse','Grand Est','Hauts-de-France','Île-de-France','Normandie','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d''Azur','Guadeloupe','Martinique','Guyane','La Réunion','Mayotte']
     return render_template('inscriptelu.html',regions=regions,departements=departements,partis=partis)
 
 
 @app.route('/registere',methods=["POST"])
 def registere():
-    departements=[i for i in range(1,96)]
-    regions=['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-Val de Loire','Corse','Grand Est','Hauts-de-France','Île-de-France','Normandie','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d''Azur']
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
     nom=request.form.get("nom")
@@ -90,12 +85,6 @@ def registere():
 
 @app.route('/registerc',methods=["POST"])
 def registerc():
-    
-    categories=['Etudiant','Retraité','Agriculteurs exploitants','Cadres et professions intellectuelles supérieures','Artisans, commerçants, chefs d entreprise','Professions intermédiaires','Employés qualifiés','Employés non qualifiés','Ouvriers qualifiés','Ouvriers non qualifiés']
-    sexes=['M.','Mme.','Autre']
-    departements=[i for i in range(1,96)]
-    regions=['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-Val de Loire','Corse','Grand Est','Hauts-de-France','Île-de-France','Normandie','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d''Azur']
-    
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
     nom=request.form.get("nom")
@@ -267,8 +256,6 @@ def accueil_e(cat=""):
 
 
 
-
-
 @app.route('/resultats/<int:ref>')
 def resultats(ref):
     global prenomut,nomut,idut
@@ -293,12 +280,9 @@ def resultats(ref):
 @app.route('/creationreferendum')
 def creationreferendum():
     global prenomut,nomut,idut
-    departements=[i for i in range(1,96)]
-    regions=['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-Val de Loire','Corse','Grand Est','Hauts-de-France','Île-de-France','Normandie','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d''Azur']
     if idut==0:
         return redirect('/accueil_c')
     else:
-    
         return render_template('creationreferendum.html',regions=regions,departements=departements,nom=nomut,prénom=nomut)
 
 @app.route('/refcree',methods=['POST'])
@@ -318,6 +302,36 @@ def refcree():
     presentation=request.form.get("resume")
     oui=0
     non=0
+
+    if not enonce:
+        return render_template("error.html",message="Enoncé non renseigné")
+    if not ville:
+        return render_template("error.html",message="Ville non renseigné")
+    if not region:
+        return render_template("error.html",message="Région non renseigne")
+    if region not in regions:
+        return render_template("error.html",message="Région non existante")
+    if not dep:
+        return render_template("error.html",message="Département non renseigné")
+    if dep not in departements:
+        return render_template("error.html",message="Département non existant")
+    if not debut:
+        return render_template("error.html",message="Date de début non renseignée")
+    if not fin:
+        return render_template("error.html",message="Date de fin non renseignée")
+    if not titre:
+        return render_template("error.html",message="Titre non renseigné")
+    if not presentation:
+        return render_template("error.html",message="Présentation non renseignée")
+    if not cat1:
+        return render_template("error.html",message="Aucune catégorie renseignée")
+    if cat1 not in categories:
+        return render_template("error.html",message="Catégorie1 non eistante")
+    if cat2 not in categories:
+        return render_template("error.html",message="Catégorie2 non eistante")
+
+   
+
     cur.execute("INSERT INTO referendum (categorie1,categorie2,ville,dep,region,oui,non,enonce,presentation,debut,fin,createur,titre) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",(cat1,cat2,ville,dep,region,0,0,enonce,presentation,debut,fin,idut,titre))
     db.commit()
     db.close()

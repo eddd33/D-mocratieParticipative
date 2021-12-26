@@ -1,4 +1,15 @@
+{% extends "prelayout.html" %}
+{% block body %}
+
 <html>
-    <h2>Vous êtes bien enregistré(e) !</h2>
-    <a href="loginelu">Se connecter</a>
+
+    <style>
+        .titre{position:absolute;top:20px;left:700px;font-size: x-large; font-weight: bold;}
+        .lien{position:absolute;top:125px;left:525px;font-size: large; font-weight:bold;}
+    </style>
+
+    <h2 class=titre>Vous êtes bien enregistré(e) !</h2>
+    <a class=lien href="loginelu">Se connecter</a>
 </html>
+
+{% endblock %}
