@@ -10,20 +10,20 @@ def pourcentage(o,n):
 
 def graphe_sociopro(oui:list,non:list):
     catégorie=['Etudiant','Retraité','Agriculteurs \n exploitants',
-    'Cadres\n et \nprofessions\n intellectuelles\n supérieures',
-    'Artisans,\n commerçants, \nchefs \nd entreprise',
+    'Cadres et professions \n intellectuelles supérieures',
+    'Artisans, commerçants, \nchefs d entreprise',
     'Professions\n intermédiaires',
-    'Employés\n qualifiés','Employés\n non\n qualifiés',
-    'Ouvriers\n qualifiés','Ouvriers\n non\n qualifiés']
+    'Employés\n qualifiés','Employés\n non qualifiés',
+    'Ouvriers\n qualifiés','Ouvriers\n non qualifiés']
     for k in range (len(oui)):
         p=oui[k]
         oui[k]=(100*p)/(p+non[k])
         non[k]=(100*non[k])/(p+non[k])
     position=np.arange(1,101,10)
-    width=0.45
+    width=3
     plt.bar(position - width/2, oui, width, color='lightsteelblue')
     plt.bar(position + width/2, non, width, color='IndianRed')
-    plt.xticks(position, catégorie,fontsize=10)
+    plt.xticks(position, catégorie,fontsize=10,rotation=90)
     plt.xlabel('Catégories', fontsize=8)
     plt.title('Diagramme en bâtons - répartition des votes en fonction des catégories socioprofessionnelles',
     fontsize=12)
