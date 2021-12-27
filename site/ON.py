@@ -16,37 +16,62 @@ def pourcentage(o,n):
 
 def graphe_sociopro(oui:list,non:list):
     catégorie=['Etudiant','Retraité','Agriculteurs \n exploitants',
-    'Cadres\n et \nprofessions\n intellectuelles\n supérieures',
-    'Artisans,\n commerçants, \nchefs \nd entreprise',
+    'Cadres et professions \n intellectuelles supérieures',
+    'Artisans, commerçants, \nchefs d entreprise',
     'Professions\n intermédiaires',
-    'Employés\n qualifiés','Employés\n non\n qualifiés',
-    'Ouvriers\n qualifiés','Ouvriers\n non\n qualifiés']
+    'Employés\n qualifiés','Employés\n non qualifiés',
+    'Ouvriers\n qualifiés','Ouvriers\n non qualifiés']
     for k in range (len(oui)):
         p=oui[k]
         oui[k]=(100*p)/(p+non[k])
         non[k]=(100*non[k])/(p+non[k])
     position=np.arange(1,101,10)
-    width=0.45
+    width=3
     plt.bar(position - width/2, oui, width, color='lightsteelblue')
     plt.bar(position + width/2, non, width, color='IndianRed')
-    plt.xticks(position, catégorie,fontsize=5)
-    plt.xlabel('Catégories', fontsize=4)
+    plt.xticks(position, catégorie,fontsize=10,rotation=90)
+    plt.xlabel('Catégories', fontsize=8)
     plt.title('Diagramme en bâtons - répartition des votes en fonction des catégories socioprofessionnelles',
     fontsize=12)
     plt.legend(loc=1)
     plt.show()
 
 def catembert(p:list):   #p la liste du nombre de votes par catégorie
-    explode=[0,0,0,0,0,0,0,0,0,0]
+    explode=[]
+    présence=[]
+    for k in range (len(p)):
+        if p[k]!=0:
+            explode.append(0)
+            présence.append(k)
+    for t in range (len(présence)):
+        if t not in présence:
+            p.pop(t)
+    catégories=[]
+    for t in range (len(présence)):
+        if présence[t]==0:
+            catégories.append('Etudiant')
+        if présence[t]==1:
+            catégories.append('Retraité')
+        if présence[t]==2:
+            catégories.append('Agriculteurs exploitants')
+        if présence[t]==3:
+            catégories.append('Cadres et professions intellectuelles supérieures')
+        if présence[t]==4:
+            catégories.append('Artisans, commerçants, chefs d entreprise')
+        if présence[t]==5:
+            catégories.append('Professions intermédiaires')
+        if présence[t]==6:
+            catégories.append('Employés qualifiés')
+        if présence[t]==7:
+            catégories.append('Employés non qualifiés')
+        if présence[t]==8:
+            catégories.append('Ouvriers qualifiés')
+        if présence[t]==9:
+            catégories.append('Ouvriers non qualifiés')
     explode[max_indice(p)]=0.1
     explode=tuple(explode)
     plt.figure(figsize = (8, 8))
-    plt.pie(p, explode=explode,labels = ['Etudiant','Retraité','Agriculteurs exploitants',
-    'Cadres et professions intellectuelles supérieures',
-    'Artisans, commerçants, chefs d entreprise',
-    'Professions intermédiaires',
-    'Employés qualifiés','Employés non qualifiés',
-    'Ouvriers qualifiés','Ouvriers non qualifiés'],autopct='%1.1f%%')
+    plt.pie(p, explode=explode,labels = catégories,autopct='%1.1f%%')
 
 def max_indice(p:list):
     i=0
@@ -97,5 +122,69 @@ def camemb_age(date:list):
     explode=len(labels)*[0]
     explode[max_indice(age_présent)]=0.1
     explode=tuple(explode)
-    plt.figure(figsize = (15, 15))
+    plt.figure(figsize = (8, 8))
     plt.pie(age_présent, explode=explode,labels = labels,autopct='%1.1f%%')
+
+def parents(oui:list,non:list):
+    for k in range (len(oui)):
+        p=oui[k]
+        oui[k]=(100*p)/(p+non[k])
+        non[k]=(100*non[k])/(p+non[k])
+    situation=['Parents','Pas parents']
+    position=np.arange(len(situation))
+    width=0.45
+    plt.bar(position - width/2, oui, width, color='lightsteelblue')
+    plt.bar(position + width/2, non, width, color='IndianRed')
+    plt.xticks(position, situation,fontsize=10)
+    plt.xlabel('Situation familiale', fontsize=8)
+    plt.title('Diagramme en bâtons - répartition des votes en fonction de la situation familiale',
+    fontsize=12)
+    plt.legend(loc=1)
+    plt.show()
+
+def parembert(p:list):
+    explode=2*[0]
+    explode[max_indice(p)]=0.1
+    plt.figure(figsize = (8, 8))
+    plt.pie(p, explode=explode,labels = ['Parents','Pas Parents'] ,
+    autopct='%1.1f%%')
+
+def sexe(oui:list,non:list):
+    for k in range (len(oui)):
+        p=oui[k]
+        oui[k]=(100*p)/(p+non[k])
+        non[k]=(100*non[k])/(p+non[k])
+    sexe=['Homme','Femme','Autres']
+    position=np.arange(len(sexe))
+    width=0.45
+    plt.bar(position - width/2, oui, width, color='lightsteelblue')
+    plt.bar(position + width/2, non, width, color='IndianRed')
+    plt.xticks(position, sexe,fontsize=10)
+    plt.xlabel('Sexe', fontsize=8)
+    plt.title('Diagramme en bâtons - répartition des votes en fonction du sexe',
+    fontsize=12)
+    plt.legend(loc=1)
+    plt.show()
+
+def camembert_s(p:list):    #p la liste du nombre de votes par catégories
+    explode=[]
+    présence=[]
+    for k in range (len(p)):
+        if p[k]!=0:
+            explode.append(0)
+            présence.append(k)
+    for t in range (len(présence)):
+        if t not in présence:
+            p.pop(t)
+    sexe=[]
+    for t in range (len(présence)):
+        if présence[t]==0:
+            sexe.append('Homme')
+        if présence[t]==1:
+            sexe.append('Femme')
+        if présence[t]==2:
+            sexe.append('Autres')
+    explode[max_indice(p)]=0.1
+    explode=tuple(explode)
+    plt.figure(figsize = (8, 8))
+    plt.pie(p, explode=explode,labels = sexe ,autopct='%1.1f%%')
