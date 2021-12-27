@@ -23,12 +23,13 @@
     <a class=nomelu><center>{{ elu[0] }} {{ elu[1] }}</center></a>
     <h3 class=referendum><center>{{ enonce }}</center></h3>
 
-    <form action='/reponse' method="post">
-        <center>
-        <input type="submit" value="Oui" class=oui>
-        <input type="submit" value="Non" class=non>
-        </center>
-    </form>
     <a class=periode>Du {{ debut }} à {{ fin }}</a>
     <a class=presentation><center>{{ presentation}}</center></a>
+    
+    <form action='/vote' method="post">
+        <center>
+        <a href="/voteoui"><input type="button" value="Oui" class=oui></a>
+        <a href="/votenon"><input type="button" value="Non" class=non></a>
+        </center>
+    </form>
 {% endblock %}

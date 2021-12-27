@@ -29,9 +29,26 @@ def citoyen():
 def elu():
     return render_template('elu.html')
 
-@app.route('/reponse')
-def reponse():
-    return render_template('login.html',methods=["POST","GET"])
+@app.route('/voteoui/<int:ref_id>')
+def voteoui(ref_id):
+    db=sqlite3.connect('projet.db')
+    cur=db.cursor()
+    cur.execute ("""SELECT oui FROM referendum WHERE ref_id={}""".format(ref_id))
+    oui=cur.fetchone()[0]
+    oui=oui+1
+    cur.execute ("""INSERT INTO referendum(oui) VALUE (?)) WHERE ref_id={}""".format(ref_id)),oui
+    return render_template('vousavezvoté.html')
+
+@app.route('/votenon/<int:ref_id>')
+def votenon(ref_id):
+    db=sqlite3.connect('projet.db')
+    cur=db.cursor()
+    cur.execute ("""SELECT non FROM referendum WHERE ref_id={}""".format(ref_id))
+    non=cur.fetchone()[0]
+    non=non+1
+    cur.execute ("""INSERT INTO referendum(non) VALUE (?)) WHERE ref_id={}""".format(ref_id)),non
+    return render_template('vousavezvoté.html')
+
 
 @app.route('/inscriptcit')
 def inscriptcit():
@@ -330,8 +347,6 @@ def refcree():
     if not fin:
         return render_template("error.html",message="Date de fin non renseignée")
 
-    
-    
 
    
 
@@ -361,7 +376,7 @@ def referendum(ref_id):
     elu=[nom,prenom]
     db.commit()
     db.close()
-    return render_template('referendum.html',enonce=enonce,presentation=presentation,debut=debut,fin=fin,createur=createur,titre=titre,elu=elu,nom=nomut,prénom=prenomut)
+    return render_template('referendum.html',enonce=enonce,presentation=presentation,debut=debut,fin=fin,createur=createur,titre=titre,elu=elu,nom=nomut,prénom=prenomut,ref_id=ref_id)
 
 @app.route('/filtre',methods=["POST"])
 def filtre():
