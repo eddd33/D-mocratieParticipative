@@ -14,27 +14,30 @@ def pourcentage(o,n):
     pn=n*100/t
     return (round(po,1),round(pn,1))
 
-def graphe_sociopro(oui:list,non:list):
-    catégorie=['Etudiant','Retraité','Agriculteurs \n exploitants',
+catégorie=['Etudiant','Retraité','Agriculteurs \n exploitants',
     'Cadres et professions \n intellectuelles supérieures',
     'Artisans, commerçants, \nchefs d entreprise',
     'Professions\n intermédiaires',
     'Employés\n qualifiés','Employés\n non qualifiés',
     'Ouvriers\n qualifiés','Ouvriers\n non qualifiés']
-    for k in range (len(oui)):
-        p=oui[k]
-        oui[k]=(100*p)/(p+non[k])
-        non[k]=(100*non[k])/(p+non[k])
-    position=np.arange(1,101,10)
-    width=3
-    plt.bar(position - width/2, oui, width, color='lightsteelblue')
-    plt.bar(position + width/2, non, width, color='IndianRed')
-    plt.xticks(position, catégorie,fontsize=10,rotation=90)
-    plt.xlabel('Catégories', fontsize=8)
-    plt.title('Diagramme en bâtons - répartition des votes en fonction des catégories socioprofessionnelles',
-    fontsize=12)
-    plt.legend(loc=1)
-    plt.show()
+
+def graphe_sociopro(oui:list,non:list): #oui la liste dont le n-ième élément est le nombre d'individu votant oui pour la n-ième catégorie (idem pour non)
+    if len(oui)==len(non)==len(catégorie):  #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
+        for k in range (len(oui)):
+            p=oui[k]
+            oui[k]=(100*p)/(p+non[k])       #On remplace les nombres par les pourcentages qu'ils représentent au sein de la catégorie
+            non[k]=(100*non[k])/(p+non[k])
+        position=np.arange(1,101,10)
+        width=3
+        plt.bar(position - width/2, oui, width, color='lightsteelblue')  #On trace le poucentage de vote oui et non en fonction de la catégorie socio-professionnelle
+        plt.bar(position + width/2, non, width, color='IndianRed')
+        plt.xticks(position, catégorie,fontsize=10,rotation=90)
+        plt.xlabel('Catégories', fontsize=8)
+        plt.title('Diagramme en bâtons - répartition des votes en fonction des catégories socioprofessionnelles',fontsize=12)
+        plt.legend(loc=1)
+        plt.show()
+    else :
+        print ('la longueur de la liste est incorrecte')
 
 def catembert(p:list):   #p la liste du nombre de votes par catégorie
     explode=[]
@@ -73,7 +76,7 @@ def catembert(p:list):   #p la liste du nombre de votes par catégorie
     plt.figure(figsize = (8, 8))
     plt.pie(p, explode=explode,labels = catégories,autopct='%1.1f%%')
 
-def max_indice(p:list):
+def max_indice(p:list):  
     i=0
     M=p[0]
     for k in range (1,len(p)):
@@ -124,23 +127,26 @@ def camemb_age(date:list):
     explode=tuple(explode)
     plt.figure(figsize = (8, 8))
     plt.pie(age_présent, explode=explode,labels = labels,autopct='%1.1f%%')
+    
+situation=['Parents','Pas parents']
 
-def parents(oui:list,non:list):
-    for k in range (len(oui)):
-        p=oui[k]
-        oui[k]=(100*p)/(p+non[k])
-        non[k]=(100*non[k])/(p+non[k])
-    situation=['Parents','Pas parents']
-    position=np.arange(len(situation))
-    width=0.45
-    plt.bar(position - width/2, oui, width, color='lightsteelblue')
-    plt.bar(position + width/2, non, width, color='IndianRed')
-    plt.xticks(position, situation,fontsize=10)
-    plt.xlabel('Situation familiale', fontsize=8)
-    plt.title('Diagramme en bâtons - répartition des votes en fonction de la situation familiale',
-    fontsize=12)
-    plt.legend(loc=1)
-    plt.show()
+def parents(oui:list,non:list): #oui la liste dont le n-ième élément est le nombre d'individu votant oui pour la n-ième catégorie (idem pour non)
+    if len(oui)==len(non)==len(situation):  #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
+        for k in range (len(oui)):
+            p=oui[k]
+            oui[k]=(100*p)/(p+non[k])
+            non[k]=(100*non[k])/(p+non[k])
+        position=np.arange(len(situation))
+        width=3
+        plt.bar(position - width/2, oui, width, color='lightsteelblue') #On trace le poucentage de vote oui et non en fonction de la situation familiale
+        plt.bar(position + width/2, non, width, color='IndianRed')
+        plt.xticks(position, situation,fontsize=10)
+        plt.xlabel('Situation familiale', fontsize=8)
+        plt.title('Diagramme en bâtons - répartition des votes en fonction de la situation familiale', fontsize=12)
+        plt.legend(loc=1)
+        plt.show()
+    else:
+        print ('la longueur de la liste est incorrecte')
 
 def parembert(p:list):
     explode=2*[0]
