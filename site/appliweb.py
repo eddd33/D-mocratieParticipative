@@ -36,7 +36,9 @@ def voteoui(ref_id):
     cur.execute ("""SELECT oui FROM referendum WHERE ref_id={}""".format(ref_id))
     oui=cur.fetchone()[0]
     oui=oui+1
-    cur.execute ("""INSERT INTO referendum(oui) VALUE (?)) WHERE ref_id={}""".format(ref_id)),oui
+    cur.execute ("""INSERT INTO referendum (oui) VALUES (?) WHERE ref_id='{}' """.format(ref_id)),oui
+    db.commit()
+    db.close()
     return render_template('vousavezvoté.html')
 
 @app.route('/votenon/<int:ref_id>')
@@ -46,7 +48,9 @@ def votenon(ref_id):
     cur.execute ("""SELECT non FROM referendum WHERE ref_id={}""".format(ref_id))
     non=cur.fetchone()[0]
     non=non+1
-    cur.execute ("""INSERT INTO referendum(non) VALUE (?)) WHERE ref_id={}""".format(ref_id)),non
+    cur.execute ("""INSERT INTO referendum (non) VALUES (?) WHERE ref_id='{}'""".format(ref_id)),non
+    db.commit()
+    db.close()
     return render_template('vousavezvoté.html')
 
 

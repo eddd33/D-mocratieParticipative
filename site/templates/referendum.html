@@ -28,8 +28,8 @@
     
     <form action='/vote' method="post">
         <center>
-        <a href="/voteoui"><input type="button" value="Oui" class=oui></a>
-        <a href="/votenon"><input type="button" value="Non" class=non></a>
+        <a href="/voteoui/{{ ref_id }}"><input type="button" value="Oui" class=oui></a>
+        <a href="/votenon/{{ ref_id }}"><input type="button" value="Non" class=non></a>
         </center>
     </form>
 {% endblock %}
