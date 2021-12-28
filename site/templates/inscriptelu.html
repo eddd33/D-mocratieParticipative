@@ -6,12 +6,14 @@
 
     <style>
         .titre{position:absolute;top:20px;left:700px;font-size: x-large; font-weight: bold;}
-        .form{position:absolute;top:125px;left:525px;font-size: large; font-weight:bold;}
+        .form{position:absolute;top:60px;left:100px;font-size: large; font-weight:bold;}
+        .fond{position:absolute;top:150px;left:500px;width: 750px;height: 300px;background-color: rgb(143, 248, 255);}
         
     </style>
 
     <title>Inscription Elu</title>
     <h1 class=titre>Inscription:</h1>
+    <div class=fond>
     <form action="/registere" method="post" class=form>
         <input autocomplete="off" name="email" type="text" placeholder="E-mail">
         <br>
@@ -44,7 +46,7 @@
         </select>
         <br>
         <input type="submit" value="S'enregistrer">
-    </form>
+    </form></div>
 </html>
 
 {% endblock %}

@@ -9,8 +9,8 @@ import datetime
 
 app=Flask(__name__)
 
-departements=[i for i in range(1,96)]
-regions=['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-Val de Loire','Corse','Grand Est','Hauts-de-France','Île-de-France','Normandie','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d''Azur']
+departements=[i for i in range(1,96)] + [971,972,973,974,976]
+regions=['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-Val de Loire','Corse','Grand Est','Guadeloupe','Guyane','Hauts-de-France','Île-de-France','La Réunion','Martinique','Mayotte','Normandie','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d''Azur']
 categories=['Etudiant','Retraité','Agriculteurs exploitants','Cadres et professions intellectuelles supérieures','Artisans, commerçants, chefs d entreprise','Professions intermédiaires','Employés qualifiés','Employés non qualifiés','Ouvriers qualifiés','Ouvriers non qualifiés']
 sexes=['M.','Mme.','Autre']
 partis=['Gauche démocrate et républicaine','La France insoumise','Socialistes et apparentés','Libertés et territoires','La République en marche','Mouvement démocrate et démocrates apparentés','Agir ensemble','UDI et indépendants','Les Républicains','Non-inscrits']
