@@ -1,0 +1,4 @@
+Empecher aux citoyens d'acceder aux résultats via l'url
+
+empecher la connexion citoyen <-> elu
+

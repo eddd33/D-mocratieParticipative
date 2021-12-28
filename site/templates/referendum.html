@@ -13,22 +13,24 @@
         .PP{position:absolute;top:10px;right:180px}
         .nomutilisateur{position:absolute;top:20px;right:20px}
         .periode{position:absolute;top:4400px;left:800px}
+        .fond{position:absolute;top:150px;left:400px;width: 1000px;height: 850px;background-color: rgb(185, 212, 238);}
         </STYLE>
 
-    <h1 class=titre><a>{{ titre }}</a></h1>
+    
 
     <a href="/deconnect" class=deconnect>Se déconnecter</a>
     <a class=nomutilisateur>{{ nom }} {{ prénom }}</a>
 
-    <a class=nomelu><center>{{ elu[0] }} {{ elu[1] }}</center></a>
-    <h3 class=referendum><center>{{ enonce }}</center></h3>
-
-    <a class=periode>Du {{ debut }} à {{ fin }}</a>
-    <a class=presentation><center>{{ presentation}}</center></a>
-    
-
-    <center>
-        <a href="/voteoui/{{ ref_id }}"><input type="button" value="Oui" class=oui></a>
-        <a href="/votenon/{{ ref_id }}"><input type="button" value="Non" class=non></a>
-    </center>
+    <h1><center>{{ titre }}</center></h1>
+    <div class=fond>
+        <center>
+        <h1>{{ enonce }}</h1><br>
+        <h2>Créateur : {{ elu[0] }} {{ elu[1] }}</h2><br>
+        <h3>{{ presentation}}</h3><br>
+     
+        <a href="/voteoui/{{ ref_id }}"><input type="button" value="Oui"></a>
+        <a href="/votenon/{{ ref_id }}"><input type="button" value="Non"></a><br><br>
+        <a>Du {{ debut }} à {{ fin }}</a>
+        </center>
+    </div>
 {% endblock %}
