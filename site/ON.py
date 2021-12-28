@@ -10,8 +10,8 @@ def separeidtitre(L):
 
 def pourcentage(o,n):
     t=o+n
-    po=o*100/t
-    pn=n*100/t
+    po=o*100/t   #On calcul le pourcentage de vote oui
+    pn=n*100/t   #On calcul le pourcentage de vote non
     return (round(po,1),round(pn,1))
 
 catégorie=['Etudiant','Retraité','Agriculteurs \n exploitants',
@@ -39,42 +39,46 @@ def graphe_sociopro(oui:list,non:list): #oui la liste dont le n-ième élément 
     else :
         print ('la longueur de la liste est incorrecte')
 
+
 def catembert(p:list):   #p la liste du nombre de votes par catégorie
-    explode=[]
-    présence=[]
-    for k in range (len(p)):
-        if p[k]!=0:
-            explode.append(0)
-            présence.append(k)
-    for t in range (len(présence)):
-        if t not in présence:
-            p.pop(t)
-    catégories=[]
-    for t in range (len(présence)):
-        if présence[t]==0:
-            catégories.append('Etudiant')
-        if présence[t]==1:
-            catégories.append('Retraité')
-        if présence[t]==2:
-            catégories.append('Agriculteurs exploitants')
-        if présence[t]==3:
-            catégories.append('Cadres et professions intellectuelles supérieures')
-        if présence[t]==4:
-            catégories.append('Artisans, commerçants, chefs d entreprise')
-        if présence[t]==5:
-            catégories.append('Professions intermédiaires')
-        if présence[t]==6:
-            catégories.append('Employés qualifiés')
-        if présence[t]==7:
-            catégories.append('Employés non qualifiés')
-        if présence[t]==8:
-            catégories.append('Ouvriers qualifiés')
-        if présence[t]==9:
-            catégories.append('Ouvriers non qualifiés')
-    explode[max_indice(p)]=0.1
-    explode=tuple(explode)
-    plt.figure(figsize = (8, 8))
-    plt.pie(p, explode=explode,labels = catégories,autopct='%1.1f%%')
+    if len(p)==len(catégorie):
+        explode=[]
+        présence=[]
+        for k in range (len(p)):
+            if p[k]!=0:
+                explode.append(0)
+                présence.append(k)
+        for t in range (len(présence)): #?
+            if t not in présence:
+                p.pop(t)
+        catégories=[]
+        for t in range (len(présence)):
+            if présence[t]==0:
+                catégories.append('Etudiant')
+            if présence[t]==1:
+                catégories.append('Retraité')
+            if présence[t]==2:
+                catégories.append('Agriculteurs exploitants')
+            if présence[t]==3:
+                catégories.append('Cadres et professions intellectuelles supérieures')
+            if présence[t]==4:
+                catégories.append('Artisans, commerçants, chefs d entreprise')
+            if présence[t]==5:
+                catégories.append('Professions intermédiaires')
+            if présence[t]==6:
+                catégories.append('Employés qualifiés')
+            if présence[t]==7:
+                catégories.append('Employés non qualifiés')
+            if présence[t]==8:
+                catégories.append('Ouvriers qualifiés')
+            if présence[t]==9:
+                catégories.append('Ouvriers non qualifiés')
+        explode[max_indice(p)]=0.1
+        explode=tuple(explode)
+        plt.figure(figsize = (8, 8))
+        plt.pie(p, explode=explode,labels = catégories,autopct='%1.1f%%')
+    else :
+        print ('la longueur de la liste est incorrecte')
 
 def max_indice(p:list):  
     i=0
