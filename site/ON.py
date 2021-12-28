@@ -40,45 +40,48 @@ def graphe_sociopro(oui:list,non:list): #oui la liste dont le n-ième élément 
         print ('la longueur de la liste est incorrecte')
 
 
+def retire_zero(l:list):
+    compteur=l.count(0)
+    for k in range (compteur):
+        l.remove(0)
+    return l
+
+#on ne peut pas faire de camembert si l'une des valeurs de la liste est nulle, il faut donc enlever ces valeurs
+
 def catembert(p:list):   #p la liste du nombre de votes par catégorie
-    if len(p)==len(catégorie):
-        explode=[]
-        présence=[]
-        for k in range (len(p)):
-            if p[k]!=0:
-                explode.append(0)
-                présence.append(k)
-        for t in range (len(présence)): #?
-            if t not in présence:
-                p.pop(t)
-        catégories=[]
-        for t in range (len(présence)):
-            if présence[t]==0:
-                catégories.append('Etudiant')
-            if présence[t]==1:
-                catégories.append('Retraité')
-            if présence[t]==2:
-                catégories.append('Agriculteurs exploitants')
-            if présence[t]==3:
-                catégories.append('Cadres et professions intellectuelles supérieures')
-            if présence[t]==4:
-                catégories.append('Artisans, commerçants, chefs d entreprise')
-            if présence[t]==5:
-                catégories.append('Professions intermédiaires')
-            if présence[t]==6:
-                catégories.append('Employés qualifiés')
-            if présence[t]==7:
-                catégories.append('Employés non qualifiés')
-            if présence[t]==8:
-                catégories.append('Ouvriers qualifiés')
-            if présence[t]==9:
-                catégories.append('Ouvriers non qualifiés')
-        explode[max_indice(p)]=0.1
-        explode=tuple(explode)
-        plt.figure(figsize = (8, 8))
-        plt.pie(p, explode=explode,labels = catégories,autopct='%1.1f%%')
-    else :
-        print ('la longueur de la liste est incorrecte')
+    explode=[] #liste de même longueur que p mais faite de 0 sauf pour l'indice correspondant au max de p où l'on met 0.1
+    présence=[] #liste des indices des valeurs non nulles de p
+    for k in range (len(p)):
+        if p[k]!=0:
+            explode.append(0) #on rajoute un 0 pour chaque valeur non nulle de p
+            présence.append(k) #on ajoute dans la liste présence les indices de ces valeurs non nulles
+    p=retire_zero(p)
+    catégories=[]
+    for t in range (len(présence)):
+        if présence[t]==0:
+            catégories.append('Etudiant')
+        if présence[t]==1:
+            catégories.append('Retraité')
+        if présence[t]==2:
+            catégories.append('Agriculteurs exploitants')
+        if présence[t]==3:
+            catégories.append('Cadres et professions intellectuelles supérieures')
+        if présence[t]==4:
+            catégories.append('Artisans, commerçants, chefs d entreprise')
+        if présence[t]==5:
+            catégories.append('Professions intermédiaires')
+        if présence[t]==6:
+            catégories.append('Employés qualifiés')
+        if présence[t]==7:
+            catégories.append('Employés non qualifiés')
+        if présence[t]==8:
+            catégories.append('Ouvriers qualifiés')
+        if présence[t]==9:
+            catégories.append('Ouvriers non qualifiés')
+    explode[max_indice(p)]=0.1
+    explode=tuple(explode)
+    plt.figure(figsize = (8, 8))
+    plt.pie(p, explode=explode,labels = catégories,autopct='%1.1f%%')
 
 def max_indice(p:list):  
     i=0
@@ -183,9 +186,7 @@ def camembert_s(p:list):    #p la liste du nombre de votes par catégories
         if p[k]!=0:
             explode.append(0)
             présence.append(k)
-    for t in range (len(présence)):
-        if t not in présence:
-            p.pop(t)
+    p=retire_zero(p)
     sexe=[]
     for t in range (len(présence)):
         if présence[t]==0:
