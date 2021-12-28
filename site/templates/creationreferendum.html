@@ -13,7 +13,7 @@
     </style>
 
 
-    <a href="login" class=deconnect>Se déconnecter</a>
+    <a href="/deconnect" class=deconnect>Se déconnecter</a>
     <img src="{{url_for('static',filename='eluexemple.jpg')}}" width="60" height="60" class=PP>
     <a class=nomutilisateur>{{nom}} {{prénom}}</a>
 
@@ -21,8 +21,8 @@
         <h1 class=creationref>Création d'un nouveau référendum :</h1>
         <ul class=elements>
             <form action="/refcree" method="post">
-            <br><br><a>Titre du référendum : </a><input name="titre" type="text">
-            <br><br><a>Question : </a><input name="enonce" type="text">
+            <br><br><a>Titre du référendum : </a><input autocomplete="off" name="titre" type="text">
+            <br><br><a>Question : </a><input autocomplete="off" name="enonce" type="text">
             <br><br><a>Catégorie 1: </a><select name="cat1_ref">
                 <option value="null">/</option>
                 <option value="ecologie">Écologie</option>

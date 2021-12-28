@@ -5,6 +5,8 @@ from flask import redirect
 from flask import request
 import sqlite3
 from ON import *
+import datetime
+
 app=Flask(__name__)
 
 departements=[i for i in range(1,96)]
@@ -12,6 +14,14 @@ regions=['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-V
 categories=['Etudiant','Retraité','Agriculteurs exploitants','Cadres et professions intellectuelles supérieures','Artisans, commerçants, chefs d entreprise','Professions intermédiaires','Employés qualifiés','Employés non qualifiés','Ouvriers qualifiés','Ouvriers non qualifiés']
 sexes=['M.','Mme.','Autre']
 partis=['Gauche démocrate et républicaine','La France insoumise','Socialistes et apparentés','Libertés et territoires','La République en marche','Mouvement démocrate et démocrates apparentés','Agir ensemble','UDI et indépendants','Les Républicains','Non-inscrits']
+
+def testconnect():
+    global nomut,prenomut,idut
+    if 'idut' in globals() and 'prenomut' in globals() and 'nomut' in globals():
+        return True
+    else:
+        print("redirect")
+        return False
 
 @app.route('/')
 def initial():
@@ -28,6 +38,17 @@ def citoyen():
 @app.route('/elu')
 def elu():
     return render_template('elu.html')
+
+
+@app.route('/deconnect')
+def deconnect():
+    global prenomut,nomut,idut
+    prenomut,nomut,idut=None,None,None
+    return redirect('/login')
+
+
+
+
 
 @app.route('/voteoui/<int:ref_id>')
 def voteoui(ref_id):
@@ -192,6 +213,10 @@ def logincitdeux():
 @app.route('/accueil_c/<string:cat>',methods=["GET","POST"])
 def accueil_c(cat=""):
     global nomut,prenomut,idut
+
+    if not testconnect():
+        return redirect('/login')
+
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
     print(cat)
@@ -205,7 +230,6 @@ def accueil_c(cat=""):
         cur.execute("""SELECT ref_id,titre FROM referendum WHERE categorie1='{}' OR categorie2='{}'""".format(cat,cat))
         L=cur.fetchall()
         T=separeidtitre(L)
-
 
     db.commit()
     db.close()
@@ -257,6 +281,9 @@ def logineludeux():
 @app.route('/accueil_e/<string:cat>',methods=["GET","POST"])
 def accueil_e(cat=""):
     global nomut,prenomut,idut
+
+    if not testconnect():
+        return redirect('/login')
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
 
@@ -280,6 +307,8 @@ def accueil_e(cat=""):
 @app.route('/resultats/<int:ref>')
 def resultats(ref):
     global prenomut,nomut,idut
+    if not testconnect():
+        return redirect('/login')
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
 
@@ -296,11 +325,13 @@ def resultats(ref):
     db.commit()
     db.close()
 
-    return render_template('resultats.html',e=enonce,pres=presentation,o=oui,n=non,d=debut,f=fin,nom=nom,pren=prenom)
+    return render_template('resultats.html',e=enonce,pres=presentation,o=oui,n=non,d=debut,f=fin,nom=nom,pren=prenom,nomut=nomut,prénomut=prenomut)
 
 @app.route('/creationreferendum')
 def creationreferendum():
     global prenomut,nomut,idut
+    if not testconnect():
+        return redirect('/login')
     if idut==0:
         print("non")
         return redirect('/accueil_c')
@@ -311,12 +342,15 @@ def creationreferendum():
 @app.route('/refcree',methods=['POST'])
 def refcree():
     global prenomut,idut,nomut
+    if not testconnect():
+        return redirect('/login')
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
     enonce=request.form.get("enonce")
     ville=request.form.get("ville")
     region=request.form.get("region")
     dep=request.form.get("dep")
+    print(dep, type(dep))
     debut=request.form.get("debut")
     fin=request.form.get("fin")
     cat1=request.form.get("cat1_ref")
@@ -325,15 +359,18 @@ def refcree():
     presentation=request.form.get("resume")
     oui=0
     non=0
-
+    categorieref1=['education','ecologie','transport','tourisme','commerce']
+    categorieref2=['education','ecologie','transport','tourisme','commerce','null']
+    departements=[str(i) for i in range(1,96)]
+    regions=['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-Val de Loire','Corse','Grand Est','Hauts-de-France','Île-de-France','Normandie','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d''Azur']
     if not titre:
         return render_template("error.html",message="Titre non renseigné")
     if not enonce:
         return render_template("error.html",message="Question non renseignée")
-    if cat1 not in categories:
-        return render_template("error.html",message="Catégorie1 non eistante")
-    if cat2 not in categories:
-        return render_template("error.html",message="Catégorie2 non eistante")
+    if cat1 not in categorieref1:
+        return render_template("error.html",message="Catégorie 1 non existante")
+    if cat2 not in categorieref2:
+        return render_template("error.html",message="Catégorie 2 non existante")
     if not presentation:
         return render_template("error.html",message="Résumé non renseignée")
     if not ville:    
@@ -363,17 +400,26 @@ def refcree():
 @app.route('/referendum/<int:ref_id>')
 def referendum(ref_id):
     global nomut,prenomut
+    if not testconnect():
+        return redirect('/login')
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
     cur.execute ("""SELECT enonce,presentation,debut,fin,createur,titre FROM referendum WHERE ref_id={}""".format(ref_id))
     L=cur.fetchone()
-    print(L)
     enonce=L[0]
     presentation=L[1]
     debut=L[2]
     fin=L[3]
     createur=L[4]
     titre=L[5]
+
+    now=str(datetime.datetime.now())[:11]
+    if now>fin:
+        return redirect('/resultats/{}'.format(ref_id))
+
+
+
+
     cur.execute("""SELECT nom,prenom FROM elu WHERE elu_id={}""".format(createur) )
     T=cur.fetchone()
     nom,prenom=T[0],T[1]
@@ -385,6 +431,8 @@ def referendum(ref_id):
 @app.route('/filtre',methods=["POST"])
 def filtre():
     global idut
+    if not testconnect():
+        return redirect('/login')
     catfiltre=request.form.get("categories")
     print(catfiltre)
     if idut==0:

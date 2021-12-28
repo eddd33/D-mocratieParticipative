@@ -14,15 +14,21 @@
     .non{position:absolute;top:430px;left:870px;}
     .dated{position:absolute;top:460px;left:850px;}
     .datef{position:absolute;top:490px;left:850px;}
+    .fond{position:absolute;top:150px;left:400px;width: 1000px;height: 850px;background-color: rgb(185, 212, 238);}
 </STYLE>
-
-<p class=nomelu>{{ nom }} {{ pren }}</p>
-<p class=referendum> {{ e }}</p>
-<p class=presentation>{{ pres }}</p>
-<p class=oui>Nombre de Oui : {{ o }}%</p>
-<p class=non>Nombre de Non : {{ n }}%</p>
-<p class=dated>Date de début : {{ d }}</p>
-<p class=datef>Date de fin: {{ f }}</p>
+<a href="/deconnect" class=deconnect>Se déconnecter</a>
+<a class=nomutilisateur>{{ nomut }} {{ prénomut }}</a>
+<div class=fond>
+    <center>
+    <h1> {{ e }}</h1><br>
+    <h2>Créateur : {{ nom }} {{ pren }}</h2><br>
+    <h3>{{ pres }}</h3><br>
+    <p>Nombre de Oui : {{ o }}%</p><br>
+    <p>Nombre de Non : {{ n }}%</p><br>
+    <p>Date de début : {{ d }}  ---  Date de fin: {{ f }}</p><br>
+    <a href="javascript:history.go(-1)">Retour à la page précédente</a>
+    </center>
+</div>
 
 
 
