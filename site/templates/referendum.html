@@ -26,10 +26,9 @@
     <a class=periode>Du {{ debut }} à {{ fin }}</a>
     <a class=presentation><center>{{ presentation}}</center></a>
     
-    <form action='/vote' method="post">
-        <center>
+
+    <center>
         <a href="/voteoui/{{ ref_id }}"><input type="button" value="Oui" class=oui></a>
         <a href="/votenon/{{ ref_id }}"><input type="button" value="Non" class=non></a>
-        </center>
-    </form>
+    </center>
 {% endblock %}

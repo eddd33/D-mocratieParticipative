@@ -36,7 +36,7 @@ def voteoui(ref_id):
     cur.execute ("""SELECT oui FROM referendum WHERE ref_id={}""".format(ref_id))
     oui=cur.fetchone()[0]
     oui=oui+1
-    cur.execute ("""INSERT INTO referendum (oui) VALUES (?) WHERE ref_id='{}' """.format(ref_id)),oui
+    cur.execute("""UPDATE referendum SET oui={} WHERE ref_id={}""".format(oui,ref_id))
     db.commit()
     db.close()
     return render_template('vousavezvoté.html')
@@ -48,7 +48,7 @@ def votenon(ref_id):
     cur.execute ("""SELECT non FROM referendum WHERE ref_id={}""".format(ref_id))
     non=cur.fetchone()[0]
     non=non+1
-    cur.execute ("""INSERT INTO referendum (non) VALUES (?) WHERE ref_id='{}'""".format(ref_id)),non
+    cur.execute("""UPDATE referendum SET non={} WHERE ref_id={}""".format(non,ref_id))
     db.commit()
     db.close()
     return render_template('vousavezvoté.html')
