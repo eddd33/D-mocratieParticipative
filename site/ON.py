@@ -169,7 +169,7 @@ def parembert(p:list):
         
 
 def sexe(oui:list,non:list):
-    if len(oui)==len(non)=3: #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
+    if len(oui)==len(non)==3: #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
         for k in range (len(oui)):
             p=oui[k]
             oui[k]=(100*p)/(p+non[k])
@@ -188,7 +188,7 @@ def sexe(oui:list,non:list):
         print ('la longueur de la liste est incorrecte')
 
 def camembert_s(p:list):    #p la liste du nombre de votes par catégories
-    if len(oui)==len(non)=3: #On contrôle l'existance d'une valeurs pour chaque catégorie 
+    if len(oui)==len(non)==3: #On contrôle l'existance d'une valeurs pour chaque catégorie 
         explode=[]
         présence=[]
         for k in range (len(p)):
