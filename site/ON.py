@@ -49,39 +49,42 @@ def retire_zero(l:list):
 #on ne peut pas faire de camembert si l'une des valeurs de la liste est nulle, il faut donc enlever ces valeurs
 
 def catembert(p:list):   #p la liste du nombre de votes par catégorie
-    explode=[] #liste de même longueur que p mais faite de 0 sauf pour l'indice correspondant au max de p où l'on met 0.1
-    présence=[] #liste des indices des valeurs non nulles de p
-    for k in range (len(p)):
-        if p[k]!=0:
-            explode.append(0) #on rajoute un 0 pour chaque valeur non nulle de p
-            présence.append(k) #on ajoute dans la liste présence les indices de ces valeurs non nulles
-    p=retire_zero(p)
-    catégories=[]
-    for t in range (len(présence)):
-        if présence[t]==0:
-            catégories.append('Etudiant')
-        if présence[t]==1:
-            catégories.append('Retraité')
-        if présence[t]==2:
-            catégories.append('Agriculteurs exploitants')
-        if présence[t]==3:
-            catégories.append('Cadres et professions intellectuelles supérieures')
-        if présence[t]==4:
-            catégories.append('Artisans, commerçants, chefs d entreprise')
-        if présence[t]==5:
-            catégories.append('Professions intermédiaires')
-        if présence[t]==6:
-            catégories.append('Employés qualifiés')
-        if présence[t]==7:
-            catégories.append('Employés non qualifiés')
-        if présence[t]==8:
-            catégories.append('Ouvriers qualifiés')
-        if présence[t]==9:
-            catégories.append('Ouvriers non qualifiés')
-    explode[max_indice(p)]=0.1
-    explode=tuple(explode)
-    plt.figure(figsize = (8, 8))
-    plt.pie(p, explode=explode,labels = catégories,autopct='%1.1f%%')
+    if len(p)==len(catégorie):  #On contrôle l'existance d'une valeurs pour chaque catégorie 
+        explode=[] #liste de même longueur que p mais faite de 0 sauf pour l'indice correspondant au max de p où l'on met 0.1
+        présence=[] #liste des indices des valeurs non nulles de p
+        for k in range (len(p)):
+            if p[k]!=0:
+                explode.append(0) #on rajoute un 0 pour chaque valeur non nulle de p
+                présence.append(k) #on ajoute dans la liste présence les indices de ces valeurs non nulles
+        p=retire_zero(p)
+        catégories=[]
+        for t in range (len(présence)):
+            if présence[t]==0:
+                catégories.append('Etudiant')
+            if présence[t]==1:
+                catégories.append('Retraité')
+            if présence[t]==2:
+                catégories.append('Agriculteurs exploitants')
+            if présence[t]==3:
+                catégories.append('Cadres et professions intellectuelles supérieures')
+            if présence[t]==4:
+                catégories.append('Artisans, commerçants, chefs d entreprise')
+            if présence[t]==5:
+                catégories.append('Professions intermédiaires')
+            if présence[t]==6:
+                catégories.append('Employés qualifiés')
+            if présence[t]==7:
+                catégories.append('Employés non qualifiés')
+            if présence[t]==8:
+                catégories.append('Ouvriers qualifiés')
+            if présence[t]==9:
+                catégories.append('Ouvriers non qualifiés')
+        explode[max_indice(p)]=0.1
+        explode=tuple(explode)
+        plt.figure(figsize = (8, 8))
+        plt.pie(p, explode=explode,labels = catégories,autopct='%1.1f%%')
+    else:
+        print ('la longueur de la liste est incorrecte')
 
 def max_indice(p:list):  
     i=0
@@ -104,7 +107,7 @@ def calcul_age(date): #format JJ/MM/AAAA
 def camemb_age(date:list):
     for k in range (len(date)):
         date[k]=calcul_age(date[k])
-    age=7*[0]
+    age=7*[0]                        #liste dont le n-ième élément est le nombre de personne dans la n-ième tranche d'age      
     for t in range (len(date)):
         if date[t]>=18 and date[t]<=25:
             age[0]+=1
@@ -156,46 +159,55 @@ def parents(oui:list,non:list): #oui la liste dont le n-ième élément est le n
         print ('la longueur de la liste est incorrecte')
 
 def parembert(p:list):
-    explode=2*[0]
-    explode[max_indice(p)]=0.1
-    plt.figure(figsize = (8, 8))
-    plt.pie(p, explode=explode,labels = ['Parents','Pas Parents'] ,
-    autopct='%1.1f%%')
+    if len(p)==2:  #On contrôle l'existance d'une valeurs pour chaque catégorie 
+        explode=2*[0]
+        explode[max_indice(p)]=0.1
+        plt.figure(figsize = (8, 8))
+        plt.pie(p, explode=explode,labels = ['Parents','Pas Parents'] ,autopct='%1.1f%%')
+    else:
+        print ('la longueur de la liste est incorrecte')
+        
 
 def sexe(oui:list,non:list):
-    for k in range (len(oui)):
-        p=oui[k]
-        oui[k]=(100*p)/(p+non[k])
-        non[k]=(100*non[k])/(p+non[k])
-    sexe=['Homme','Femme','Autres']
-    position=np.arange(len(sexe))
-    width=0.45
-    plt.bar(position - width/2, oui, width, color='lightsteelblue')
-    plt.bar(position + width/2, non, width, color='IndianRed')
-    plt.xticks(position, sexe,fontsize=10)
-    plt.xlabel('Sexe', fontsize=8)
-    plt.title('Diagramme en bâtons - répartition des votes en fonction du sexe',
-    fontsize=12)
-    plt.legend(loc=1)
-    plt.show()
+    if len(oui)=len(non)=3: #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
+        for k in range (len(oui)):
+            p=oui[k]
+            oui[k]=(100*p)/(p+non[k])
+            non[k]=(100*non[k])/(p+non[k])
+        sexe=['Homme','Femme','Autres']
+        position=np.arange(len(sexe))
+        width=3
+        plt.bar(position - width/2, oui, width, color='lightsteelblue')
+        plt.bar(position + width/2, non, width, color='IndianRed')
+        plt.xticks(position, sexe,fontsize=10)
+        plt.xlabel('Sexe', fontsize=8)
+        plt.title('Diagramme en bâtons - répartition des votes en fonction du sexe',fontsize=12)
+        plt.legend(loc=1)
+        plt.show()
+    else:
+        print ('la longueur de la liste est incorrecte')
 
 def camembert_s(p:list):    #p la liste du nombre de votes par catégories
-    explode=[]
-    présence=[]
-    for k in range (len(p)):
-        if p[k]!=0:
-            explode.append(0)
-            présence.append(k)
-    p=retire_zero(p)
-    sexe=[]
-    for t in range (len(présence)):
-        if présence[t]==0:
-            sexe.append('Homme')
-        if présence[t]==1:
-            sexe.append('Femme')
-        if présence[t]==2:
-            sexe.append('Autres')
-    explode[max_indice(p)]=0.1
-    explode=tuple(explode)
-    plt.figure(figsize = (8, 8))
-    plt.pie(p, explode=explode,labels = sexe ,autopct='%1.1f%%')
+    if len(oui)=len(non)=3: #On contrôle l'existance d'une valeurs pour chaque catégorie 
+        explode=[]
+        présence=[]
+        for k in range (len(p)):
+            if p[k]!=0:
+                explode.append(0)
+                présence.append(k)
+        p=retire_zero(p)
+        sexe=[]
+        for t in range (len(présence)):
+            if présence[t]==0:
+                sexe.append('Homme')
+            if présence[t]==1:
+                sexe.append('Femme')
+            if présence[t]==2:
+                sexe.append('Autres')
+        explode[max_indice(p)]=0.1
+        explode=tuple(explode)
+        plt.figure(figsize = (8, 8))
+        plt.pie(p, explode=explode,labels = sexe ,autopct='%1.1f%%')
+    else:
+        print ('la longueur de la liste est incorrecte')
+        
