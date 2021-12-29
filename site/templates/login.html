@@ -5,14 +5,17 @@
 <html>
 
     <style>
+        *{font-family: Verdana, Geneva, Tahoma, sans-serif;}
         .titre{position:absolute;top:20px;left:700px;font-size: x-large; font-weight: bold;}
-        .citoyen{position:absolute;top:60px;left:150px;font-size: large; font-weight:bold;}
-        .elu{position:absolute;top:160px;left:150px;font-size: large; font-weight:bold;}
-        .inscit{position:absolute;top:70px;left:350px;font-size: large;}
-        .inselu{position:absolute;top:170px;left:350px;font-size: large;}
-        .cocit{position:absolute;top:70px;left:450px;font-size: large;}
-        .coelu{position:absolute;top:170px;left:450px;font-size: large;}
-        .fond{position:absolute;top:150px;left:500px;width: 750px;height: 300px;background-color: rgb(143, 248, 255);}
+        .citoyen{position:absolute;top:20px;left:150px;font-size: large; font-weight:bold;}
+        .fondcit{position:absolute;top:150px;left:500px;width:750px;height:100px;background-color: cornsilk;}
+        .fondelu{position:absolute;top:300px;left:500px;width:750px;height:100px;background-color:cornsilk;}
+        .elu{position:absolute;top:20px;left:150px;font-size: large; font-weight:bold;}
+        .inscit{position:absolute;top:40px;left:350px;font-size: large;}
+        .inselu{position:absolute;top:40px;left:350px;font-size: large;}
+        .cocit{position:absolute;top:40px;left:450px;font-size: large;}
+        .coelu{position:absolute;top:40px;left:450px;font-size: large;}
+        .logo{position:absolute;top:20px;left:50px;}
     
     </style>
 
@@ -20,16 +23,33 @@
 <title>
     Page de Login
 </title>
+
+<head>
+    <script src="https://kit.fontawesome.com/b2d001e85a.js" crossorigin="anonymous"></script>
+</head>
+<body>
     <h1 class=titre>
         Bienvenue, vous êtes :
     </h1>
-    <div class=fond>
-    <h2 class=citoyen>Citoyen</h2>
-    <a class=inscit href="inscriptcit">S'incrire</a>
-    <a class=cocit href="logincit">Se connecter</a>
-    <h2 class=elu>Elu</h2>
-    <a class=inselu href="inscriptelu">S'inscrire</a>
-    <a class=coelu href="loginelu">Se connecter</a></div>
+    <div class=fondcit>
+        <div class=logo>
+            <i class="fas fa-user fa-3x"></i>
+        </div>
+        <h2 class=citoyen>Citoyen</h2>
+        <a class=inscit href="inscriptcit">S'inscrire</a>
+        <a class=coelu href="loginelu">Se connecter</a>
+    </div>
+    <div class=fondelu>
+        <div class=logo>
+            <i class="fas fa-user-tie fa-3x"></i>
+        </div>
+        <h2 class=elu>Elu</h2>
+        <a class=cocit href="logincit">Se connecter</a>
+        <a class=inselu href="inscriptelu">S'inscrire</a>
+    </div>
+    </body>
+    
+    
 
 </html>
 
