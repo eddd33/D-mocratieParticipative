@@ -1,10 +1,12 @@
 {% extends "layout.html" %}
 {% block body %}
 <style>
-    .listeref{position:absolute;top:20px;left:20px;font-size: x-large; font-weight: bold;}
+    .listeref{position:absolute;top:80px;left:20px;font-size: x-large; font-weight: bold;}
+    .creeref{position:absolute;top:10px;left:20px;font-size: x-large; font-weight: bold;}
+    .liencree{position:absolute;top:60px;left:20px}
     .titre{position:absolute;top:20px;left:700px;font-size: x-large; font-weight: bold;}
     .listereffond{position:absolute;top:150px;left:400px;width: 1000px;height: 850px;background-color: rgb(185, 212, 238);}
-    .laliste{position:absolute;top:60px;left:20px}
+    .laliste{position:absolute;top:110px;left:20px}
     .PP{position:absolute;top:10px;right:180px}
     .nomutilisateur{position:absolute;top:20px;right:20px}
     .deconnect{position: absolute; top:40px; right:20px}
@@ -16,7 +18,8 @@
 <a href="/deconnect" class=deconnect>Se déconnecter</a>
 <a class=nomutilisateur>{{nom}} {{prénom}}</a>
 <div class=listereffond>
-    <a href="/creationreferendum" class=creerref >Créer un référendum</a>
+    <h1 class=creeref>Création d'un référendum</h1> 
+    <a href="/creationreferendum" class=liencree>Créer un référendum</a>
     <h1 class=listeref>Liste des référendums</h1>
     <ul class=laliste>
         {% for L in liste %}

@@ -48,8 +48,6 @@ def deconnect():
 
 
 
-
-
 @app.route('/voteoui/<int:ref_id>')
 def voteoui(ref_id):
     db=sqlite3.connect('projet.db')
