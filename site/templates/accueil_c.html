@@ -6,16 +6,32 @@
         .titre{position:absolute;top:20px;left:700px;font-size: x-large; font-weight: bold;}
         .listereffond{position:absolute;top:150px;left:400px;width: 1000px;height: 850px;background-color: rgb(146, 240, 247);border-radius: 30px;}
         .laliste{position:absolute;top:60px;left:20px}
-        .PP{position:absolute;top:10px;right:180px}
-        .nomutilisateur{position:absolute;top:20px;right:20px}
-        .deconnect{position: absolute; top:40px; right:20px}
+        .user{position:absolute;top:50px;right:60px; width:300px;height:75px;border-radius:20px;background-color: rgb(52, 203, 214);}
+        .PP{position:absolute;top:5px;left:10px}
+        .nomutilisateur{position:absolute;top:20px;right:75px}
+        .deconnect{position: absolute; top:40px; right:75px}
     </style>
     <title>Accueil Citoyen</title>
+    <head>
+        <script src="https://kit.fontawesome.com/b2d001e85a.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
     <h1 class=titre>
         Bienvenue sur LENA
     </h1>
-    <a href="/deconnect" class=deconnect>Se déconnecter</a>
-    <a class=nomutilisateur>{{nom}} {{prénom}}</a>
+    <div class=user>
+        <div class=fonduser>
+        <div class=PP>
+            <i class="fas fa-user fa-4x"></i>
+        </div>
+        <div class=nomutilisateur>
+            {{nom}} {{prénom}}
+        </div>
+        <div class=deconnect>
+            <a href="/deconnect">Se déconnecter</a>
+        </div>
+    </div>
+    </div>
     <div class=listereffond>
         <h1 class=listeref>Liste des référendums</h1>
         <ul class=laliste>
@@ -26,4 +42,5 @@
             {% endfor %}
         </ul>
     </div>
+</body>
 {% endblock %}
