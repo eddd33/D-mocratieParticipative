@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import datetime
+import os
 
 def separeidtitre(L):
     T=[]
@@ -27,8 +28,10 @@ def graphe_sociopro(oui:list,non:list): #oui la liste dont le n-ième élément 
             p=oui[k]
             oui[k]=(100*p)/(p+non[k])       #On remplace les nombres par les pourcentages qu'ils représentent au sein de la catégorie
             non[k]=(100*non[k])/(p+non[k])
-        position=np.arange(1,101,10)
-        width=3
+        position=np.arange(len(catégorie))
+        width=0.3
+        os.remove('../site/Graphes/sociopro.png')
+        fig=plt.figure(figsize = (8, 8))
         plt.bar(position - width/2, oui, width, color='lightsteelblue')  #On trace le poucentage de vote oui et non en fonction de la catégorie socio-professionnelle
         plt.bar(position + width/2, non, width, color='IndianRed')
         plt.xticks(position, catégorie,fontsize=10,rotation=90)
@@ -36,6 +39,7 @@ def graphe_sociopro(oui:list,non:list): #oui la liste dont le n-ième élément 
         plt.title('Diagramme en bâtons - répartition des votes en fonction des catégories socioprofessionnelles',fontsize=12)
         plt.legend(loc=1)
         plt.show()
+        fig.savefig('../site/Graphes/sociopro.png')
     else :
         print ('la longueur de la liste est incorrecte')
 
@@ -79,10 +83,12 @@ def catembert(p:list):   #p la liste du nombre de votes par catégorie
                 catégories.append('Ouvriers qualifiés')
             if présence[t]==9:
                 catégories.append('Ouvriers non qualifiés')
+        os.remove('../site/Graphes/catembert.png') #on supprime l'ancien graphique
         explode[max_indice(p)]=0.1
         explode=tuple(explode)
-        plt.figure(figsize = (8, 8))
+        fig=plt.figure(figsize = (8, 8))
         plt.pie(p, explode=explode,labels = catégories,autopct='%1.1f%%')
+        fig.savefig('../site/Graphes/catembert.png')
     else:
         print ('la longueur de la liste est incorrecte')
 
@@ -103,6 +109,71 @@ def calcul_age(date): #format JJ/MM/AAAA
     date=datetime.date(A,M,J)
     auj=datetime.date.today()
     return auj.year - date.year - ((auj.month, auj.day) < (date.month, date.day))
+
+def age(agevote:list): #liste de tuples contenant la date de naissance du votant ainsi que son vote
+    cat=['18-25 ans','26-35 ans','36-45 ans',
+    '46-55 ans','56-65 ans','66-75 ans',
+    '76 ans et plus']
+    oui=7*[0]
+    non=7*[0]
+    for k in range (len(agevote)):
+        age=calcul_age(agevote[k][0])
+        vote=agevote[k][1]
+        if age>=18 and age<=25:
+            if vote=='Oui':
+                oui[0]+=1
+            else:
+                non[0]+=1
+        if age>=26 and age<=35:
+            if vote=='Oui':
+                oui[1]+=1
+            else:
+                non[1]+=1
+        if age>=36 and age<=45:
+            if vote=='Oui':
+                oui[2]+=1
+            else:
+                non[2]+=1
+        if age>=46 and age<=55:
+            if vote=='Oui':
+                oui[3]+=1
+            else:
+                non[3]+=1
+        if age>=56 and age<=65:
+            if vote=='Oui':
+                oui[4]+=1
+            else:
+                non[4]+=1
+        if age>=66 and age<=75:
+            if vote=='Oui':
+                oui[5]+=1
+            else:
+                non[5]+=1
+        if age>=76:
+            if vote=='Oui':
+                oui[6]+=1
+            else:
+                non[6]+=1
+    for t in range (len(oui)):
+        p=oui[t]
+        if p+non[t]==0:
+            None
+        else:
+            oui[t]=(100*p)/(p+non[t])       #On remplace les nombres par les pourcentages qu'ils représentent au sein de la catégorie
+            non[t]=(100*non[t])/(p+non[t])
+    position=np.arange(len(cat))
+    width=0.3
+    os.remove('../site/Graphes/age.png')
+    fig=plt.figure(figsize = (8, 8))
+    plt.bar(position - width/2, oui, width, color='lightsteelblue')  #On trace le poucentage de vote oui et non en fonction de la catégorie socio-professionnelle
+    plt.bar(position + width/2, non, width, color='IndianRed')
+    plt.xticks(position, cat,fontsize=10,rotation=45)
+    plt.xlabel('Âge', fontsize=8)
+    plt.title('Diagramme en bâtons - répartition des votes en fonction de l âge des votants',fontsize=12)
+    plt.legend(loc=1)
+    plt.show()
+    fig.savefig('../site/Graphes/age.png')
+    
 
 def camemb_age(date:list):
     for k in range (len(date)):
@@ -135,8 +206,10 @@ def camemb_age(date:list):
     explode=len(labels)*[0]
     explode[max_indice(age_présent)]=0.1
     explode=tuple(explode)
-    plt.figure(figsize = (8, 8))
+    os.remove('../site/Graphes/camem_age.png')
+    fig=plt.figure(figsize = (8, 8))
     plt.pie(age_présent, explode=explode,labels = labels,autopct='%1.1f%%')
+    fig.savefig('../site/Graphes/camem_age.png')
     
 situation=['Parents','Pas parents']
 
@@ -147,7 +220,9 @@ def parents(oui:list,non:list): #oui la liste dont le n-ième élément est le n
             oui[k]=(100*p)/(p+non[k])
             non[k]=(100*non[k])/(p+non[k])
         position=np.arange(len(situation))
-        width=3
+        width=0.3
+        os.remove('../site/Graphes/parents.png')
+        fig=plt.figure(figsize = (8, 8))
         plt.bar(position - width/2, oui, width, color='lightsteelblue') #On trace le poucentage de vote oui et non en fonction de la situation familiale
         plt.bar(position + width/2, non, width, color='IndianRed')
         plt.xticks(position, situation,fontsize=10)
@@ -155,6 +230,7 @@ def parents(oui:list,non:list): #oui la liste dont le n-ième élément est le n
         plt.title('Diagramme en bâtons - répartition des votes en fonction de la situation familiale', fontsize=12)
         plt.legend(loc=1)
         plt.show()
+        fig.savefig('../site/Graphes/parents.png')
     else:
         print ('la longueur de la liste est incorrecte')
 
@@ -162,8 +238,10 @@ def parembert(p:list):
     if len(p)==2:  #On contrôle l'existance d'une valeurs pour chaque catégorie 
         explode=2*[0]
         explode[max_indice(p)]=0.1
-        plt.figure(figsize = (8, 8))
+        os.remove('../site/Graphes/parembert.png')
+        fig=plt.figure(figsize = (8, 8))
         plt.pie(p, explode=explode,labels = ['Parents','Pas Parents'] ,autopct='%1.1f%%')
+        fig.savefig('../site/Graphes/parembert.png')
     else:
         print ('la longueur de la liste est incorrecte')
         
@@ -176,7 +254,9 @@ def sexe(oui:list,non:list):
             non[k]=(100*non[k])/(p+non[k])
         sexe=['Homme','Femme','Autres']
         position=np.arange(len(sexe))
-        width=3
+        width=0.3
+        os.remove('../site/Graphes/sexe.png')
+        fig=plt.figure(figsize=(8,8))
         plt.bar(position - width/2, oui, width, color='lightsteelblue')
         plt.bar(position + width/2, non, width, color='IndianRed')
         plt.xticks(position, sexe,fontsize=10)
@@ -184,11 +264,13 @@ def sexe(oui:list,non:list):
         plt.title('Diagramme en bâtons - répartition des votes en fonction du sexe',fontsize=12)
         plt.legend(loc=1)
         plt.show()
+        fig.savefig('../site/Graphes/sexe.png')
+
     else:
         print ('la longueur de la liste est incorrecte')
 
 def camembert_s(p:list):    #p la liste du nombre de votes par catégories
-    if len(oui)==len(non)==3: #On contrôle l'existance d'une valeurs pour chaque catégorie 
+    if len(p)==3: #On contrôle l'existence d'une valeurs pour chaque catégorie 
         explode=[]
         présence=[]
         for k in range (len(p)):
@@ -206,8 +288,10 @@ def camembert_s(p:list):    #p la liste du nombre de votes par catégories
                 sexe.append('Autres')
         explode[max_indice(p)]=0.1
         explode=tuple(explode)
-        plt.figure(figsize = (8, 8))
+        os.remove('../site/Graphes/camembert_s.png')
+        fig=plt.figure(figsize = (8, 8))
         plt.pie(p, explode=explode,labels = sexe ,autopct='%1.1f%%')
+        fig.savefig('../site/Graphes/camembert_s.png')
     else:
         print ('la longueur de la liste est incorrecte')
         
