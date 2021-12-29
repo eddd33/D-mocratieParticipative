@@ -14,7 +14,7 @@
     .non{position:absolute;top:430px;left:870px;}
     .dated{position:absolute;top:460px;left:850px;}
     .datef{position:absolute;top:490px;left:850px;}
-    .fond{position:absolute;top:150px;left:400px;width: 1000px;height: 850px;background-color: rgb(185, 212, 238);}
+    .fond{position:absolute;top:150px;left:400px;width: 1300px;height: 3500px;background-color: rgb(185, 212, 238);}
 </STYLE>
 <a href="/deconnect" class=deconnect>Se déconnecter</a>
 <a class=nomutilisateur>{{ nomut }} {{ prénomut }}</a>
@@ -26,6 +26,16 @@
     <p>Nombre de Oui : {{ o }}%</p><br>
     <p>Nombre de Non : {{ n }}%</p><br>
     <p>Date de début : {{ d }}  ---  Date de fin: {{ f }}</p><br>
+    </center>
+    <img src="{{url_for('static',filename='sociopro.png')}}">
+    <img src="{{url_for('static',filename='catembert.png')}}"><br>
+    <img src="{{url_for('static',filename='age.png')}}">
+    <img src="{{url_for('static',filename='camem_age.png')}}"><br>
+    <img src="{{url_for('static',filename='sexe.png')}}">
+    <img src="{{url_for('static',filename='camembert_s.png')}}"><br>
+    <img src="{{url_for('static',filename='parents.png')}}">
+    <img src="{{url_for('static',filename='parembert.png')}}"><br>
+    <center>
     <a href="javascript:history.go(-1)">Retour à la page précédente</a>
     </center>
 </div>
