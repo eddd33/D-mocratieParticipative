@@ -1,4 +1,4 @@
-from os import memfd_create
+from os import memfd_create, umask
 from flask import Flask
 from flask import render_template
 from flask import redirect
@@ -52,26 +52,29 @@ def deconnect():
 def voteoui(ref_id):
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
-    cur.execute ("""SELECT oui FROM referendum WHERE ref_id={}""".format(ref_id))
-    oui=cur.fetchone()[0]
-    oui=oui+1
-    cur.execute("""UPDATE referendum SET oui={} WHERE ref_id={}""".format(oui,ref_id))
-    db.commit()
-    db.close()
-    return render_template('vousavezvoté.html')
+    cur.execute("SELECT user_id FROM votes")
+    ids=cur.fetchone()
+    if userid not in ids:
+        cur.execute("INSERT INTO votes  (ref_id,user_id,vote) VALUES (?,?,?)",(ref_id,userid,'oui'))
+        db.commit()
+        db.close()
+        return render_template('vousavezvoté.html')
+    else:
+        return render_template('dejavote.html')
 
 @app.route('/votenon/<int:ref_id>')
 def votenon(ref_id):
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
-    cur.execute ("""SELECT non FROM referendum WHERE ref_id={}""".format(ref_id))
-    non=cur.fetchone()[0]
-    non=non+1
-    cur.execute("""UPDATE referendum SET non={} WHERE ref_id={}""".format(non,ref_id))
-    db.commit()
-    db.close()
-    return render_template('vousavezvoté.html')
-
+    cur.execute("SELECT user_id FROM votes")
+    ids=cur.fetchone()
+    if userid not in ids:
+        cur.execute("INSERT INTO votes (ref_id,user_id,vote) VALUES (?,?,?)",(ref_id,userid,'non'))
+        db.commit()
+        db.close()
+        return render_template('vousavezvoté.html')
+    else:
+        return render_template('dejavote.html')
 
 @app.route('/inscriptcit')
 def inscriptcit():
@@ -194,16 +197,19 @@ def logincitdeux():
     nom=cur.fetchone()[0]
     cur.execute("""SELECT prenom FROM utilisateur WHERE email='{}'""".format(email))
     prénom=cur.fetchone()[0]
-
+    cur.execute("""SELECT user_id FROM utilisateur WHERE email='{}'""".format(email))
+    user=cur.fetchone()[0]
     db.commit()
     db.close()
     if mdp==mdpnormalement:
         global nomut
         global prenomut
         global idut
+        global userid
         nomut=nom
         prenomut=prénom
         idut=0
+        userid=user
         return redirect('/accueil_c/""')
     else:
         return redirect('/logincit')
