@@ -446,3 +446,7 @@ def apropos():
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
+
+@app.route('/credits')
+def credits():
+    return render_template('credits.html') 

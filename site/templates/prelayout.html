@@ -2,23 +2,48 @@
 <html>
     <style>
         .logo{position:absolute; top:20px; left:20px;max-width:60px;max-height: 60px;}
-        .nomsite{position:absolute;top:30px;left:90px;font-size: x-large; font-weight: bold;color:white;}
-        .accueil{position:absolute;top:150px;left:60px;font-size: x-large; font-weight: bold;color:white;}
-        .apropos{position:absolute;top:220px;left:30px;width: 250px;height:80px;color:white;font-size: large; font-weight: bold;}
-        .nouscontacter{position: absolute; top:750px;left:20px;font-size: x-large; font-weight: bold;color:white;}
-        .credits{position:absolute;top:800px;left:60px;font-size: x-large; font-weight: bold;color:white;}
-        
+        .nomsite{position:absolute;top:30px;left:90px;font-size: x-large; font-weight: bold; color:white}
+        .accueil{position:absolute;top:150px;left:30px;font-size: x-large; font-weight: bold;}
+        .textaccueil{position:absolute;top:20px;left:60px;font-size: x-large; font-weight: bold; color:white}
+        .apropos{position:absolute;top:300px;left:30px;width: 250px;height:80px;font-size: large; font-weight: bold;}
+        .nouscontacter{position: absolute; top:750px;left:20px;font-size: x-large; font-weight: bold;}
+        .credits{position:absolute;top:800px;left:60px;font-size: x-large; font-weight: bold;}
+        .logoaccueil{position:absolute;top:0px;left:0px; color:white}
         .menugauche{background-color:rgb(52, 203, 214);width: 250px;height: 1000px;position: absolute; top:0px;left:0px;}
+        .couleurtexte{color:white}
+        .nouscontacter:hover > .couleurtexte{color:black}
+        .credits:hover > .couleurtexte{color:black}
+        .accueil:hover > .textaccueil{color:black}
+        .accueil:hover > .logoaccueil{color:black}
+        .apropos:hover > .couleurtexte{color:black}
     </style>
+    <head>
+        <script src="https://kit.fontawesome.com/b2d001e85a.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
     <div class=menugauche>
         <img src="{{url_for('static',filename='Tnews_1.png')}}" class=logo>
         <a class=nomsite>LENA</a>
-        <a class=accueil href=login>Accueil</a>
-        <a class=apropos href=apropos>A propos de nous</a>
-        <a class=nouscontacter href=contact>Nous contacter</a>
-        <a class=credits>Crédits</a>
+        
+        <div class=accueil>
+            <div class=logoaccueil>
+                <i class="fas fa-home fa-2x"></i>
+            </div>
+            
+            <a class=textaccueil href=login>Accueil</a>
+        
+        </div>
+        <div class=apropos>
+            <a class=couleurtexte href=apropos>A propos de nous</a>
+        </div>
+        <div class=nouscontacter>
+            <a class=couleurtexte href=contact>Nous contacter</a>
+        </div>
+        <div class=credits>
+            <a class=couleurtexte href=credits>Crédits</a>
+        </div>
     </div>
-    
+    </body>
     {% block body %}{% endblock %}
     
 </html>

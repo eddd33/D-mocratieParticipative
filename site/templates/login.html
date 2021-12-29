@@ -8,8 +8,12 @@
         *{font-family: Verdana, Geneva, Tahoma, sans-serif;}
         .titre{position:absolute;top:20px;left:700px;font-size: x-large; font-weight: bold;}
         .citoyen{position:absolute;top:20px;left:150px;font-size: large; font-weight:bold;}
-        .fondcit{position:absolute;top:150px;left:500px;width:750px;height:100px;background-color: cornsilk;}
-        .fondelu{position:absolute;top:300px;left:500px;width:750px;height:100px;background-color:cornsilk;}
+        .cit{position:absolute;top:150px;left:500px;}
+        .eluu{position:absolute;top:300px;left:500px;}
+        .fondcit{width:750px;height:100px;background-color:rgb(146, 240, 247);border-radius: 15px;}
+        .fondelu{width:750px;height:100px;background-color:rgb(146, 240, 247); border-radius: 15px;}
+        .cit:hover > .fondcit{background-color: whitesmoke;}
+        .eluu:hover > .fondelu{background-color: whitesmoke;}
         .elu{position:absolute;top:20px;left:150px;font-size: large; font-weight:bold;}
         .inscit{position:absolute;top:40px;left:350px;font-size: large;}
         .inselu{position:absolute;top:40px;left:350px;font-size: large;}
@@ -31,21 +35,25 @@
     <h1 class=titre>
         Bienvenue, vous êtes :
     </h1>
-    <div class=fondcit>
+    <div class=cit>
+        <div class=fondcit>
         <div class=logo>
             <i class="fas fa-user fa-3x"></i>
         </div>
         <h2 class=citoyen>Citoyen</h2>
         <a class=inscit href="inscriptcit">S'inscrire</a>
-        <a class=coelu href="loginelu">Se connecter</a>
+        <a class=coelu href="logincit">Se connecter</a>
+        </div>
     </div>
-    <div class=fondelu>
+    <div class=eluu>
+        <div class=fondelu>
         <div class=logo>
             <i class="fas fa-user-tie fa-3x"></i>
         </div>
         <h2 class=elu>Elu</h2>
-        <a class=cocit href="logincit">Se connecter</a>
+        <a class=cocit href="loginelu">Se connecter</a>
         <a class=inselu href="inscriptelu">S'inscrire</a>
+    </div>
     </div>
     </body>
     

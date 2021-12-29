@@ -6,61 +6,63 @@
 <html>
 
     <style>
+        *{font-family: Verdana, Geneva, Tahoma, sans-serif;}
         .titre{position:absolute;top:20px;left:700px;font-size: x-large; font-weight: bold;}
         .form{position:absolute;top:35px;left:100px;font-size: large; font-weight:bold;}
-        .fond{position:absolute;top:150px;left:500px;width: 750px;height: 300px;background-color: rgb(143, 248, 255);}
-        
+        .fond{position:absolute;top:150px;left:500px;width: 750px;height: 675px;background-color: rgb(146, 240, 247);border-radius: 20px;}
+        .text{border-radius:15px;height:35px}
+        .fondselect{background-color: white;border-radius:15px;height:35px}
     </style>
 
     <title>Inscription Citoyen</title>
     <h1 class=titre>Inscription:</h1>
     <div class=fond>
     <form action="/registerc" method="post" class=form>
-        <input autocomplete="off" name="email" type="text" placeholder="E-mail">
-        <br>
-        <input autocomplete="off" name="mdp" type="password" placeholder="Mot de passe">
-        <br>
-        <input autocomplete="off" name="nom" type="text" placeholder="Nom">
-        <br>
-        <input autocomplete="off" name="prenom" type="text" placeholder="Prénom">
-        <br>
-        <input autocomplete="off" name="date_naissance" type="date" placeholder="Date de Naissance mm/jj/aaaa">
-        <br>
-        <select name="sexe">
+        <input autocomplete="off" name="email" type="text" placeholder="E-mail" class=text>
+        <br><br>
+        <input autocomplete="off" name="mdp" type="password" placeholder="Mot de passe" class=text>
+        <br><br>
+        <input autocomplete="off" name="nom" type="text" placeholder="Nom" class=text>
+        <br><br>
+        <input autocomplete="off" name="prenom" type="text" placeholder="Prénom" class=text>
+        <br><br>
+        <input autocomplete="off" name="date_naissance" type="date" placeholder="Date de Naissance mm/jj/aaaa" class=text>
+        <br><br>
+        <select name="sexe" class=fondselect>
             <option disabled selected value="">Sexe</option> 
             {% for sexe in sexes %}
                 <option value="{{ sexe }}">{{ sexe }}</option>
             {% endfor %}
         </select>
-        <br>
-        <select name="cat_soc_pro">
+        <br><br>
+        <select name="cat_soc_pro" class=fondselect>
             <option disabled selected value="">Catégorie Socioprofessionelle</option>
             {% for cat in categories %}
                 <option value="{{ cat }}">{{ cat }}</option>
             {% endfor %}
         </select>
-        <br>
-        <input autocomplete="off" name="ville" type="text" placeholder="Ville">
-        <select name="dep">
+        <br><br>
+        <input autocomplete="off" name="ville" type="text" placeholder="Ville" class=text>
+        <select name="dep" class=fondselect>
             <option disabled selected value="">Département</option>
             {% for dep in departements %}
                 <option value="{{ dep }}">{{ dep }}</option>
             {% endfor %}
         </select>
-        <select name="region">
+        <select name="region" class=fondselect>
             <option disabled selected value="">Région</option>
             {% for reg in regions %}
                 <option value="{{ reg }}">{{ reg }}</option>
             {% endfor %}
         </select>
-        <br>
-        <select name="parent">
+        <br><br>
+        <select name="parent" class=fondselect>
             <option disabled selected value="">Êtes-vous parent?</option>
             <option value="oui">oui</option>
             <option value="non">non</option>
         </select>
-        <br>
-        <input type="submit" value="S'enregistrer">
+        <br><br>
+        <input type="submit" value="S'enregistrer" class=fondselect>
     </form></div>
 </html>
 

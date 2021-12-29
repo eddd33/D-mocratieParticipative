@@ -5,11 +5,13 @@
         .nomsite{position:absolute;top:30px;left:90px;font-size: x-large; font-weight: bold;color:white;}
         .archive{position:absolute;top:150px;left:40px;font-size: x-large; font-weight: bold;color:white;}
         .catego{position:absolute;top:190px;left:0px;width: 250px;height:80px;color:white;font-size: x-large; font-weight: bold;background-color:rgb(52, 203, 214);}
-        .boutonfiltrer{position:absolute;top:300px;left:0px}
+        .boutonfiltrer{position:absolute;top:300px;left:100px}
         .nouscontacter{position: absolute; top:750px;left:20px;font-size: x-large; font-weight: bold;color:white;}
         .credits{position:absolute;top:800px;left:60px;font-size: x-large; font-weight: bold;color:white;}
-        
         .menugauche{background-color:rgb(52, 203, 214);width: 250px;height: 1000px;position: absolute; top:0px;left:0px;}
+        .couleurtexte{color:white}
+        .nouscontacter:hover > .couleurtexte{color:black}
+        .credits:hover > .couleurtexte{color:black}
     </style>
     <div class=menugauche>
         <img src="{{url_for('static',filename='Tnews_1.png')}}" class=logo>
@@ -28,8 +30,12 @@
         <input type="submit" value="Filtrer" class=boutonfiltrer>
 
         </form>
-        <a class=nouscontacter href=contact>Nous contacter</a>
-        <a class=credits>Crédits</a>
+        <div class=nouscontacter>
+            <a class=couleurtexte href=contact>Nous contacter</a>
+        </div>
+        <div class=credits>
+            <a class=couleurtexte href=credits>Crédits</a>
+        </div>
     </div>
     
     {% block body %}{% endblock %}
