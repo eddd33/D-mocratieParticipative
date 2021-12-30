@@ -327,28 +327,37 @@ def resultats(ref):
     ouinon=pourcentage(oui,non)
     oui,non=ouinon[0],ouinon[1]
 
-    cur.execute("""SELECT cat_socio_pro,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
-    P=cur.fetchone()
-    graphe_sociopro(traitement_sociopro(P))
+    #cur.execute("""SELECT cat_socio_pro,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
+    #P=cur.fetchall()
+    #print(graphe_sociopro(traitement_sociopro(P)))
 
-    cur.execute("""SELECT cat_socio_pro FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
-    H=cur.fetchone()
-    catembert(traitement_catembert(H))
+    #cur.execute("""SELECT cat_socio_pro FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
+    #H=cur.fetchall()
+    #catembert(traitement_catembert(H))
 
     #cur.execute("""SELECT annee_naissance,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
-    #N=cur.fetchone()
-    #age
+    #N=cur.fetchall()
+    #age(N)
 
     #cur.execute("""SELECT annee_naissance FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
-    #M=cur.fetchone()
+    #M=cur.fetchall()
+    #camemb_age(M)
 
-    cur.execute("""SELECT sexe,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
-    U=cur.fetchone()
-    sexe(traitement_sexe(U))
+    #cur.execute("""SELECT parents,vote FROM utlisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
+    #Y=cur.fetchall()
+    #parents(traitement_parents(Y))
 
-    cur.execute("""SELECT sexe FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
-    G=cur.fetchone()
-    camembert_s(traitement_camembert_s(G))
+    #cur.execute("""SELECT parents FROM utlisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
+    #Z=cur.fetchall()
+    #parembert(traitement_parembert(Z))
+
+    #cur.execute("""SELECT sexe,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
+    #U=cur.fetchall()
+    #sexe(traitement_sexe(U))
+
+    #cur.execute("""SELECT sexe FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
+    #G=cur.fetchall()
+    #camembert_s(traitement_camembert_s(G))
 
 
     db.commit()
