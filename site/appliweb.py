@@ -5,6 +5,7 @@ from flask import redirect
 from flask import request
 import sqlite3
 from ON import *
+from Traitement import *
 import datetime
 
 app=Flask(__name__)
@@ -55,7 +56,7 @@ def voteoui(ref_id):
     cur.execute("SELECT user_id FROM votes")
     ids=cur.fetchone()
     if userid not in ids:
-        cur.execute("INSERT INTO votes  (ref_id,user_id,vote) VALUES (?,?,?)",(ref_id,userid,'oui'))
+        cur.execute("INSERT INTO votes  (ref_id,user_id,vote) VALUES (?,?,?)",(ref_id,userid,'Oui'))
         db.commit()
         db.close()
         return render_template('vousavezvoté.html')
@@ -69,7 +70,7 @@ def votenon(ref_id):
     cur.execute("SELECT user_id FROM votes")
     ids=cur.fetchone()
     if userid not in ids:
-        cur.execute("INSERT INTO votes (ref_id,user_id,vote) VALUES (?,?,?)",(ref_id,userid,'non'))
+        cur.execute("INSERT INTO votes (ref_id,user_id,vote) VALUES (?,?,?)",(ref_id,userid,'Non'))
         db.commit()
         db.close()
         return render_template('vousavezvoté.html')
@@ -325,6 +326,30 @@ def resultats(ref):
 
     ouinon=pourcentage(oui,non)
     oui,non=ouinon[0],ouinon[1]
+
+    cur.execute("""SELECT cat_socio_pro,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
+    P=cur.fetchone()
+    graphe_sociopro(traitement_sociopro(P))
+
+    cur.execute("""SELECT cat_socio_pro FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
+    H=cur.fetchone()
+    catembert(traitement_catembert(H))
+
+    #cur.execute("""SELECT annee_naissance,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
+    #N=cur.fetchone()
+    #age
+
+    #cur.execute("""SELECT annee_naissance FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
+    #M=cur.fetchone()
+
+    cur.execute("""SELECT sexe,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
+    U=cur.fetchone()
+    sexe(traitement_sexe(U))
+
+    cur.execute("""SELECT sexe FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
+    G=cur.fetchone()
+    camembert_s(traitement_camembert_s(G))
+
 
     db.commit()
     db.close()
