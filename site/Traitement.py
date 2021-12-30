@@ -1,48 +1,50 @@
+from ON import *
+
 def traitement_sociopro(P):
     yes=10*[0]
     no=10*[0]
-    for k in range (0,len(P),2):
-        if P[k+1]=='Oui':
-            if P[k]=='Etudiant':
+    for k in range (len(P)):
+        if P[k][1]=='Oui':
+            if P[k][0]=='Etudiant':
                 yes[0]+=1
-            if P[k]=='Retraité':
+            if P[k][0]=='Retraité':
                 yes[1]+=1
-            if P[k]=='Agriculteurs exploitants':
+            if P[k][0]=='Agriculteurs exploitants':
                 yes[2]+=1
-            if P[k]=='Cadres et professions intellectuelles supérieures':
+            if P[k][0]=='Cadres et professions intellectuelles supérieures':
                 yes[3]+=1
-            if P[k]=='Artisans, commerçants, chefs d entreprise':
+            if P[k][0]=='Artisans, commerçants, chefs d entreprise':
                 yes[4]+=1
-            if P[k]=='Professions intermédiaires':
+            if P[k][0]=='Professions intermédiaires':
                 yes[5]+=1
-            if P[k]=='Employés qualifiés':
+            if P[k][0]=='Employés qualifiés':
                 yes[6]+=1
-            if P[k]=='Employés non qualifiés':
+            if P[k][0]=='Employés non qualifiés':
                 yes[7]+=1
-            if P[k]=='Ouvriers qualifiés':
+            if P[k][0]=='Ouvriers qualifiés':
                 yes[8]+=1
-            if P[k]=='Ouvriers non qualifiés':
+            if P[k][0]=='Ouvriers non qualifiés':
                 yes[9]+=1
-        if P[k+1]=='Non':
-            if P[k]=='Etudiant':
+        if P[k][1]=='Non':
+            if P[k][0]=='Etudiant':
                 no[0]+=1
-            if P[k]=='Retraité':
+            if P[k][0]=='Retraité':
                 no[1]+=1
-            if P[k]=='Agriculteurs exploitants':
+            if P[k][0]=='Agriculteurs exploitants':
                 no[2]+=1
-            if P[k]=='Cadres et professions intellectuelles supérieures':
+            if P[k][0]=='Cadres et professions intellectuelles supérieures':
                 no[3]+=1
-            if P[k]=='Artisans, commerçants, chefs d entreprise':
+            if P[k][0]=='Artisans, commerçants, chefs d entreprise':
                 no[4]+=1
-            if P[k]=='Professions intermédiaires':
+            if P[k][0]=='Professions intermédiaires':
                 no[5]+=1
-            if P[k]=='Employés qualifiés':
+            if P[k][0]=='Employés qualifiés':
                 no[6]+=1
-            if P[k]=='Employés non qualifiés':
+            if P[k][0]=='Employés non qualifiés':
                 no[7]+=1
-            if P[k]=='Ouvriers qualifiés':
+            if P[k][0]=='Ouvriers qualifiés':
                 no[8]+=1
-            if P[k]=='Ouvriers non qualifiés':
+            if P[k][0]=='Ouvriers non qualifiés':
                 no[9]+=1
     return yes,no
 
@@ -71,27 +73,48 @@ def traitement_catembert(H):
             p[9]+=1
     return p
 
-#def traitement_age(N:list):
+def traitement_parents(Y):
+    for k in range (len(Y)):
+        oui=2*[0]
+        non=2*[0]
+        if Y[k][1]=='Oui':
+            if Y[k][0]=='Parents':
+                oui[0]+=1
+            if Y[k][0]=='Pas parents':
+                oui[1]+=1
+        if Y[k][1]=='Non':
+            if Y[k][0]=='Parents':
+                non[0]+=1
+            if Y[k][0]=='Pas parents':
+                non[1]+=1
+    return oui,non
 
-#def traitement_camemb_age(M:list):
+def traitement_parembert(Z):
+    p=2*[0]
+    for k in range (len(Z)):
+        if Z[k]=='Parents':
+            p[0]+=1
+        if Z[k]=='Pas parents':
+            p[1]+=1
+    return p
 
 def traitement_sexe(U):
     oui=3*[0]
     non=3*[0]
-    for k in range (0,len(U),2):
-        if U[k+1]=='Oui':
-            if U[k]=='M.':
+    for k in range (len(U)):
+        if U[k][1]=='Oui':
+            if U[k][0]=='M.':
                 oui[0]+=1
-            if U[k]=='Mme.':
+            if U[k][0]=='Mme.':
                 oui[1]+=1
-            if U[k]=='Autre':
+            if U[k][0]=='Autre':
                 oui[2]+=1
-        if U[k+1]=='Non':
-            if U[k]=='M.':
+        if U[k][1]=='Non':
+            if U[k][0]=='M.':
                 non[0]+=1
-            if U[k]=='Mme.':
+            if U[k][0]=='Mme.':
                 non[1]+=1
-            if U[k]=='Autre':
+            if U[k][0]=='Autre':
                 non[2]+=1
     return oui,non
 
