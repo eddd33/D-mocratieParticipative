@@ -101,12 +101,7 @@ def max_indice(p:list):
             i=k
     return i
 
-def calcul_age(date): #format JJ/MM/AAAA
-    date=date.split('/')
-    J=int(date[0])
-    M=int(date[1])
-    A=int(date[2])
-    date=datetime.date(A,M,J)
+def calcul_age(date): #format AAAA/MM/JJ
     auj=datetime.date.today()
     return auj.year - date.year - ((auj.month, auj.day) < (date.month, date.day))
 
