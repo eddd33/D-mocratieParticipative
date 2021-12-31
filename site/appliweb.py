@@ -51,6 +51,8 @@ def deconnect():
 
 @app.route('/voteoui/<int:ref_id>')
 def voteoui(ref_id):
+    if idut!=0:
+        return render_template('changercompte.html')
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
     cur.execute("SELECT user_id FROM votes")
@@ -65,6 +67,8 @@ def voteoui(ref_id):
 
 @app.route('/votenon/<int:ref_id>')
 def votenon(ref_id):
+    if idut!=0:
+        return render_template('changercompte.html')
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
     cur.execute("SELECT user_id FROM votes")
@@ -221,6 +225,9 @@ def accueil_c(cat=""):
 
     if not testconnect():
         return redirect('/login')
+    if idut!=0:
+        return redirect('/accueil_e/""')
+    
 
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
@@ -289,6 +296,9 @@ def accueil_e(cat=""):
 
     if not testconnect():
         return redirect('/login')
+    if idut==0:
+        return redirect('/accueil_c/""')
+    
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
 
@@ -320,6 +330,13 @@ def resultats(ref):
     cur.execute("""SELECT enonce,presentation,oui,non,debut,fin,createur FROM referendum WHERE ref_id={}""".format(ref))
     L=cur.fetchone()
     enonce,presentation,oui,non,debut,fin,createur=L[0],L[1],L[2],L[3],L[4],L[5],L[6]
+
+    if idut==0:
+        now=str(datetime.datetime.now())[:11]
+        if now<=fin:
+            return redirect('/accueil_c/""')
+
+
     cur.execute("""SELECT nom,prenom FROM elu WHERE elu_id={}""".format(createur))
     T=cur.fetchone()
     nom,prenom=T[0],T[1]
@@ -371,10 +388,9 @@ def creationreferendum():
     if not testconnect():
         return redirect('/login')
     if idut==0:
-        print("non")
-        return redirect('/accueil_c')
+        return redirect('/accueil_c/""')
     else:
-        print("oui")
+        
         return render_template('creationreferendum.html',regions=regions,departements=departements,nom=nomut,prénom=nomut)
 
 @app.route('/refcree',methods=['POST'])
@@ -382,6 +398,8 @@ def refcree():
     global prenomut,idut,nomut
     if not testconnect():
         return redirect('/login')
+    if idut==0:
+        return redirect('/accueil_c/""')
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
     enonce=request.form.get("enonce")
