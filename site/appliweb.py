@@ -470,6 +470,8 @@ def referendum(ref_id):
     titre=L[5]
 
     now=str(datetime.datetime.now())[:11]
+    if now<debut:
+        return render_template('troptot.html')
     if now>fin:
         return redirect('/resultats/{}'.format(ref_id))
 
