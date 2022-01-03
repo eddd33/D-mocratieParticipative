@@ -10,6 +10,10 @@ def separeidtitre(L):
     return T
 
 def pourcentage(o,n):
+    if o == None or n == None:
+        return (0,0)
+    elif o == 0 and n == 0 :
+        return (0,0)
     t=o+n
     po=o*100/t   #On calcul le pourcentage de vote oui
     pn=n*100/t   #On calcul le pourcentage de vote non
@@ -93,6 +97,8 @@ def catembert(p:list):   #p la liste du nombre de votes par catégorie
         print ('la longueur de la liste est incorrecte')
 
 def max_indice(p:list):  
+    if p == []:
+        return None
     i=0
     M=p[0]
     for k in range (1,len(p)):
@@ -103,6 +109,8 @@ def max_indice(p:list):
 
 def calcul_age(date): #format AAAA/MM/JJ
     auj=datetime.date.today()
+    if str(datetime.datetime.now())[:11] < str(date) :
+        return 0
     return auj.year - date.year - ((auj.month, auj.day) < (date.month, date.day))
 
 def age(agevote:list): #liste de tuples contenant la date de naissance du votant ainsi que son vote
