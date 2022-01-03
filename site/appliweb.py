@@ -15,6 +15,9 @@ regions=['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-V
 categories=['Etudiant','Retraité','Agriculteurs exploitants','Cadres et professions intellectuelles supérieures','Artisans, commerçants, chefs d entreprise','Professions intermédiaires','Employés qualifiés','Employés non qualifiés','Ouvriers qualifiés','Ouvriers non qualifiés']
 sexes=['M.','Mme.','Autre']
 partis=['Gauche démocrate et républicaine','La France insoumise','Socialistes et apparentés','Libertés et territoires','La République en marche','Mouvement démocrate et démocrates apparentés','Agir ensemble','UDI et indépendants','Les Républicains','Non-inscrits']
+categorieref1=['education','ecologie','transport','tourisme','commerce','culture']
+categorieref2=['education','ecologie','transport','tourisme','commerce','culture','null']
+
 
 def testconnect():
     global nomut,prenomut,idut
@@ -406,10 +409,6 @@ def refcree():
     echelle=request.form.get("echelle")
     oui=0
     non=0
-    categorieref1=['education','ecologie','transport','tourisme','commerce']
-    categorieref2=['education','ecologie','transport','tourisme','commerce','null']
-    departements=[str(i) for i in range(1,96)]
-    regions=['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-Val de Loire','Corse','Grand Est','Hauts-de-France','Île-de-France','Normandie','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d''Azur']
     if not titre:
         return render_template("error.html",message="Titre non renseigné")
     if not enonce:
