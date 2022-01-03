@@ -1,4 +1,3 @@
-Empecher aux citoyens d'acceder aux résultats via l'url
+Enlever  la photo de profil sur création référendum
 
-empecher la connexion citoyen <-> elu
-
+Mettre nom et déconnection en "left"
