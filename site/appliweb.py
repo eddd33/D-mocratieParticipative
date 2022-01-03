@@ -10,7 +10,7 @@ import datetime
 
 app=Flask(__name__)
 
-departements=[i for i in range(1,96)] + [971,972,973,974,976]
+departements=[i for i in range(1,20)] + ['2A','2B'] + [i for i in range(21,96)] + [971,972,973,974,976]
 regions=['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-Val de Loire','Corse','Grand Est','Guadeloupe','Guyane','Hauts-de-France','Île-de-France','La Réunion','Martinique','Mayotte','Normandie','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d''Azur']
 categories=['Etudiant','Retraité','Agriculteurs exploitants','Cadres et professions intellectuelles supérieures','Artisans, commerçants, chefs d entreprise','Professions intermédiaires','Employés qualifiés','Employés non qualifiés','Ouvriers qualifiés','Ouvriers non qualifiés']
 sexes=['M.','Mme.','Autre']
@@ -51,8 +51,6 @@ def deconnect():
 
 @app.route('/voteoui/<int:ref_id>')
 def voteoui(ref_id):
-    if idut!=0:
-        return render_template('changercompte.html')
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
     cur.execute("SELECT user_id FROM votes")
@@ -67,8 +65,6 @@ def voteoui(ref_id):
 
 @app.route('/votenon/<int:ref_id>')
 def votenon(ref_id):
-    if idut!=0:
-        return render_template('changercompte.html')
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
     cur.execute("SELECT user_id FROM votes")
@@ -225,9 +221,6 @@ def accueil_c(cat=""):
 
     if not testconnect():
         return redirect('/login')
-    if idut!=0:
-        return redirect('/accueil_e/""')
-    
 
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
@@ -296,9 +289,6 @@ def accueil_e(cat=""):
 
     if not testconnect():
         return redirect('/login')
-    if idut==0:
-        return redirect('/accueil_c/""')
-    
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
 
@@ -316,6 +306,7 @@ def accueil_e(cat=""):
     db.commit()
     db.close()
     return render_template('accueil_e.html',nom=nomut,prénom=prenomut,liste=T)
+    
 
 
 
@@ -330,13 +321,6 @@ def resultats(ref):
     cur.execute("""SELECT enonce,presentation,oui,non,debut,fin,createur FROM referendum WHERE ref_id={}""".format(ref))
     L=cur.fetchone()
     enonce,presentation,oui,non,debut,fin,createur=L[0],L[1],L[2],L[3],L[4],L[5],L[6]
-
-    if idut==0:
-        now=str(datetime.datetime.now())[:11]
-        if now<=fin:
-            return redirect('/accueil_c/""')
-
-
     cur.execute("""SELECT nom,prenom FROM elu WHERE elu_id={}""".format(createur))
     T=cur.fetchone()
     nom,prenom=T[0],T[1]
@@ -344,37 +328,28 @@ def resultats(ref):
     ouinon=pourcentage(oui,non)
     oui,non=ouinon[0],ouinon[1]
 
-    #cur.execute("""SELECT cat_socio_pro,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
-    #P=cur.fetchall()
-    #print(graphe_sociopro(traitement_sociopro(P)))
+    cur.execute("""SELECT cat_socio_pro,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
+    P=cur.fetchone()
+    graphe_sociopro(traitement_sociopro(P))
 
-    #cur.execute("""SELECT cat_socio_pro FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
-    #H=cur.fetchall()
-    #catembert(traitement_catembert(H))
+    cur.execute("""SELECT cat_socio_pro FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
+    H=cur.fetchone()
+    catembert(traitement_catembert(H))
 
     #cur.execute("""SELECT annee_naissance,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
-    #N=cur.fetchall()
-    #age(N)
+    #N=cur.fetchone()
+    #age
 
     #cur.execute("""SELECT annee_naissance FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
-    #M=cur.fetchall()
-    #camemb_age(M)
+    #M=cur.fetchone()
 
-    #cur.execute("""SELECT parents,vote FROM utlisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
-    #Y=cur.fetchall()
-    #parents(traitement_parents(Y))
+    cur.execute("""SELECT sexe,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
+    U=cur.fetchone()
+    sexe(traitement_sexe(U))
 
-    #cur.execute("""SELECT parents FROM utlisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
-    #Z=cur.fetchall()
-    #parembert(traitement_parembert(Z))
-
-    #cur.execute("""SELECT sexe,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
-    #U=cur.fetchall()
-    #sexe(traitement_sexe(U))
-
-    #cur.execute("""SELECT sexe FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
-    #G=cur.fetchall()
-    #camembert_s(traitement_camembert_s(G))
+    cur.execute("""SELECT sexe FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
+    G=cur.fetchone()
+    camembert_s(traitement_camembert_s(G))
 
 
     db.commit()
@@ -388,9 +363,10 @@ def creationreferendum():
     if not testconnect():
         return redirect('/login')
     if idut==0:
-        return redirect('/accueil_c/""')
+        print("non")
+        return redirect('/accueil_c')
     else:
-        
+        print("oui")
         return render_template('creationreferendum.html',regions=regions,departements=departements,nom=nomut,prénom=nomut)
 
 @app.route('/refcree',methods=['POST'])
@@ -398,8 +374,6 @@ def refcree():
     global prenomut,idut,nomut
     if not testconnect():
         return redirect('/login')
-    if idut==0:
-        return redirect('/accueil_c/""')
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
     enonce=request.form.get("enonce")
@@ -470,8 +444,6 @@ def referendum(ref_id):
     titre=L[5]
 
     now=str(datetime.datetime.now())[:11]
-    if now<debut:
-        return render_template('troptot.html')
     if now>fin:
         return redirect('/resultats/{}'.format(ref_id))
 
