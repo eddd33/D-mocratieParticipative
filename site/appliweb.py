@@ -264,7 +264,7 @@ def accueil_c(cat=""):
     elif cat=='departementale':
         listetrie=REFdep
     elif cat=='locale':
-        listetrie=REFville
+        listetrie=REFville 
     else:
         print("catego")
         listetrie=REFregion+REFdep+REFville
@@ -335,25 +335,52 @@ def accueil_e(cat=""):
 
     if not testconnect():
         return redirect('/login')
+
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
-
-
+    cur.execute("""SELECT ville,dep,region FROM elu WHERE elu_id={}""".format(idut))
+    Y=cur.fetchone()
+    ville,departement,region=Y[0],Y[1],Y[2]
+    print(ville,departement,region)
+    cur.execute("""SELECT ref_id,titre FROM referendum WHERE echelle="regionale" AND region='{}'""".format(region))
+    refregion=cur.fetchall()
+    REFregion=separeidtitre(refregion)
+    cur.execute("""SELECT ref_id,titre FROM referendum WHERE echelle="departementale" AND dep='{}'""".format(departement))
+    refdep=cur.fetchall()
+    REFdep=separeidtitre(refdep)
+    cur.execute("""SELECT ref_id,titre FROM referendum WHERE echelle="locale" AND ville='{}'""".format(ville))
+    refville=cur.fetchall()
+    REFville=separeidtitre(refville)
+    
     if cat=='""':
-        cur.execute("""SELECT ref_id,titre FROM referendum""")
-        L=cur.fetchall()
-        T=separeidtitre(L)
+        print("rien")
+        listetrie=REFregion+REFdep+REFville
+    elif cat=='regionale':
+        listetrie=REFregion
+    elif cat=='departementale':
+        listetrie=REFdep
+    elif cat=='locale':
+        listetrie=REFville 
     else:
-        cur.execute("""SELECT ref_id,titre FROM referendum WHERE categorie1='{}' OR categorie2='{}'""".format(cat,cat))
+        print("catego")
+        listetrie=REFregion+REFdep+REFville
+        cur.execute("""SELECT ref_id FROM referendum WHERE categorie1='{}' OR categorie2='{}'""".format(cat,cat))
         L=cur.fetchall()
-        T=separeidtitre(L)
-
+        A=[]
+        B=[]
+        C=[]
+        for K in listetrie:
+            A.append(K[0])
+        for J in L:
+            B.append(J[0])
+        for i in range(len(A)):
+            if A[i] in B:
+                C.append(listetrie[i])
+        listetrie=C
 
     db.commit()
     db.close()
-    return render_template('accueil_e.html',nom=nomut,prénom=prenomut,liste=T)
-    
-
+    return render_template('accueil_c.html',nom=nomut,prénom=prenomut,liste=listetrie)
 
 
 @app.route('/resultats/<int:ref>')
