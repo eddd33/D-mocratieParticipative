@@ -1,3 +1,5 @@
-Enlever  la photo de profil sur création référendum
+
 
 Mettre nom et déconnection en "left"
+
+Enlever oui et non de referendum

@@ -52,25 +52,25 @@ def traitement_sociopro(P):
 def traitement_catembert(H):
     p=10*[0]
     for k in range (len(H)):
-        if H[k]=='Etudiant':
+        if H[k][0]=='Etudiant':
             p[0]+=1
-        if H[k]=='Retraité':
+        if H[k][0]=='Retraité':
             p[1]+=1
-        if H[k]=='Agriculteurs exploitants':
+        if H[k][0]=='Agriculteurs exploitants':
             p[2]+=1
-        if H[k]=='Cadres et professions intellectuelles supérieures':
+        if H[k][0]=='Cadres et professions intellectuelles supérieures':
             p[3]+=1
-        if H[k]=='Artisans, commerçants, chefs d entreprise':
+        if H[k][0]=='Artisans, commerçants, chefs d entreprise':
             p[4]+=1
-        if H[k]=='Professions intermédiaires':
+        if H[k][0]=='Professions intermédiaires':
             p[5]+=1
-        if H[k]=='Employés qualifiés':
+        if H[k][0]=='Employés qualifiés':
             p[6]+=1
-        if H[k]=='Employés non qualifiés':
+        if H[k][0]=='Employés non qualifiés':
             p[7]+=1
-        if H[k]=='Ouvriers qualifiés':
+        if H[k][0]=='Ouvriers qualifiés':
             p[8]+=1
-        if H[k]=='Ouvriers non qualifiés':
+        if H[k][0]=='Ouvriers non qualifiés':
             p[9]+=1
     return p
 
@@ -107,8 +107,6 @@ def traitement_parembert(Z):
 def traitement_sexe(U):
     oui=3*[0]
     non=3*[0]
-    if U == None:
-        return oui,non
     for k in range (len(U)):
         if U[k][1]=='Oui':
             if U[k][0]=='M.':
@@ -128,13 +126,11 @@ def traitement_sexe(U):
 
 def traitement_camembert_s(G):
     p=3*[0]
-    if G==None:
-        return p
     for k in range (len(G)):
-        if G[k]=='M.':
+        if G[k][0]=='M.':
             p[0]+=1
-        if G[k]=='Mme.':
+        if G[k][0]=='Mme.':
             p[1]+=1
-        if G[k]=='Autre':
+        if G[k][0]=='Autre':
             p[2]+=1
     return p

@@ -380,7 +380,7 @@ def accueil_e(cat=""):
 
     db.commit()
     db.close()
-    return render_template('accueil_c.html',nom=nomut,prénom=prenomut,liste=listetrie)
+    return render_template('accueil_e.html',nom=nomut,prénom=prenomut,liste=listetrie)
 
 
 @app.route('/resultats/<int:ref>')
@@ -391,9 +391,13 @@ def resultats(ref):
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
 
-    cur.execute("""SELECT enonce,presentation,oui,non,debut,fin,createur FROM referendum WHERE ref_id={}""".format(ref))
+    cur.execute("""SELECT enonce,presentation,debut,fin,createur FROM referendum WHERE ref_id={}""".format(ref))
     L=cur.fetchone()
-    enonce,presentation,oui,non,debut,fin,createur=L[0],L[1],L[2],L[3],L[4],L[5],L[6]
+    enonce,presentation,debut,fin,createur=L[0],L[1],L[2],L[3],L[4]
+    cur.execute("""SELECT COUNT(vote) FROM votes WHERE vote='Oui' AND ref_id={}""".format(ref))
+    oui=cur.fetchone()[0]
+    cur.execute("""SELECT COUNT(vote) FROM votes WHERE vote='Non' AND ref_id={}""".format(ref))
+    non=cur.fetchone()[0]
     cur.execute("""SELECT nom,prenom FROM elu WHERE elu_id={}""".format(createur))
     T=cur.fetchone()
     nom,prenom=T[0],T[1]
@@ -418,12 +422,12 @@ def resultats(ref):
     #M=cur.fetchone()
 
     cur.execute("""SELECT sexe,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
-    U=cur.fetchone()
+    U=cur.fetchall()
     Utuple=traitement_sexe(U)
     sexe(Utuple[0],Utuple[1])
 
     cur.execute("""SELECT sexe FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
-    G=cur.fetchone()
+    G=cur.fetchall()
     camembert_s(traitement_camembert_s(G))
 
 

@@ -37,7 +37,8 @@ def graphe_sociopro(oui:list,non:list): #oui la liste dont le n-ième élément 
                 non[k]=(100*non[k])/(p+non[k])
         position=np.arange(len(catégorie))
         width=0.3
-        os.remove('../site/Graphes/sociopro.png')
+        if os.path.isfile('../site/static/sociopro.png'):
+            os.remove('../site/static/sociopro.png')
         fig=plt.figure(figsize = (8, 8))
         plt.bar(position - width/2, oui, width, color='lightsteelblue')  #On trace le poucentage de vote oui et non en fonction de la catégorie socio-professionnelle
         plt.bar(position + width/2, non, width, color='IndianRed')
@@ -45,8 +46,8 @@ def graphe_sociopro(oui:list,non:list): #oui la liste dont le n-ième élément 
         plt.xlabel('Catégories', fontsize=8)
         plt.title('Diagramme en bâtons - répartition des votes en fonction des catégories socioprofessionnelles',fontsize=12)
         plt.legend(loc=1)
-        plt.show()
-        fig.savefig('../site/Graphes/sociopro.png')
+        #plt.show()
+        fig.savefig('../site/static/sociopro.png')
     else :
         print ('la longueur de la liste est incorrecte')
 
@@ -90,15 +91,14 @@ def catembert(p:list):   #p la liste du nombre de votes par catégorie
                 catégories.append('Ouvriers qualifiés')
             if présence[t]==9:
                 catégories.append('Ouvriers non qualifiés')
-        if os.path.isfile('../site/Graphes/catembert.png'):
-            os.remove('../site/Graphes/catembert.png') #on supprime l'ancien graphique
-        print("p",p,"max indice",max_indice(p))
+        if os.path.isfile('../site/static/catembert.png'):
+            os.remove('../site/static/catembert.png') #on supprime l'ancien graphique
+        
         explode[max_indice(p)]=0.1
         explode=tuple(explode)
-        #Erreur a corriger
         fig=plt.figure(figsize = (8, 8))
         plt.pie(p, explode=explode,labels = catégories,autopct='%1.1f%%')
-        fig.savefig('../site/Graphes/catembert.png')
+        fig.savefig('../site/static/catembert.png')
     else:
         print ('la longueur de la liste est incorrecte')
 
@@ -215,10 +215,10 @@ def camemb_age(date:list):
     explode=len(labels)*[0]
     explode[max_indice(age_présent)]=0.1
     explode=tuple(explode)
-    os.remove('../site/Graphes/camem_age.png')
+    os.remove('../site/static/camem_age.png')
     fig=plt.figure(figsize = (8, 8))
     plt.pie(age_présent, explode=explode,labels = labels,autopct='%1.1f%%')
-    fig.savefig('../site/Graphes/camem_age.png')
+    fig.savefig('../site/static/camem_age.png')
     
 situation=['Parents','Pas parents']
 
@@ -230,7 +230,7 @@ def parents(oui:list,non:list): #oui la liste dont le n-ième élément est le n
             non[k]=(100*non[k])/(p+non[k])
         position=np.arange(len(situation))
         width=0.3
-        os.remove('../site/Graphes/parents.png')
+        os.remove('../site/static/parents.png')
         fig=plt.figure(figsize = (8, 8))
         plt.bar(position - width/2, oui, width, color='lightsteelblue') #On trace le poucentage de vote oui et non en fonction de la situation familiale
         plt.bar(position + width/2, non, width, color='IndianRed')
@@ -239,7 +239,7 @@ def parents(oui:list,non:list): #oui la liste dont le n-ième élément est le n
         plt.title('Diagramme en bâtons - répartition des votes en fonction de la situation familiale', fontsize=12)
         plt.legend(loc=1)
         plt.show()
-        fig.savefig('../site/Graphes/parents.png')
+        fig.savefig('../site/static/parents.png')
     else:
         print ('la longueur de la liste est incorrecte')
 
@@ -247,10 +247,10 @@ def parembert(p:list):
     if len(p)==2:  #On contrôle l'existance d'une valeurs pour chaque catégorie 
         explode=2*[0]
         explode[max_indice(p)]=0.1
-        os.remove('../site/Graphes/parembert.png')
+        os.remove('../site/static/parembert.png')
         fig=plt.figure(figsize = (8, 8))
         plt.pie(p, explode=explode,labels = ['Parents','Pas Parents'] ,autopct='%1.1f%%')
-        fig.savefig('../site/Graphes/parembert.png')
+        fig.savefig('../site/static/parembert.png')
     else:
         print ('la longueur de la liste est incorrecte')
         
@@ -267,7 +267,8 @@ def sexe(oui:list,non:list):
         sexe=['Homme','Femme','Autres']
         position=np.arange(len(sexe))
         width=0.3
-        os.remove('../site/Graphes/sexe.png')
+        if os.path.isfile('../site/static/sexe.png'):
+            os.remove('../site/static/sexe.png')
         fig=plt.figure(figsize=(8,8))
         plt.bar(position - width/2, oui, width, color='lightsteelblue')
         plt.bar(position + width/2, non, width, color='IndianRed')
@@ -275,8 +276,8 @@ def sexe(oui:list,non:list):
         plt.xlabel('Sexe', fontsize=8)
         plt.title('Diagramme en bâtons - répartition des votes en fonction du sexe',fontsize=12)
         plt.legend(loc=1)
-        plt.show()
-        fig.savefig('../site/Graphes/sexe.png')
+        #plt.show()
+        fig.savefig('../site/static/sexe.png')
 
     else:
         print ('la longueur de la liste est incorrecte')
@@ -300,10 +301,11 @@ def camembert_s(p:list):    #p la liste du nombre de votes par catégories
                 sexe.append('Autres')
         explode[max_indice(p)]=0.1
         explode=tuple(explode)
-        os.remove('../site/Graphes/camembert_s.png')
+        if os.path.isfile('../site/static/catembert.png'):
+            os.remove('../site/static/camembert_s.png')
         fig=plt.figure(figsize = (8, 8))
         plt.pie(p, explode=explode,labels = sexe ,autopct='%1.1f%%')
-        fig.savefig('../site/Graphes/camembert_s.png')
+        fig.savefig('../site/static/camembert_s.png')
     else:
         print ('la longueur de la liste est incorrecte')
         
