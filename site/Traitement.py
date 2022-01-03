@@ -1,6 +1,7 @@
 from ON import *
 
 def traitement_sociopro(P):
+        
     yes=10*[0]
     no=10*[0]
     for k in range (len(P)):
@@ -74,9 +75,12 @@ def traitement_catembert(H):
     return p
 
 def traitement_parents(Y):
+    oui=2*[0]
+    non=2*[0]
+    if Y == None:
+        return oui,non
     for k in range (len(Y)):
-        oui=2*[0]
-        non=2*[0]
+        
         if Y[k][1]=='Oui':
             if Y[k][0]=='Parents':
                 oui[0]+=1
@@ -91,6 +95,8 @@ def traitement_parents(Y):
 
 def traitement_parembert(Z):
     p=2*[0]
+    if Z==None:
+        return p
     for k in range (len(Z)):
         if Z[k]=='Parents':
             p[0]+=1
@@ -101,6 +107,8 @@ def traitement_parembert(Z):
 def traitement_sexe(U):
     oui=3*[0]
     non=3*[0]
+    if U == None:
+        return oui,non
     for k in range (len(U)):
         if U[k][1]=='Oui':
             if U[k][0]=='M.':
@@ -120,6 +128,8 @@ def traitement_sexe(U):
 
 def traitement_camembert_s(G):
     p=3*[0]
+    if G==None:
+        return p
     for k in range (len(G)):
         if G[k]=='M.':
             p[0]+=1

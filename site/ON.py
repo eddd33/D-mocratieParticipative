@@ -30,8 +30,11 @@ def graphe_sociopro(oui:list,non:list): #oui la liste dont le n-ième élément 
     if len(oui)==len(non)==len(catégorie):  #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
         for k in range (len(oui)):
             p=oui[k]
-            oui[k]=(100*p)/(p+non[k])       #On remplace les nombres par les pourcentages qu'ils représentent au sein de la catégorie
-            non[k]=(100*non[k])/(p+non[k])
+            if p+non[k]==0:
+                pass
+            else:
+                oui[k]=(100*p)/(p+non[k])       #On remplace les nombres par les pourcentages qu'ils représentent au sein de la catégorie
+                non[k]=(100*non[k])/(p+non[k])
         position=np.arange(len(catégorie))
         width=0.3
         os.remove('../site/Graphes/sociopro.png')
@@ -87,9 +90,12 @@ def catembert(p:list):   #p la liste du nombre de votes par catégorie
                 catégories.append('Ouvriers qualifiés')
             if présence[t]==9:
                 catégories.append('Ouvriers non qualifiés')
-        os.remove('../site/Graphes/catembert.png') #on supprime l'ancien graphique
+        if os.path.isfile('../site/Graphes/catembert.png'):
+            os.remove('../site/Graphes/catembert.png') #on supprime l'ancien graphique
+        print("p",p,"max indice",max_indice(p))
         explode[max_indice(p)]=0.1
         explode=tuple(explode)
+        #Erreur a corriger
         fig=plt.figure(figsize = (8, 8))
         plt.pie(p, explode=explode,labels = catégories,autopct='%1.1f%%')
         fig.savefig('../site/Graphes/catembert.png')
@@ -253,8 +259,11 @@ def sexe(oui:list,non:list):
     if len(oui)==len(non)==3: #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
         for k in range (len(oui)):
             p=oui[k]
-            oui[k]=(100*p)/(p+non[k])
-            non[k]=(100*non[k])/(p+non[k])
+            if p+non[k]==0:
+                pass
+            else:
+                oui[k]=(100*p)/(p+non[k])
+                non[k]=(100*non[k])/(p+non[k])
         sexe=['Homme','Femme','Autres']
         position=np.arange(len(sexe))
         width=0.3

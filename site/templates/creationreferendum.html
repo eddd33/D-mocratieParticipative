@@ -8,14 +8,12 @@
         .creationref{position:absolute;top:20px;left:20px;font-size: x-large; font-weight: bold;}
         .creationreffond{position:absolute;top:150px;left:400px;width: 1000px;height: 850px;background-color: rgb(146, 240, 247);border-radius: 30px;}
         .elements{position:absolute;top:60px;left:20px}
-        .PP{position:absolute;top:10px;right:180px}
         .nomutilisateur{position:absolute;top:20px;right:20px}
         .deconnect{position: absolute; top:40px; right:20px}
     </style>
 
 
     <a href="/deconnect" class=deconnect>Se déconnecter</a>
-    <img src="{{url_for('static',filename='eluexemple.jpg')}}" width="60" height="60" class=PP>
     <a class=nomutilisateur>{{nom}} {{prénom}}</a>
 
     <div class=creationreffond>
@@ -57,6 +55,12 @@
             </select>
             <br><br><a>Date de début : </a><input autocomplete="off" name="debut" type="date" placeholder="Date de début mm/jj/aaaa">
             <br><br><a>Date de fin : </a><input autocomplete="off" name="fin" type="date" placeholder="Date de fin mm/jj/aaaa">
+            <br><br><select name="echelle">
+                <option disabled selected value="">Echelle</option>
+                <option value="locale">Locale</option>
+                <option value="departementale">Départementale</option>
+                <option value="regionale">Régionale</option>
+            </select>
             <br><br><br><input  type="submit" value="Soumettre le référendum">
             </form>
 

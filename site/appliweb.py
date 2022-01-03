@@ -10,7 +10,7 @@ import datetime
 
 app=Flask(__name__)
 
-departements=[i for i in range(1,20)] + ['2A','2B'] + [i for i in range(21,96)] + [971,972,973,974,976]
+departements=[str(i) for i in range(1,96)] + ['971','972','973','974','976'] + ['2A','2B']
 regions=['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-Val de Loire','Corse','Grand Est','Guadeloupe','Guyane','Hauts-de-France','Île-de-France','La Réunion','Martinique','Mayotte','Normandie','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d''Azur']
 categories=['Etudiant','Retraité','Agriculteurs exploitants','Cadres et professions intellectuelles supérieures','Artisans, commerçants, chefs d entreprise','Professions intermédiaires','Employés qualifiés','Employés non qualifiés','Ouvriers qualifiés','Ouvriers non qualifiés']
 sexes=['M.','Mme.','Autre']
@@ -51,11 +51,20 @@ def deconnect():
 
 @app.route('/voteoui/<int:ref_id>')
 def voteoui(ref_id):
+    global prenomut,nomut,idut
+    if not testconnect():
+        return redirect('/login')
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
-    cur.execute("SELECT user_id FROM votes")
-    ids=cur.fetchone()
-    if userid not in ids:
+    cur.execute("SELECT user_id FROM votes WHERE ref_id={}".format(ref_id))
+    ids=cur.fetchall()
+    print(ids)
+    ids2=[]
+    for K in ids:
+        ids2.append(K[0])
+        
+    
+    if ids2==None or userid not in ids2:
         cur.execute("INSERT INTO votes  (ref_id,user_id,vote) VALUES (?,?,?)",(ref_id,userid,'Oui'))
         db.commit()
         db.close()
@@ -65,11 +74,17 @@ def voteoui(ref_id):
 
 @app.route('/votenon/<int:ref_id>')
 def votenon(ref_id):
+    global prenomut,nomut,idut
+    if not testconnect():
+        return redirect('/login')
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
-    cur.execute("SELECT user_id FROM votes")
-    ids=cur.fetchone()
-    if userid not in ids:
+    cur.execute("SELECT user_id FROM votes WHERE ref_id={}".format(ref_id))
+    ids=cur.fetchall()
+    ids2=[]
+    for K in ids:
+        ids2.append(K[0])
+    if ids2==None or userid not in ids2:
         cur.execute("INSERT INTO votes (ref_id,user_id,vote) VALUES (?,?,?)",(ref_id,userid,'Non'))
         db.commit()
         db.close()
@@ -96,7 +111,7 @@ def registere():
     mdp=request.form.get("mdp")
     ville=request.form.get("ville")
     region=request.form.get("region")
-    dep=int(request.form.get("dep"))
+    dep=request.form.get("dep")
     role=request.form.get("role")
     parti=request.form.get("parti")
     if not nom:
@@ -135,14 +150,13 @@ def registerc():
     prenom=request.form.get("prenom")
     email=request.form.get("email")
     mdp=request.form.get("mdp")
-    annee_naissance=request.form.get("date_naissance")
+    date_naissance=request.form.get("date_naissance")
     sexe=request.form.get("sexe")
     cat_soc_pro=request.form.get("cat_soc_pro")
     ville=request.form.get("ville")
     region=request.form.get("region")
-    dep=int(request.form.get("dep"))
-    print(dep)
-    nb_enfants=request.form.get("nb_enfants")
+    dep=request.form.get("dep")
+    parent=request.form.get("parent")
 
     if not nom:
         return render_template("error.html",message="Nom non renseigné")
@@ -171,7 +185,7 @@ def registerc():
     if not mdp:
         return render_template("error.html",message="Mot de passe non renseigné")
 
-    cur.execute("INSERT INTO utilisateur (nom,prenom,annee_naissance,sexe,cat_socio_pro,ville,dep,region,nb_enfants,email,mdp) VALUES (?,?,?,?,?,?,?,?,?,?,?)",(nom,prenom,annee_naissance,sexe,cat_soc_pro,ville,dep,region,nb_enfants,email,mdp))
+    cur.execute("INSERT INTO utilisateur (nom,prenom,date_naissance,sexe,cat_socio_pro,ville,dep,region,parent,email,mdp) VALUES (?,?,?,?,?,?,?,?,?,?,?)",(nom,prenom,date_naissance,sexe,cat_soc_pro,ville,dep,region,parent,email,mdp))
     cur.execute("SELECT * FROM utilisateur")
     db.commit()
     db.close()
@@ -329,11 +343,12 @@ def resultats(ref):
     oui,non=ouinon[0],ouinon[1]
 
     cur.execute("""SELECT cat_socio_pro,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
-    P=cur.fetchone()
-    graphe_sociopro(traitement_sociopro(P))
+    P=cur.fetchall()
+    Ptuple=traitement_sociopro(P)
+    graphe_sociopro(Ptuple[0],Ptuple[1])
 
     cur.execute("""SELECT cat_socio_pro FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
-    H=cur.fetchone()
+    H=cur.fetchall()
     catembert(traitement_catembert(H))
 
     #cur.execute("""SELECT annee_naissance,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
@@ -345,7 +360,8 @@ def resultats(ref):
 
     cur.execute("""SELECT sexe,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
     U=cur.fetchone()
-    sexe(traitement_sexe(U))
+    Utuple=traitement_sexe(U)
+    sexe(Utuple[0],Utuple[1])
 
     cur.execute("""SELECT sexe FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
     G=cur.fetchone()
@@ -367,7 +383,7 @@ def creationreferendum():
         return redirect('/accueil_c')
     else:
         print("oui")
-        return render_template('creationreferendum.html',regions=regions,departements=departements,nom=nomut,prénom=nomut)
+        return render_template('creationreferendum.html',regions=regions,departements=departements,nom=nomut,prénom=prenomut)
 
 @app.route('/refcree',methods=['POST'])
 def refcree():
@@ -387,6 +403,7 @@ def refcree():
     cat2=request.form.get("cat2_ref")
     titre=request.form.get("titre")
     presentation=request.form.get("resume")
+    echelle=request.form.get("echelle")
     oui=0
     non=0
     categorieref1=['education','ecologie','transport','tourisme','commerce']
@@ -421,7 +438,7 @@ def refcree():
 
    
 
-    cur.execute("INSERT INTO referendum (categorie1,categorie2,ville,dep,region,oui,non,enonce,presentation,debut,fin,createur,titre) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",(cat1,cat2,ville,dep,region,0,0,enonce,presentation,debut,fin,idut,titre))
+    cur.execute("INSERT INTO referendum (categorie1,categorie2,ville,dep,region,oui,non,enonce,presentation,debut,fin,createur,titre,echelle) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(cat1,cat2,ville,dep,region,0,0,enonce,presentation,debut,fin,idut,titre,echelle))
     db.commit()
     db.close()
     return render_template('refcree.html')
