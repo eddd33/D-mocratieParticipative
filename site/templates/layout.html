@@ -5,7 +5,9 @@
         .nomsite{position:absolute;top:90px;left:40px;font-size: x-large; font-weight: bold;color:white;}
         .archive{position:absolute;top:150px;left:40px;font-size: x-large; font-weight: bold;color:white;}
         .catego{position:absolute;top:190px;left:0px;width: 250px;height:80px;color:white;font-size: x-large; font-weight: bold;background-color:rgb(52, 203, 214);}
+        .echelle{position:absolute;top:340px;left:0px;width: 250px;height:80px;color:white;font-size: x-large; font-weight: bold;background-color:rgb(52, 203, 214);}
         .boutonfiltrer{position:absolute;top:300px;left:100px}
+        .boutonfiltrerbis{position:absolute;top:450px;left:100px}
         .nouscontacter{position: absolute; top:750px;left:20px;font-size: x-large; font-weight: bold;color:white;}
         .credits{position:absolute;top:800px;left:60px;font-size: x-large; font-weight: bold;color:white;}
         .menugauche{background-color:rgb(52, 203, 214);width: 250px;height: 1000px;position: absolute; top:0px;left:0px;}
@@ -17,8 +19,8 @@
         <img src="{{url_for('static',filename='Tnews_1.png')}}" class=logo>
         <a class=nomsite>interACTION</a>
         <a class=archive>Archives</a>
-        <form action="/filtre" method="post">
-        <select name="categories" class="catego">
+        <form action="/filtrecat" method="post">
+        <select name="categories" class=catego>
             <option disabled selected value="" class=options>Catégories</option>
             <option value="ecologie">Écologie</option>
             <option value="education">Éducation</option>
@@ -29,8 +31,17 @@
             <option value='""'>Tout</option>
         </select>
         <input type="submit" value="Filtrer" class=boutonfiltrer>
-
         </form>
+        <form action="/filtreech" method="post">
+        <select name="echelle" class=echelle>
+            <option disabled selected value="">Echelle</option>
+            <option value="locale">Locale</option>
+            <option value="departementale">Départementale</option>
+            <option value="regionale">Régionale</option>
+        </select>
+        <input type="submit" value="Filtrer" class=boutonfiltrerbis>
+        </form>
+
         <div class=nouscontacter>
             <a class=couleurtexte href=/contact>Nous contacter</a>
         </div>

@@ -242,20 +242,49 @@ def accueil_c(cat=""):
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
     print(cat)
+    cur.execute("""SELECT ville,dep,region FROM utilisateur WHERE user_id={}""".format(userid))
+    Y=cur.fetchone()
+    ville,departement,region=Y[0],Y[1],Y[2]
+    print(ville,departement,region)
+    cur.execute("""SELECT ref_id,titre FROM referendum WHERE echelle="regionale" AND region='{}'""".format(region))
+    refregion=cur.fetchall()
+    REFregion=separeidtitre(refregion)
+    cur.execute("""SELECT ref_id,titre FROM referendum WHERE echelle="departementale" AND dep='{}'""".format(departement))
+    refdep=cur.fetchall()
+    REFdep=separeidtitre(refdep)
+    cur.execute("""SELECT ref_id,titre FROM referendum WHERE echelle="locale" AND ville='{}'""".format(ville))
+    refville=cur.fetchall()
+    REFville=separeidtitre(refville)
+    
     if cat=='""':
         print("rien")
-        cur.execute("""SELECT ref_id,titre FROM referendum""")
-        L=cur.fetchall()
-        T=separeidtitre(L)
+        listetrie=REFregion+REFdep+REFville
+    elif cat=='regionale':
+        listetrie=REFregion
+    elif cat=='departementale':
+        listetrie=REFdep
+    elif cat=='locale':
+        listetrie=REFville
     else:
         print("catego")
-        cur.execute("""SELECT ref_id,titre FROM referendum WHERE categorie1='{}' OR categorie2='{}'""".format(cat,cat))
+        listetrie=REFregion+REFdep+REFville
+        cur.execute("""SELECT ref_id FROM referendum WHERE categorie1='{}' OR categorie2='{}'""".format(cat,cat))
         L=cur.fetchall()
-        T=separeidtitre(L)
+        A=[]
+        B=[]
+        C=[]
+        for K in listetrie:
+            A.append(K[0])
+        for J in L:
+            B.append(J[0])
+        for i in range(len(A)):
+            if A[i] in B:
+                C.append(listetrie[i])
+        listetrie=C
 
     db.commit()
     db.close()
-    return render_template('accueil_c.html',nom=nomut,prénom=prenomut,liste=T)
+    return render_template('accueil_c.html',nom=nomut,prénom=prenomut,liste=listetrie)
 
 
 @app.route('/loginelu')
@@ -474,18 +503,31 @@ def referendum(ref_id):
     db.close()
     return render_template('referendum.html',enonce=enonce,presentation=presentation,debut=debut,fin=fin,createur=createur,titre=titre,elu=elu,nom=nomut,prénom=prenomut,ref_id=ref_id)
 
-@app.route('/filtre',methods=["POST"])
-def filtre():
+@app.route('/filtrecat',methods=["POST"])
+def filtrecat():
     global idut
     if not testconnect():
         return redirect('/login')
     catfiltre=request.form.get("categories")
-    print(catfiltre)
+    
     if idut==0:
 
         return redirect(f"/accueil_c/{catfiltre}")
     else:
         return redirect(f"/accueil_e/{catfiltre}")
+        
+@app.route('/filtreech',methods=['POST'])
+def filtreech():
+    global idut
+    if not testconnect():
+        return redirect('/login')
+    echfiltre=request.form.get("echelle")
+    print(echfiltre)
+    if idut==0:
+        return redirect(f"/accueil_c/{echfiltre}")
+        print("coucou")
+    else:
+        return redirect(f"/accueil_e/{echfiltre}")
 
 @app.route('/apropos')
 def apropos():
