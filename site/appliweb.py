@@ -51,7 +51,6 @@ def deconnect():
     return redirect('/login')
 
 
-
 @app.route('/voteoui/<int:ref_id>')
 def voteoui(ref_id):
     global prenomut,nomut,idut
@@ -256,7 +255,7 @@ def accueil_c(cat=""):
     refville=cur.fetchall()
     REFville=separeidtitre(refville)
     
-    if cat=='""':
+    if cat=='""' or cat=='None':
         print("rien")
         listetrie=REFregion+REFdep+REFville
     elif cat=='regionale':
