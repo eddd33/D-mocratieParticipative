@@ -12,7 +12,7 @@ def test_max_indice_1():
 def test_max_indice_2():
     res = on.max_indice(L2)
     assert res == 0
-
+    
 def test_max_indice_3():
     res = on.max_indice(L3)
     assert res == None

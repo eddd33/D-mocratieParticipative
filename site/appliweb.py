@@ -10,7 +10,7 @@ import datetime
 
 app=Flask(__name__)
 
-departements=[str(i) for i in range(1,96)] + ['971','972','973','974','976'] + ['2A','2B']
+departements=[str(i) for i in range(1,20)] + ['2A','2B'] + [str(i) for i in range(21,96)] + ['971','972','973','974','976']
 regions=['Auvergne-Rhône-Alpes','Bourgogne-Franche-Comté','Bretagne','Centre-Val de Loire','Corse','Grand Est','Guadeloupe','Guyane','Hauts-de-France','Île-de-France','La Réunion','Martinique','Mayotte','Normandie','Nouvelle-Aquitaine','Occitanie','Pays de la Loire','Provence-Alpes-Côte d''Azur']
 categories=['Etudiant','Retraité','Agriculteurs exploitants','Cadres et professions intellectuelles supérieures','Artisans, commerçants, chefs d entreprise','Professions intermédiaires','Employés qualifiés','Employés non qualifiés','Ouvriers qualifiés','Ouvriers non qualifiés']
 sexes=['M.','Mme.','Autre']

@@ -77,8 +77,6 @@ def traitement_catembert(H):
 def traitement_parents(Y):
     oui=2*[0]
     non=2*[0]
-    if Y == None:
-        return oui,non
     for k in range (len(Y)):
         
         if Y[k][1]=='Oui':
@@ -95,8 +93,6 @@ def traitement_parents(Y):
 
 def traitement_parembert(Z):
     p=2*[0]
-    if Z==None:
-        return p
     for k in range (len(Z)):
         if Z[k]=='Parents':
             p[0]+=1
