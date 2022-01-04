@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 import numpy as np
 import datetime
 import os
@@ -27,7 +28,9 @@ catégorie=['Etudiant','Retraité','Agriculteurs \n exploitants',
     'Ouvriers\n qualifiés','Ouvriers\n non qualifiés']
 
 def graphe_sociopro(oui:list,non:list): #oui la liste dont le n-ième élément est le nombre d'individu votant oui pour la n-ième catégorie (idem pour non)
-    if len(oui)==len(non)==len(catégorie):  #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
+    if os.path.isfile('../site/static/sociopro.png'):
+            os.remove('../site/static/sociopro.png')
+    if len(oui)==len(non)==len(catégorie) and oui!=[0]*10 or non!=[0]*10 :  #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
         for k in range (len(oui)):
             p=oui[k]
             if p+non[k]==0:
@@ -37,8 +40,6 @@ def graphe_sociopro(oui:list,non:list): #oui la liste dont le n-ième élément 
                 non[k]=(100*non[k])/(p+non[k])
         position=np.arange(len(catégorie))
         width=0.3
-        if os.path.isfile('../site/static/sociopro.png'):
-            os.remove('../site/static/sociopro.png')
         fig=plt.figure(figsize = (8, 8))
         plt.bar(position - width/2, oui, width, color='lightsteelblue')  #On trace le poucentage de vote oui et non en fonction de la catégorie socio-professionnelle
         plt.bar(position + width/2, non, width, color='IndianRed')
@@ -48,6 +49,9 @@ def graphe_sociopro(oui:list,non:list): #oui la liste dont le n-ième élément 
         plt.legend(loc=1)
         #plt.show()
         fig.savefig('../site/static/sociopro.png')
+    elif len(oui)==len(non)==len(catégorie) and oui==[0]*10 and non==[0]*10 :
+        img=mpimg.imread('pas_d_info.jpg')
+        mpimg.imsave('../site/static/sociopro.png', img)
     else :
         print ('la longueur de la liste est incorrecte')
 
@@ -99,6 +103,9 @@ def catembert(p:list):   #p la liste du nombre de votes par catégorie
             fig=plt.figure(figsize = (8, 8))
             plt.pie(p, explode=explode,labels = catégories,autopct='%1.1f%%')
             fig.savefig('../site/static/catembert.png')
+        else:
+            img=mpimg.imread('pas_d_info.jpg')
+            mpimg.imsave('../site/static/catembert.png', img)
     else:
         print ('la longueur de la liste est incorrecte')
 
@@ -170,18 +177,23 @@ def age(agevote:list): #liste de tuples contenant la date de naissance du votant
         else:
             oui[t]=(100*p)/(p+non[t])       #On remplace les nombres par les pourcentages qu'ils représentent au sein de la catégorie
             non[t]=(100*non[t])/(p+non[t])
-    position=np.arange(len(cat))
-    width=0.3
-    os.remove('../site/Graphes/age.png')
-    fig=plt.figure(figsize = (8, 8))
-    plt.bar(position - width/2, oui, width, color='lightsteelblue')  #On trace le poucentage de vote oui et non en fonction de la catégorie socio-professionnelle
-    plt.bar(position + width/2, non, width, color='IndianRed')
-    plt.xticks(position, cat,fontsize=10,rotation=45)
-    plt.xlabel('Âge', fontsize=8)
-    plt.title('Diagramme en bâtons - répartition des votes en fonction de l âge des votants',fontsize=12)
-    plt.legend(loc=1)
-    plt.show()
-    fig.savefig('../site/Graphes/age.png')
+    if os.path.isfile('../site/Graphes/age.png'):
+        os.remove('../site/Graphes/age.png')
+    if oui==[0]*7 and non==[0]*7 :
+        img=mpimg.imread('pas_d_info.jpg')
+        mpimg.imsave('../site/Graphes/age.png')
+    else:
+        position=np.arange(len(cat))
+        width=0.3
+        fig=plt.figure(figsize = (8, 8))
+        plt.bar(position - width/2, oui, width, color='lightsteelblue')  #On trace le poucentage de vote oui et non en fonction de la catégorie socio-professionnelle
+        plt.bar(position + width/2, non, width, color='IndianRed')
+        plt.xticks(position, cat,fontsize=10,rotation=45)
+        plt.xlabel('Âge', fontsize=8)
+        plt.title('Diagramme en bâtons - répartition des votes en fonction de l âge des votants',fontsize=12)
+        plt.legend(loc=1)
+        plt.show()
+        fig.savefig('../site/Graphes/age.png')
     
 
 def camemb_age(date:list):
@@ -212,25 +224,32 @@ def camemb_age(date:list):
         if age[j]!=0:
             labels.append(cat[j])
             age_présent.append(age[j])
-    explode=len(labels)*[0]
-    explode[max_indice(age_présent)]=0.1
-    explode=tuple(explode)
-    os.remove('../site/static/camem_age.png')
-    fig=plt.figure(figsize = (8, 8))
-    plt.pie(age_présent, explode=explode,labels = labels,autopct='%1.1f%%')
-    fig.savefig('../site/static/camem_age.png')
+    if os.path.isfile('../site/static/camem_age.png'):
+        os.remove('../site/static/camem_age.png')
+    if age_présent!=[]:
+        explode=len(labels)*[0]
+        explode[max_indice(age_présent)]=0.1
+        explode=tuple(explode)
+        fig=plt.figure(figsize = (8, 8))
+        plt.pie(age_présent, explode=explode,labels = labels,autopct='%1.1f%%')
+        fig.savefig('../site/static/camem_age.png')
+    else:
+        img=mpimg.imread('pas_d_info.jpg')
+        mpimg.imsave('../site/static/camem_age.png', img)
+    
     
 situation=['Parents','Pas parents']
 
 def parents(oui:list,non:list): #oui la liste dont le n-ième élément est le nombre d'individu votant oui pour la n-ième catégorie (idem pour non)
-    if len(oui)==len(non)==len(situation):  #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
+    if os.path.isfile('../site/static/parents.png'):
+       os.remove('../site/static/parents.png')
+    if len(oui)==len(non)==len(situation) and oui!=[0]*2 or non!=[0]*2:  #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
         for k in range (len(oui)):
             p=oui[k]
             oui[k]=(100*p)/(p+non[k])
             non[k]=(100*non[k])/(p+non[k])
         position=np.arange(len(situation))
         width=0.3
-        os.remove('../site/static/parents.png')
         fig=plt.figure(figsize = (8, 8))
         plt.bar(position - width/2, oui, width, color='lightsteelblue') #On trace le poucentage de vote oui et non en fonction de la situation familiale
         plt.bar(position + width/2, non, width, color='IndianRed')
@@ -240,23 +259,34 @@ def parents(oui:list,non:list): #oui la liste dont le n-ième élément est le n
         plt.legend(loc=1)
         plt.show()
         fig.savefig('../site/static/parents.png')
+    elif len(oui)==len(non)==len(situation) and oui==[0]*2 and non==[0]*2:
+        img=mpimg.imread('pas_d_info.jpg')
+        mpimg.imsave('../site/static/parents.png', img)
     else:
         print ('la longueur de la liste est incorrecte')
 
 def parembert(p:list):
     if len(p)==2:  #On contrôle l'existance d'une valeurs pour chaque catégorie 
         explode=2*[0]
-        explode[max_indice(p)]=0.1
-        os.remove('../site/static/parembert.png')
-        fig=plt.figure(figsize = (8, 8))
-        plt.pie(p, explode=explode,labels = ['Parents','Pas Parents'] ,autopct='%1.1f%%')
-        fig.savefig('../site/static/parembert.png')
+        p=retire_zero(p)
+        if os.path.isfile('../site/static/parembert.png'):
+            os.remove('../site/static/parembert.png')
+        if p!=[]:
+            explode[max_indice(p)]=0.1
+            fig=plt.figure(figsize = (8, 8))
+            plt.pie(p, explode=explode,labels = ['Parents','Pas Parents'] ,autopct='%1.1f%%')
+            fig.savefig('../site/static/parembert.png')
+        else:
+            img=mpimg.imread('pas_d_info.jpg')
+            mpimg.imsave('../site/static/parembert.png', img)
     else:
         print ('la longueur de la liste est incorrecte')
         
 
 def sexe(oui:list,non:list):
-    if len(oui)==len(non)==3: #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
+    if os.path.isfile('../site/static/sexe.png'):
+        os.remove('../site/static/sexe.png')
+    if len(oui)==len(non)==3 and oui!=[0]*3 or non!=[0]*3: #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
         for k in range (len(oui)):
             p=oui[k]
             if p+non[k]==0:
@@ -267,8 +297,6 @@ def sexe(oui:list,non:list):
         sexe=['Homme','Femme','Autres']
         position=np.arange(len(sexe))
         width=0.3
-        if os.path.isfile('../site/static/sexe.png'):
-            os.remove('../site/static/sexe.png')
         fig=plt.figure(figsize=(8,8))
         plt.bar(position - width/2, oui, width, color='lightsteelblue')
         plt.bar(position + width/2, non, width, color='IndianRed')
@@ -278,7 +306,9 @@ def sexe(oui:list,non:list):
         plt.legend(loc=1)
         #plt.show()
         fig.savefig('../site/static/sexe.png')
-
+    elif len(oui)==len(non)==3 and oui==[0]*3 or non==[0]*3: 
+        img=mpimg.imread('pas_d_info.jpg')
+        mpimg.imsave('../site/static/sexe.png', img)
     else:
         print ('la longueur de la liste est incorrecte')
 
@@ -300,13 +330,17 @@ def camembert_s(p:list):    #p la liste du nombre de votes par catégories
             if présence[t]==2:
                 sexe.append('Autres')
         print(sexe)
-        explode[max_indice(p)]=0.1
-        explode=tuple(explode)
-        if os.path.isfile('../site/static/catembert.png'):
+        if os.path.isfile('../site/static/camembert_s.png'):
             os.remove('../site/static/camembert_s.png')
-        fig=plt.figure(figsize = (8, 8))
-        plt.pie(p, explode=explode,labels = sexe ,autopct='%1.1f%%')
-        fig.savefig('../site/static/camembert_s.png')
+        if p!=[]:
+            explode[max_indice(p)]=0.1
+            explode=tuple(explode)
+            fig=plt.figure(figsize = (8, 8))
+            plt.pie(p, explode=explode,labels = sexe ,autopct='%1.1f%%')
+            fig.savefig('../site/static/camembert_s.png')
+        else:
+            img=mpimg.imread('pas_d_info.jpg')
+            mpimg.imsave('../site/static/camembert_s.png', img) 
     else:
         print ('la longueur de la liste est incorrecte')
         
