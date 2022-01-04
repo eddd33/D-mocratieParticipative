@@ -93,12 +93,12 @@ def catembert(p:list):   #p la liste du nombre de votes par catégorie
                 catégories.append('Ouvriers non qualifiés')
         if os.path.isfile('../site/static/catembert.png'):
             os.remove('../site/static/catembert.png') #on supprime l'ancien graphique
-        
-        explode[max_indice(p)]=0.1
-        explode=tuple(explode)
-        fig=plt.figure(figsize = (8, 8))
-        plt.pie(p, explode=explode,labels = catégories,autopct='%1.1f%%')
-        fig.savefig('../site/static/catembert.png')
+        if p!=[]:
+            explode[max_indice(p)]=0.1
+            explode=tuple(explode)
+            fig=plt.figure(figsize = (8, 8))
+            plt.pie(p, explode=explode,labels = catégories,autopct='%1.1f%%')
+            fig.savefig('../site/static/catembert.png')
     else:
         print ('la longueur de la liste est incorrecte')
 
