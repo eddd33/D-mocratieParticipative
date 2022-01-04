@@ -299,6 +299,7 @@ def camembert_s(p:list):    #p la liste du nombre de votes par catégories
                 sexe.append('Femme')
             if présence[t]==2:
                 sexe.append('Autres')
+        print(sexe)
         explode[max_indice(p)]=0.1
         explode=tuple(explode)
         if os.path.isfile('../site/static/catembert.png'):
