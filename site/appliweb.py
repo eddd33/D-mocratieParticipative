@@ -64,8 +64,6 @@ def voteoui(ref_id):
     ids2=[]
     for K in ids:
         ids2.append(K[0])
-        
-    
     if ids2==None or userid not in ids2:
         cur.execute("INSERT INTO votes  (ref_id,user_id,vote) VALUES (?,?,?)",(ref_id,userid,'Oui'))
         db.commit()
@@ -382,8 +380,8 @@ def accueil_e(cat=""):
     return render_template('accueil_e.html',nom=nomut,prénom=prenomut,liste=listetrie)
 
 
-@app.route('/resultats/<int:ref>')
-def resultats(ref):
+@app.route('/resultatselu/<int:ref>')
+def resultatselu(ref):
     global prenomut,nomut,idut
     if not testconnect():
         return redirect('/login')
@@ -433,7 +431,34 @@ def resultats(ref):
     db.commit()
     db.close()
 
-    return render_template('resultats.html',e=enonce,pres=presentation,o=oui,n=non,d=debut,f=fin,nom=nom,pren=prenom,nomut=nomut,prénomut=prenomut)
+    return render_template('resultatselu.html',e=enonce,pres=presentation,o=oui,n=non,d=debut,f=fin,nom=nom,pren=prenom,nomut=nomut,prénomut=prenomut)
+
+@app.route('/resultatscit/<int:ref>')
+def resultatscit(ref):
+    global prenomut,nomut,idut
+    if not testconnect():
+        return redirect('/login')
+    db=sqlite3.connect('projet.db')
+    cur=db.cursor()
+
+    cur.execute("""SELECT enonce,presentation,debut,fin,createur FROM referendum WHERE ref_id={}""".format(ref))
+    L=cur.fetchone()
+    enonce,presentation,debut,fin,createur=L[0],L[1],L[2],L[3],L[4]
+    cur.execute("""SELECT COUNT(vote) FROM votes WHERE vote='Oui' AND ref_id={}""".format(ref))
+    oui=cur.fetchone()[0]
+    cur.execute("""SELECT COUNT(vote) FROM votes WHERE vote='Non' AND ref_id={}""".format(ref))
+    non=cur.fetchone()[0]
+    cur.execute("""SELECT nom,prenom FROM elu WHERE elu_id={}""".format(createur))
+    T=cur.fetchone()
+    nom,prenom=T[0],T[1]
+
+    ouinon=pourcentage(oui,non)
+    oui,non=ouinon[0],ouinon[1]
+
+    db.commit()
+    db.close()
+
+    return render_template('resultatscit.html',e=enonce,pres=presentation,o=oui,n=non,d=debut,f=fin,nom=nom,pren=prenom,nomut=nomut,prénomut=prenomut)
 
 @app.route('/creationreferendum')
 def creationreferendum():
@@ -520,9 +545,10 @@ def referendum(ref_id):
 
     now=str(datetime.datetime.now())[:11]
     if now>fin:
-        return redirect('/resultats/{}'.format(ref_id))
-
-
+        if idut==0:
+            return redirect('/resultatscit/{}'.format(ref_id))
+        else:
+            return redirect('/resultatselu/{}'.format(ref_id))
 
 
     cur.execute("""SELECT nom,prenom FROM elu WHERE elu_id={}""".format(createur) )
