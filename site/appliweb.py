@@ -568,6 +568,14 @@ def apropos():
 def contact():
     return render_template('contact.html')
 
+@app.route('/contactco')
+def contactco():
+    return render_template('contactco.html')
+
 @app.route('/credits')
 def credits():
     return render_template('credits.html') 
+
+@app.route('/creditsco')
+def creditsco():
+    return render_template('creditsco.html') 
