@@ -31,7 +31,7 @@ catégorie=['Etudiant','Retraité','Agriculteurs \n exploitants',
 def graphe_sociopro(oui:list,non:list): #oui la liste dont le n-ième élément est le nombre d'individu votant oui pour la n-ième catégorie (idem pour non)
     if os.path.isfile('../site/static/sociopro.png'):
             os.remove('../site/static/sociopro.png')
-    if len(oui)==len(non)==len(catégorie) and oui!=[0]*10 or non!=[0]*10 :  #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
+    if len(oui)==len(non)==len(catégorie) and (oui!=[0]*10 or non!=[0]*10):  #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
         for k in range (len(oui)):
             p=oui[k]
             if p+non[k]==0:
@@ -197,7 +197,6 @@ def age(agevote:list): #liste de tuples contenant la date de naissance du votant
     
 
 def camemb_age(date:list):
-    print(date)
     for k in range (len(date)):
         date[k]=calcul_age(date[k][0])
     age=7*[0]                        #liste dont le n-ième élément est le nombre de personne dans la n-ième tranche d'age      
@@ -244,7 +243,7 @@ parent=['oui','non']
 def parents(oui:list,non:list): #oui la liste dont le n-ième élément est le nombre d'individu votant oui pour la n-ième catégorie (idem pour non)
     if os.path.isfile('../site/static/parents.png'):
        os.remove('../site/static/parents.png')
-    if oui!=[0]*2 or non!=[0]*2:  #On contrôle l'existence d'une valeurs pour chaque catégorie dans chacune des 2 listes
+    if len(oui)==len(non)==2 and (oui!=[0]*2 or non!=[0]*2):  #On contrôle l'existence d'une valeurs pour chaque catégorie dans chacune des 2 listes
         for k in range (len(oui)):
             p=oui[k]
             oui[k]=(100*p)/(p+non[k])
@@ -286,7 +285,7 @@ def parembert(p:list):
 def sexe(oui:list,non:list):
     if os.path.isfile('../site/static/sexe.png'):
         os.remove('../site/static/sexe.png')
-    if len(oui)==len(non)==3 and oui!=[0]*3 or non!=[0]*3: #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
+    if len(oui)==len(non)==3 and (oui!=[0]*3 or non!=[0]*3): #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
         for k in range (len(oui)):
             p=oui[k]
             if p+non[k]==0:
@@ -328,7 +327,6 @@ def camembert_s(p:list):    #p la liste du nombre de votes par catégories
                 sexe.append('Femme')
             if présence[t]==2:
                 sexe.append('Autres')
-        print(sexe)
         if os.path.isfile('../site/static/camembert_s.png'):
             os.remove('../site/static/camembert_s.png')
         if p!=[]:
