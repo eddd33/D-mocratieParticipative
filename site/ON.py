@@ -48,7 +48,6 @@ def graphe_sociopro(oui:list,non:list): #oui la liste dont le n-ième élément 
         plt.xlabel('Catégories', fontsize=8)
         plt.title('Diagramme en bâtons - répartition des votes en fonction des catégories socioprofessionnelles',fontsize=12)
         plt.legend(loc=1)
-        #plt.show()
         fig.savefig('../site/static/sociopro.png')
     elif len(oui)==len(non)==len(catégorie) and oui==[0]*10 and non==[0]*10 :
         img=mpimg.imread('pas_d_info.jpg')
@@ -121,7 +120,8 @@ def max_indice(p:list):
             i=k
     return i
 
-def calcul_age(date): #format AAAA/MM/JJ
+def calcul_age(date): #format 'AAAA-MM-JJ'
+    date=datetime.date(int(date[0:4]),int(date[5:7]),int(date[8:10]))
     auj=datetime.date.today()
     if str(datetime.datetime.now())[:11] < str(date) :
         return 0
@@ -182,7 +182,7 @@ def age(agevote:list): #liste de tuples contenant la date de naissance du votant
         os.remove('../site/static/age.png')
     if oui==[0]*7 and non==[0]*7 :
         img=mpimg.imread('pas_d_info.jpg')
-        mpimg.imsave('../site/static/age.png')
+        mpimg.imsave('../site/static/age.png',img)
     else:
         position=np.arange(len(cat))
         width=0.3
@@ -193,13 +193,13 @@ def age(agevote:list): #liste de tuples contenant la date de naissance du votant
         plt.xlabel('Âge', fontsize=8)
         plt.title('Diagramme en bâtons - répartition des votes en fonction de l âge des votants',fontsize=12)
         plt.legend(loc=1)
-        plt.show()
         fig.savefig('../site/static/age.png')
     
 
 def camemb_age(date:list):
+    print(date)
     for k in range (len(date)):
-        date[k]=calcul_age(date[k])
+        date[k]=calcul_age(date[k][0])
     age=7*[0]                        #liste dont le n-ième élément est le nombre de personne dans la n-ième tranche d'age      
     for t in range (len(date)):
         if date[t]>=18 and date[t]<=25:
@@ -239,28 +239,27 @@ def camemb_age(date:list):
         mpimg.imsave('../site/static/camem_age.png', img)
     
     
-situation=['Parents','Pas parents']
+parent=['oui','non']
 
 def parents(oui:list,non:list): #oui la liste dont le n-ième élément est le nombre d'individu votant oui pour la n-ième catégorie (idem pour non)
     if os.path.isfile('../site/static/parents.png'):
        os.remove('../site/static/parents.png')
-    if len(oui)==len(non)==len(situation) and oui!=[0]*2 or non!=[0]*2:  #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
+    if oui!=[0]*2 or non!=[0]*2:  #On contrôle l'existence d'une valeurs pour chaque catégorie dans chacune des 2 listes
         for k in range (len(oui)):
             p=oui[k]
             oui[k]=(100*p)/(p+non[k])
             non[k]=(100*non[k])/(p+non[k])
-        position=np.arange(len(situation))
+        position=np.arange(len(parent))
         width=0.3
         fig=plt.figure(figsize = (8, 8))
         plt.bar(position - width/2, oui, width, color='lightsteelblue') #On trace le poucentage de vote oui et non en fonction de la situation familiale
         plt.bar(position + width/2, non, width, color='IndianRed')
-        plt.xticks(position, situation,fontsize=10)
+        plt.xticks(position, parent,fontsize=10)
         plt.xlabel('Situation familiale', fontsize=8)
         plt.title('Diagramme en bâtons - répartition des votes en fonction de la situation familiale', fontsize=12)
         plt.legend(loc=1)
-        plt.show()
         fig.savefig('../site/static/parents.png')
-    elif len(oui)==len(non)==len(situation) and oui==[0]*2 and non==[0]*2:
+    elif oui==[0]*2 and non==[0]*2:
         img=mpimg.imread('pas_d_info.jpg')
         mpimg.imsave('../site/static/parents.png', img)
     else:
@@ -305,7 +304,6 @@ def sexe(oui:list,non:list):
         plt.xlabel('Sexe', fontsize=8)
         plt.title('Diagramme en bâtons - répartition des votes en fonction du sexe',fontsize=12)
         plt.legend(loc=1)
-        #plt.show()
         fig.savefig('../site/static/sexe.png')
     elif len(oui)==len(non)==3 and oui==[0]*3 or non==[0]*3: 
         img=mpimg.imread('pas_d_info.jpg')
