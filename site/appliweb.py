@@ -64,6 +64,8 @@ def voteoui(ref_id):
     ids2=[]
     for K in ids:
         ids2.append(K[0])
+    if idut!=0:
+        return render_template('changercompte.html')
     if ids2==None or userid not in ids2:
         cur.execute("INSERT INTO votes  (ref_id,user_id,vote) VALUES (?,?,?)",(ref_id,userid,'Oui'))
         db.commit()
@@ -84,6 +86,8 @@ def votenon(ref_id):
     ids2=[]
     for K in ids:
         ids2.append(K[0])
+    if idut!=0:
+        return render_template('changercompte.html')
     if ids2==None or userid not in ids2:
         cur.execute("INSERT INTO votes (ref_id,user_id,vote) VALUES (?,?,?)",(ref_id,userid,'Non'))
         db.commit()
