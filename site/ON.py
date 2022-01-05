@@ -3,15 +3,16 @@ import matplotlib.image as mpimg
 import numpy as np
 import datetime
 import os
+from typing import List
 
-def separeidtitre(L):
+def separeidtitre(L:List[int]):
     T=[]
     for i in range(len(L)):
         if type(L[i])==tuple:
             T.append([L[i][0],L[i][1]])
     return T
 
-def pourcentage(o,n):
+def pourcentage(o:int,n:int):
     if o == None or n == None:
         return (0,0)
     elif o == 0 and n == 0 :
@@ -28,7 +29,7 @@ catégorie=['Etudiant','Retraité','Agriculteurs \n exploitants',
     'Employés\n qualifiés','Employés\n non qualifiés',
     'Ouvriers\n qualifiés','Ouvriers\n non qualifiés']
 
-def graphe_sociopro(oui:list,non:list): #oui la liste dont le n-ième élément est le nombre d'individu votant oui pour la n-ième catégorie (idem pour non)
+def graphe_sociopro(oui:List[int],non:List[int]): #oui la liste dont le n-ième élément est le nombre d'individu votant oui pour la n-ième catégorie (idem pour non)
     if os.path.isfile('../site/static/sociopro.png'):
             os.remove('../site/static/sociopro.png')
     if len(oui)==len(non)==len(catégorie) and (oui!=[0]*10 or non!=[0]*10):  #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
@@ -56,7 +57,7 @@ def graphe_sociopro(oui:list,non:list): #oui la liste dont le n-ième élément 
         print ('la longueur de la liste est incorrecte')
 
 
-def retire_zero(l:list):
+def retire_zero(l:List[int]):
     compteur=l.count(0)
     for k in range (compteur):
         l.remove(0)
@@ -64,7 +65,7 @@ def retire_zero(l:list):
 
 #on ne peut pas faire de camembert si l'une des valeurs de la liste est nulle, il faut donc enlever ces valeurs
 
-def catembert(p:list):   #p la liste du nombre de votes par catégorie
+def catembert(p:List[int]):   #p la liste du nombre de votes par catégorie
     if len(p)==len(catégorie):  #On contrôle l'existance d'une valeurs pour chaque catégorie 
         explode=[] #liste de même longueur que p mais faite de 0 sauf pour l'indice correspondant au max de p où l'on met 0.1
         présence=[] #liste des indices des valeurs non nulles de p
@@ -109,7 +110,7 @@ def catembert(p:list):   #p la liste du nombre de votes par catégorie
     else:
         print ('la longueur de la liste est incorrecte')
 
-def max_indice(p:list):  
+def max_indice(p:List[int]):  
     if p == []:
         return None
     i=0
@@ -127,7 +128,7 @@ def calcul_age(date): #format 'AAAA-MM-JJ'
         return 0
     return auj.year - date.year - ((auj.month, auj.day) < (date.month, date.day))
 
-def age(agevote:list): #liste de tuples contenant la date de naissance du votant ainsi que son vote
+def age(agevote:List[int]): #liste de tuples contenant la date de naissance du votant ainsi que son vote
     cat=['18-25 ans','26-35 ans','36-45 ans',
     '46-55 ans','56-65 ans','66-75 ans',
     '76 ans et plus']
@@ -196,7 +197,7 @@ def age(agevote:list): #liste de tuples contenant la date de naissance du votant
         fig.savefig('../site/static/age.png')
     
 
-def camemb_age(date:list):
+def camemb_age(date:List[int]):
     for k in range (len(date)):
         date[k]=calcul_age(date[k][0])
     age=7*[0]                        #liste dont le n-ième élément est le nombre de personne dans la n-ième tranche d'age      
@@ -240,7 +241,7 @@ def camemb_age(date:list):
     
 parent=['oui','non']
 
-def parents(oui:list,non:list): #oui la liste dont le n-ième élément est le nombre d'individu votant oui pour la n-ième catégorie (idem pour non)
+def parents(oui:List[int],non:List[int]): #oui la liste dont le n-ième élément est le nombre d'individu votant oui pour la n-ième catégorie (idem pour non)
     if os.path.isfile('../site/static/parents.png'):
        os.remove('../site/static/parents.png')
     if len(oui)==len(non)==2 and (oui!=[0]*2 or non!=[0]*2):  #On contrôle l'existence d'une valeurs pour chaque catégorie dans chacune des 2 listes
@@ -264,7 +265,7 @@ def parents(oui:list,non:list): #oui la liste dont le n-ième élément est le n
     else:
         print ('la longueur de la liste est incorrecte')
 
-def parembert(p:list):
+def parembert(p:List[int]):
     if len(p)==2:  #On contrôle l'existance d'une valeurs pour chaque catégorie 
         explode=2*[0]
         p=retire_zero(p)
@@ -282,7 +283,7 @@ def parembert(p:list):
         print ('la longueur de la liste est incorrecte')
         
 
-def sexe(oui:list,non:list):
+def sexe(oui:List[int],non:List[int]):
     if os.path.isfile('../site/static/sexe.png'):
         os.remove('../site/static/sexe.png')
     if len(oui)==len(non)==3 and (oui!=[0]*3 or non!=[0]*3): #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
@@ -310,7 +311,7 @@ def sexe(oui:list,non:list):
     else:
         print ('la longueur de la liste est incorrecte')
 
-def camembert_s(p:list):    #p la liste du nombre de votes par catégories
+def camembert_s(p:List[int]):    #p la liste du nombre de votes par catégories
     if len(p)==3: #On contrôle l'existence d'une valeurs pour chaque catégorie 
         explode=[]
         présence=[]
