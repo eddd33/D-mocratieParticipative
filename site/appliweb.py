@@ -422,10 +422,12 @@ def resultatselu(ref):
     cur.execute("""SELECT parent,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
     Y=cur.fetchall()
     Ytuple=traitement_parents(Y)
+    print(Ytuple)
     parents(Ytuple[0],Ytuple[1])
 
     cur.execute("""SELECT parent,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
-    Z=cur.fetchall()
+    Z=cur.fetchall() #en minuscule parent ou pas (1ere position), en majuscule le vote (2eme postion)
+    print(Z)
     parembert(traitement_parembert(Z))
 
     cur.execute("""SELECT sexe,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
