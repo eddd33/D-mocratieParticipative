@@ -178,11 +178,11 @@ def age(agevote:list): #liste de tuples contenant la date de naissance du votant
         else:
             oui[t]=(100*p)/(p+non[t])       #On remplace les nombres par les pourcentages qu'ils représentent au sein de la catégorie
             non[t]=(100*non[t])/(p+non[t])
-    if os.path.isfile('../site/Graphes/age.png'):
-        os.remove('../site/Graphes/age.png')
+    if os.path.isfile('../site/static/age.png'):
+        os.remove('../site/static/age.png')
     if oui==[0]*7 and non==[0]*7 :
         img=mpimg.imread('pas_d_info.jpg')
-        mpimg.imsave('../site/Graphes/age.png')
+        mpimg.imsave('../site/static/age.png')
     else:
         position=np.arange(len(cat))
         width=0.3
@@ -194,7 +194,7 @@ def age(agevote:list): #liste de tuples contenant la date de naissance du votant
         plt.title('Diagramme en bâtons - répartition des votes en fonction de l âge des votants',fontsize=12)
         plt.legend(loc=1)
         plt.show()
-        fig.savefig('../site/Graphes/age.png')
+        fig.savefig('../site/static/age.png')
     
 
 def camemb_age(date:list):
