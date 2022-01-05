@@ -411,11 +411,11 @@ def resultatselu(ref):
     H=cur.fetchall()
     catembert(traitement_catembert(H))
 
-    cur.execute("""SELECT annee_naissance,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
+    cur.execute("""SELECT date_naissance,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
     N=cur.fetchall()
     age(N)
 
-    cur.execute("""SELECT annee_naissance FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
+    cur.execute("""SELECT date_naissance FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
     M=cur.fetchall()
     camemb_age(M)
 
