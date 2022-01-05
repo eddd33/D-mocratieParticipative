@@ -413,12 +413,22 @@ def resultats(ref):
     H=cur.fetchall()
     catembert(traitement_catembert(H))
 
-    #cur.execute("""SELECT annee_naissance,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
-    #N=cur.fetchone()
-    #age
+    cur.execute("""SELECT annee_naissance,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
+    N=cur.fetchall()
+    age(N)
 
-    #cur.execute("""SELECT annee_naissance FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
-    #M=cur.fetchone()
+    cur.execute("""SELECT annee_naissance FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
+    M=cur.fetchall()
+    camemb_age(M)
+
+    cur.execute("""SELECT parent,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
+    Y=cur.fetchall()
+    Ytuple=traitement_parents(Y)
+    parents(Ytuple[0],Ytuple[1])
+
+    cur.execute("""SELECT parent,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
+    Z=cur.fetchall()
+    parembert(traitement_parembert(Z))
 
     cur.execute("""SELECT sexe,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
     U=cur.fetchall()
