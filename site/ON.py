@@ -57,10 +57,15 @@ def graphe_sociopro(oui:List[int],non:List[int]): #oui la liste dont le n-ième 
         print ('la longueur de la liste est incorrecte')
 
 
-def retire_zero(l:List[int]):
+def retire_zero(l:List[int]): #retire aussi les valeurs négatives d'une liste
     compteur=l.count(0)
     for k in range (compteur):
         l.remove(0)
+    i=len(l)
+    while i!=0:
+        if l[i-1]<0:
+            l.remove(l[i-1])
+        i=i-1
     return l
 
 #on ne peut pas faire de camembert si l'une des valeurs de la liste est nulle, il faut donc enlever ces valeurs
@@ -316,7 +321,7 @@ def camembert_s(p:List[int]):    #p la liste du nombre de votes par catégories
         explode=[]
         présence=[]
         for k in range (len(p)):
-            if p[k]!=0:
+            if p[k]>0:
                 explode.append(0)
                 présence.append(k)
         p=retire_zero(p)
