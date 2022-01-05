@@ -11,12 +11,30 @@
         .credits{position:absolute;top:800px;left:60px;font-size: x-large; font-weight: bold;color:white;}
         .menugauche{background-color:rgb(165,148,249);width: 250px;height: 1000px;position: absolute; top:0px;left:0px;}
         .couleurtexte{color:white}
+        .accueil{position:absolute;top:130px;left:30px;font-size: x-large; font-weight: bold;}
+        .logoaccueil{position:absolute;top:0px;left:0px; color:white}
         .nouscontacter:hover > .couleurtexte{color:black}
+        .textaccueil{position:absolute;top:20px;left:60px;font-size: x-large; font-weight: bold; color:white}
         .credits:hover > .couleurtexte{color:black}
+        .accueil:hover > .textaccueil{color:black}
+        .accueil:hover > .logoaccueil{color:black}
+        .logoaccueil{position:absolute;top:0px;left:0px; color:white}
     </style>
+    <head>
+        <script src="https://kit.fontawesome.com/b2d001e85a.js" crossorigin="anonymous"></script>
+    </head>
     <div class=menugauche>
+        
         <img src="{{url_for('static',filename='Tnews_1.png')}}" class=logo>
         <a class=nomsite>interACTION</a>
+        <div class=accueil>
+            <div class=logoaccueil>
+                <i class="fas fa-home fa-2x"></i>
+            </div>
+            
+            <a class=textaccueil href=/accueil>Accueil</a>
+        
+        </div>
         <form action="/filtrecat" method="post">
         <select name="categories" class=catego>
             <option disabled selected value="" class=options>Catégories</option>

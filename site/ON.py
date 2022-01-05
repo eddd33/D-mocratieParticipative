@@ -49,7 +49,7 @@ def graphe_sociopro(oui:List[int],non:List[int]): #oui la liste dont le n-ième 
         plt.xlabel('Catégories', fontsize=8)
         plt.title('Diagramme en bâtons - répartition des votes en fonction des catégories socioprofessionnelles',fontsize=12)
         plt.legend(loc=1)
-        fig.savefig('../site/static/sociopro.png')
+        fig.savefig('../site/static/sociopro.png',bbox_inches='tight')
     elif len(oui)==len(non)==len(catégorie) and oui==[0]*10 and non==[0]*10 :
         img=mpimg.imread('pas_d_info.jpg')
         mpimg.imsave('../site/static/sociopro.png', img)
@@ -199,7 +199,7 @@ def age(agevote:List[int]): #liste de tuples contenant la date de naissance du v
         plt.xlabel('Âge', fontsize=8)
         plt.title('Diagramme en bâtons - répartition des votes en fonction de l âge des votants',fontsize=12)
         plt.legend(loc=1)
-        fig.savefig('../site/static/age.png')
+        fig.savefig('../site/static/age.png',bbox_inches='tight')
     
 
 def camemb_age(date:List[int]):
@@ -244,16 +244,18 @@ def camemb_age(date:List[int]):
         mpimg.imsave('../site/static/camem_age.png', img)
     
     
-parent=['oui','non']
-
 def parents(oui:List[int],non:List[int]): #oui la liste dont le n-ième élément est le nombre d'individu votant oui pour la n-ième catégorie (idem pour non)
+    parent=['Parent','Pas parent']
     if os.path.isfile('../site/static/parents.png'):
        os.remove('../site/static/parents.png')
     if len(oui)==len(non)==2 and (oui!=[0]*2 or non!=[0]*2):  #On contrôle l'existence d'une valeurs pour chaque catégorie dans chacune des 2 listes
         for k in range (len(oui)):
             p=oui[k]
-            oui[k]=(100*p)/(p+non[k])
-            non[k]=(100*non[k])/(p+non[k])
+            if p+non[k]==0:
+                pass
+            else:
+                oui[k]=(100*p)/(p+non[k])
+                non[k]=(100*non[k])/(p+non[k])
         position=np.arange(len(parent))
         width=0.3
         fig=plt.figure(figsize = (8, 8))
@@ -263,7 +265,7 @@ def parents(oui:List[int],non:List[int]): #oui la liste dont le n-ième élémen
         plt.xlabel('Situation familiale', fontsize=8)
         plt.title('Diagramme en bâtons - répartition des votes en fonction de la situation familiale', fontsize=12)
         plt.legend(loc=1)
-        fig.savefig('../site/static/parents.png')
+        fig.savefig('../site/static/parents.png',bbox_inches='tight')
     elif oui==[0]*2 and non==[0]*2:
         img=mpimg.imread('pas_d_info.jpg')
         mpimg.imsave('../site/static/parents.png', img)
@@ -272,14 +274,25 @@ def parents(oui:List[int],non:List[int]): #oui la liste dont le n-ième élémen
 
 def parembert(p:List[int]):
     if len(p)==2:  #On contrôle l'existance d'une valeurs pour chaque catégorie 
-        explode=2*[0]
+        explode=[]
+        présence=[]
+        for k in range (len(p)):
+            if p[k]>0:
+                explode.append(0)
+                présence.append(k)
         p=retire_zero(p)
+        parent=[]
+        for t in range (len(présence)):
+            if présence[t]==0:
+                parent.append('Parent')
+            if présence[t]==1:
+                parent.append('Pas parent')
         if os.path.isfile('../site/static/parembert.png'):
             os.remove('../site/static/parembert.png')
         if p!=[]:
             explode[max_indice(p)]=0.1
             fig=plt.figure(figsize = (8, 8))
-            plt.pie(p, explode=explode,labels = ['Parents','Pas Parents'] ,autopct='%1.1f%%')
+            plt.pie(p, explode=explode,labels = parent ,autopct='%1.1f%%')
             fig.savefig('../site/static/parembert.png')
         else:
             img=mpimg.imread('pas_d_info.jpg')
@@ -309,7 +322,7 @@ def sexe(oui:List[int],non:List[int]):
         plt.xlabel('Sexe', fontsize=8)
         plt.title('Diagramme en bâtons - répartition des votes en fonction du sexe',fontsize=12)
         plt.legend(loc=1)
-        fig.savefig('../site/static/sexe.png')
+        fig.savefig('../site/static/sexe.png',bbox_inches='tight')
     elif len(oui)==len(non)==3 and oui==[0]*3 or non==[0]*3: 
         img=mpimg.imread('pas_d_info.jpg')
         mpimg.imsave('../site/static/sexe.png', img)

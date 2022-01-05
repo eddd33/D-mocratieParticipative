@@ -24,7 +24,6 @@ def testconnect():
     if 'idut' in globals() and 'prenomut' in globals() and 'nomut' in globals():
         return True
     else:
-        print("redirect")
         return False
 
 @app.route('/')
@@ -60,7 +59,6 @@ def voteoui(ref_id):
     cur=db.cursor()
     cur.execute("SELECT user_id FROM votes WHERE ref_id={}".format(ref_id))
     ids=cur.fetchall()
-    print(ids)
     ids2=[]
     for K in ids:
         ids2.append(K[0])
@@ -239,14 +237,15 @@ def accueil_c(cat=""):
 
     if not testconnect():
         return redirect('/login')
+    if idut!=0:
+        return redirect('/accueil_e/""')
 
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
-    print(cat)
     cur.execute("""SELECT ville,dep,region FROM utilisateur WHERE user_id={}""".format(userid))
     Y=cur.fetchone()
     ville,departement,region=Y[0],Y[1],Y[2]
-    print(ville,departement,region)
+
     cur.execute("""SELECT ref_id,titre FROM referendum WHERE echelle="regionale" AND region='{}'""".format(region))
     refregion=cur.fetchall()
     REFregion=separeidtitre(refregion)
@@ -258,7 +257,6 @@ def accueil_c(cat=""):
     REFville=separeidtitre(refville)
     
     if cat=='""' or cat=='None':
-        print("rien")
         listetrie=REFregion+REFdep+REFville
     elif cat=='regionale':
         listetrie=REFregion
@@ -267,7 +265,6 @@ def accueil_c(cat=""):
     elif cat=='locale':
         listetrie=REFville 
     else:
-        print("catego")
         listetrie=REFregion+REFdep+REFville
         cur.execute("""SELECT ref_id FROM referendum WHERE categorie1='{}' OR categorie2='{}'""".format(cat,cat))
         L=cur.fetchall()
@@ -299,14 +296,12 @@ def logineludeux():
     cur=db.cursor()
     email=request.form.get("email")
     mdp=request.form.get("mdp")
-    print("Oskur",mdp)
 
     cur.execute("""SELECT mdp FROM elu WHERE email='{}'""".format(email))
     mdptest=cur.fetchone()
     if not mdptest:
         return redirect('/loginelu')
     mdpnormalement=mdptest[0]
-    print(mdp,mdpnormalement)
     cur.execute("""SELECT nom FROM elu WHERE email='{}'""".format(email))
     nom=cur.fetchone()[0]
     cur.execute("""SELECT prenom FROM elu WHERE email='{}'""".format(email))
@@ -320,7 +315,6 @@ def logineludeux():
         prenomut=prénom
         cur.execute("""SELECT elu_id FROM elu WHERE email='{}' and mdp='{}'""".format(email,mdp))
         idut=cur.fetchone()[0]
-        print(idut)
         db.commit()
         db.close()
         return redirect('/accueil_e/""')
@@ -336,13 +330,14 @@ def accueil_e(cat=""):
 
     if not testconnect():
         return redirect('/login')
+    if idut==0:
+        return redirect('/accueil_e/""')
 
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
     cur.execute("""SELECT ville,dep,region FROM elu WHERE elu_id={}""".format(idut))
     Y=cur.fetchone()
     ville,departement,region=Y[0],Y[1],Y[2]
-    print(ville,departement,region)
     cur.execute("""SELECT ref_id,titre FROM referendum WHERE echelle="regionale" AND region='{}'""".format(region))
     refregion=cur.fetchall()
     REFregion=separeidtitre(refregion)
@@ -354,7 +349,6 @@ def accueil_e(cat=""):
     REFville=separeidtitre(refville)
     
     if cat=='""':
-        print("rien")
         listetrie=REFregion+REFdep+REFville
     elif cat=='regionale':
         listetrie=REFregion
@@ -363,7 +357,6 @@ def accueil_e(cat=""):
     elif cat=='locale':
         listetrie=REFville 
     else:
-        print("catego")
         listetrie=REFregion+REFdep+REFville
         cur.execute("""SELECT ref_id FROM referendum WHERE categorie1='{}' OR categorie2='{}'""".format(cat,cat))
         L=cur.fetchall()
@@ -389,6 +382,8 @@ def resultatselu(ref):
     global prenomut,nomut,idut
     if not testconnect():
         return redirect('/login')
+    if idut==0:
+        return redirect('/accueil_c/""')
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
 
@@ -426,12 +421,10 @@ def resultatselu(ref):
     cur.execute("""SELECT parent,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
     Y=cur.fetchall()
     Ytuple=traitement_parents(Y)
-    print(Ytuple)
     parents(Ytuple[0],Ytuple[1])
 
     cur.execute("""SELECT parent,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
     Z=cur.fetchall() #en minuscule parent ou pas (1ere position), en majuscule le vote (2eme postion)
-    print(Z)
     parembert(traitement_parembert(Z))
 
     cur.execute("""SELECT sexe,vote FROM utilisateur u JOIN votes v ON u.user_id=v.user_id WHERE ref_id={}""".format(ref))
@@ -454,6 +447,10 @@ def resultatscit(ref):
     global prenomut,nomut,idut
     if not testconnect():
         return redirect('/login')
+    if idut!=0:
+        return redirect('/accueil_e/""')
+
+
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
 
@@ -473,7 +470,9 @@ def resultatscit(ref):
 
     db.commit()
     db.close()
-
+    auj=str(datetime.datetime.now())[:11]
+    if fin>=auj:
+        return redirect('/accueil_c/""')
     return render_template('resultatscit.html',e=enonce,pres=presentation,o=oui,n=non,d=debut,f=fin,nom=nom,pren=prenom,nomut=nomut,prénomut=prenomut)
 
 @app.route('/creationreferendum')
@@ -482,10 +481,8 @@ def creationreferendum():
     if not testconnect():
         return redirect('/login')
     if idut==0:
-        print("non")
         return redirect('/accueil_c')
     else:
-        print("oui")
         return render_template('creationreferendum.html',regions=regions,departements=departements,nom=nomut,prénom=prenomut)
 
 @app.route('/refcree',methods=['POST'])
@@ -493,13 +490,14 @@ def refcree():
     global prenomut,idut,nomut
     if not testconnect():
         return redirect('/login')
+    if idut==0:
+        return redirect('/accueil_c/""')
     db=sqlite3.connect('projet.db')
     cur=db.cursor()
     enonce=request.form.get("enonce")
     ville=request.form.get("ville")
     region=request.form.get("region")
     dep=request.form.get("dep")
-    print(dep, type(dep))
     debut=request.form.get("debut")
     fin=request.form.get("fin")
     cat1=request.form.get("cat1_ref")
@@ -570,7 +568,7 @@ def referendum(ref_id):
     cur.execute("""SELECT nom,prenom FROM elu WHERE elu_id={}""".format(createur) )
     T=cur.fetchone()
     nom,prenom=T[0],T[1]
-    elu=[nom,prenom]
+    elu=[prenom,nom]
     db.commit()
     db.close()
     return render_template('referendum.html',enonce=enonce,presentation=presentation,debut=debut,fin=fin,createur=createur,titre=titre,elu=elu,nom=nomut,prénom=prenomut,ref_id=ref_id)
@@ -594,10 +592,8 @@ def filtreech():
     if not testconnect():
         return redirect('/login')
     echfiltre=request.form.get("echelle")
-    print(echfiltre)
     if idut==0:
         return redirect(f"/accueil_c/{echfiltre}")
-        print("coucou")
     else:
         return redirect(f"/accueil_e/{echfiltre}")
 
@@ -611,6 +607,8 @@ def contact():
 
 @app.route('/contactco')
 def contactco():
+    if not testconnect():
+        return redirect('/login')
     return render_template('contactco.html')
 
 @app.route('/credits')
@@ -619,4 +617,16 @@ def credits():
 
 @app.route('/creditsco')
 def creditsco():
+    if not testconnect():
+        return redirect('/login')
     return render_template('creditsco.html') 
+
+@app.route('/accueil')
+def accueil():
+    global idut
+    if not testconnect():
+        return redirect('/login')
+    if idut==0:
+        return redirect('/accueil_c/""')
+    else:
+        return redirect('/accueil_e/""')

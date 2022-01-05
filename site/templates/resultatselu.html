@@ -13,12 +13,14 @@
     .non{position:absolute;top:430px;left:870px;}
     .dated{position:absolute;top:460px;left:850px;}
     .datef{position:absolute;top:490px;left:850px;}
-    .fond{position:absolute;top:150px;left:400px;width: 1000px;height: 5000px;background-color: rgb(229,217,242);}
+    .fond{position:absolute;top:150px;left:380px;width: 1040px;height: 7000px;background-color: rgb(229,217,242);}
     .user{position:absolute;top:50px;right:60px; width:300px;height:75px;border-radius:20px;background-color: rgb(165,148,249);}
     .PP{position:absolute;top:5px;left:10px}
     .nomutilisateur{position:absolute;top:20px;right:75px}
     .deconnect{position: absolute; top:40px; right:75px}
-    .extendmenugauche{background-color:rgb(165,148,249);width: 250px;height: 4500px;position: absolute; top:1000px;left:0px;}
+    .extendmenugauche{background-color:rgb(165,148,249);width: 250px;height: 6000px;position: absolute; top:1000px;left:0px;}
+    .divgauche{position:relative;top:0px;left:20px;width:500px;height:5000px}
+    .divdroite{position:relative;top:-5000px;left:520px;width:500px;height:5000px}
 </STYLE>
 <head>
     <script src="https://kit.fontawesome.com/b2d001e85a.js" crossorigin="anonymous"></script>
@@ -42,25 +44,36 @@
 </div>
 
 <div class=fond>
-    <center>
-    <h1> {{ e }}</h1><br>
-    <h2>Créateur : {{ pren }} {{ nom }}</h2><br>
-    <h3>{{ pres }}</h3><br>
-    <p>Pourcentage de Oui : {{ o }}%</p><br>
-    <p>Pourcentage de Non : {{ n }}%</p><br>
-    <p>Date de début : {{ d }}  ---  Date de fin: {{ f }}</p><br>
-    </center>
-    <img src="{{url_for('static',filename='sociopro.png')}}">
-    <img src="{{url_for('static',filename='catembert.png')}}"><br>
-    <img src="{{url_for('static',filename='age.png')}}">
-    <img src="{{url_for('static',filename='camem_age.png')}}"><br>
-    <img src="{{url_for('static',filename='sexe.png')}}">
-    <img src="{{url_for('static',filename='camembert_s.png')}}"><br>
-    <img src="{{url_for('static',filename='parents.png')}}">
-    <img src="{{url_for('static',filename='parembert.png')}}"><br>
-    <center>
+    <div>
+        <center>
+        <h1> {{ e }}</h1><br>
+        <h2>Créateur : {{ pren }} {{ nom }}</h2><br>
+        <h3>{{ pres }}</h3><br>
+        <p>Pourcentage de Oui : {{ o }}%</p><br>
+        <p>Pourcentage de Non : {{ n }}%</p><br>
+        <p>Date de début : {{ d }}  ---  Date de fin: {{ f }}</p><br>
+        
+        <h4>Les votes "oui" sont en bleu tandis que les votes "non" sont en rouge dans les diagrammes en batôns</h4>
+        </center>
+        
+    </div>
+    <div class=divgauche>
+        <img src="{{url_for('static',filename='sociopro.png')}}" height="500px" width="500px">
+        <img src="{{url_for('static',filename='age.png')}}" height="500px" width="500px">
+        <img src="{{url_for('static',filename='sexe.png')}}" height="500px" width="500px">
+        <img src="{{url_for('static',filename='parents.png')}}"height="500px" width="500px">
+    </div>
+    <div class=divdroite>
+        <img src="{{url_for('static',filename='catembert.png')}}" height="500px" width="500px">
+        <img src="{{url_for('static',filename='camem_age.png')}}" height="500px" width="500px">
+        <img src="{{url_for('static',filename='camembert_s.png')}}" height="500px" width="500px">
+        <img src="{{url_for('static',filename='parembert.png')}}" height="500px" width="500px">
+    </div>
+    
+    
+    
     <a href="javascript:history.go(-1)">Retour à la page précédente</a>
-    </center>
+    
 </div>
 
 
