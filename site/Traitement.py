@@ -80,23 +80,23 @@ def traitement_parents(Y):
     for k in range (len(Y)):
         
         if Y[k][1]=='Oui':
-            if Y[k][0]=='Parents':
+            if Y[k][0]=='oui':
                 oui[0]+=1
-            if Y[k][0]=='Pas parents':
+            if Y[k][0]=='non':
                 oui[1]+=1
         if Y[k][1]=='Non':
-            if Y[k][0]=='Parents':
+            if Y[k][0]=='oui':
                 non[0]+=1
-            if Y[k][0]=='Pas parents':
+            if Y[k][0]=='non':
                 non[1]+=1
     return oui,non
 
 def traitement_parembert(Z):
     p=2*[0]
     for k in range (len(Z)):
-        if Z[k]=='Parents':
+        if Z[k][0]=='oui':
             p[0]+=1
-        if Z[k]=='Pas parents':
+        if Z[k][0]=='non':
             p[1]+=1
     return p
 
