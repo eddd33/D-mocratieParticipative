@@ -35,6 +35,8 @@ def graphe_sociopro(oui:List[int],non:List[int]): #oui la liste dont le n-ième 
     if len(oui)==len(non)==len(catégorie) and (oui!=[0]*10 or non!=[0]*10):  #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
         for k in range (len(oui)):
             p=oui[k]
+            if p<0 or non[k]<0:
+                return ('Valeur négative en entrée')
             if p+non[k]==0:
                 pass
             else:
@@ -251,6 +253,8 @@ def parents(oui:List[int],non:List[int]): #oui la liste dont le n-ième élémen
     if len(oui)==len(non)==2 and (oui!=[0]*2 or non!=[0]*2):  #On contrôle l'existence d'une valeurs pour chaque catégorie dans chacune des 2 listes
         for k in range (len(oui)):
             p=oui[k]
+            if p<0 or non[k]<0:
+                return ('Valeur négative en entrée')
             if p+non[k]==0:
                 pass
             else:
@@ -307,6 +311,8 @@ def sexe(oui:List[int],non:List[int]):
     if len(oui)==len(non)==3 and (oui!=[0]*3 or non!=[0]*3): #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
         for k in range (len(oui)):
             p=oui[k]
+            if p<0 or non[k]<0:
+                return ('Valeur négative en entrée')
             if p+non[k]==0:
                 pass
             else:
