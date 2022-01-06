@@ -5,7 +5,7 @@ import datetime
 import os
 from typing import List
 
-def separeidtitre(L:List[int]):
+def separeidtitre(L:List[tuple]):     #Transforme une liste de tples de ongueur 2 en liste de liste de longueur 2
     T=[]
     for i in range(len(L)):
         if type(L[i])==tuple:
@@ -18,8 +18,8 @@ def pourcentage(o:int,n:int):
     elif o == 0 and n == 0 :
         return (0,0)
     t=o+n
-    po=o*100/t   #On calcul le pourcentage de vote oui
-    pn=n*100/t   #On calcul le pourcentage de vote non
+    po=o*100/t   #On calcule le pourcentage de vote oui
+    pn=n*100/t   #On calcule le pourcentage de vote non
     return (round(po,1),round(pn,1))
 
 catégorie=['Etudiant','Retraité','Agriculteurs \n exploitants',
@@ -29,10 +29,10 @@ catégorie=['Etudiant','Retraité','Agriculteurs \n exploitants',
     'Employés\n qualifiés','Employés\n non qualifiés',
     'Ouvriers\n qualifiés','Ouvriers\n non qualifiés']
 
-def graphe_sociopro(oui:List[int],non:List[int]): #oui la liste dont le n-ième élément est le nombre d'individu votant oui pour la n-ième catégorie (idem pour non)
-    if os.path.isfile('../site/static/sociopro.png'):
-            os.remove('../site/static/sociopro.png')
-    if len(oui)==len(non)==len(catégorie) and (oui!=[0]*10 or non!=[0]*10):  #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
+def graphe_sociopro(oui:List[int],non:List[int]):        #oui la liste dont le n-ième élément est le nombre d'individu votant oui pour la n-ième catégorie (idem pour non)
+    if os.path.isfile('../site/static/sociopro.png'):    #Si un graphe est déjà enregistré
+            os.remove('../site/static/sociopro.png')     #On le supprime pour pouvoir en créer un nouveau
+    if len(oui)==len(non)==len(catégorie) and (oui!=[0]*10 or non!=[0]*10):  #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes et l'existance d'au moins 1 vote
         for k in range (len(oui)):
             p=oui[k]
             if p<0 or non[k]<0:
@@ -52,30 +52,32 @@ def graphe_sociopro(oui:List[int],non:List[int]): #oui la liste dont le n-ième 
         plt.title('Diagramme en bâtons - répartition des votes en fonction des catégories socioprofessionnelles',fontsize=12)
         plt.legend(loc=1)
         fig.savefig('../site/static/sociopro.png',bbox_inches='tight')
-    elif len(oui)==len(non)==len(catégorie) and oui==[0]*10 and non==[0]*10 :
+    elif len(oui)==len(non)==len(catégorie) and oui==[0]*10 and non==[0]*10:   #Si aucun vote n'a été enregistré on enregistre un message d'information 
         img=mpimg.imread('pas_d_info.jpg')
         mpimg.imsave('../site/static/sociopro.png', img)
     else :
         print ('la longueur de la liste est incorrecte')
+        
+        
+#on ne peut pas faire de camembert si l'une des valeurs de la liste est nulle, il faut donc enlever ces valeurs
 
-
-def retire_zero(l:List[int]): #retire aussi les valeurs négatives d'une liste
-    compteur=l.count(0)
+def retire_zero(l:List[int]):  #Retire les zéros et les valeurs négatives d'une liste 
+    compteur=l.count(0)        #On compte le nombre de zéro
     for k in range (compteur):
-        l.remove(0)
+        l.remove(0)            #Puis on les retire
     i=len(l)
-    while i!=0:
+    while i!=0:                #On parcours la liste restante
         if l[i-1]<0:
-            l.remove(l[i-1])
+            l.remove(l[i-1])   #Et on retire les valeurs négatives
         i=i-1
     return l
 
-#on ne peut pas faire de camembert si l'une des valeurs de la liste est nulle, il faut donc enlever ces valeurs
 
-def catembert(p:List[int]):   #p la liste du nombre de votes par catégorie
-    if len(p)==len(catégorie):  #On contrôle l'existance d'une valeurs pour chaque catégorie 
-        explode=[] #liste de même longueur que p mais faite de 0 sauf pour l'indice correspondant au max de p où l'on met 0.1
-        présence=[] #liste des indices des valeurs non nulles de p
+
+def catembert(p:List[int]):     #p la liste du nombre de votes par catégorie
+    if len(p)==len(catégorie):  #On contrôle l'existence d'une valeurs pour chaque catégorie 
+        explode=[]              #liste de même longueur que p mais faite de 0 sauf pour l'indice correspondant au max de p où l'on met 0.1
+        présence=[]             #liste des indices des valeurs non nulles de p
         for k in range (len(p)):
             if p[k]!=0:
                 explode.append(0) #on rajoute un 0 pour chaque valeur non nulle de p
@@ -103,8 +105,8 @@ def catembert(p:List[int]):   #p la liste du nombre de votes par catégorie
                 catégories.append('Ouvriers qualifiés')
             if présence[t]==9:
                 catégories.append('Ouvriers non qualifiés')
-        if os.path.isfile('../site/static/catembert.png'):
-            os.remove('../site/static/catembert.png') #on supprime l'ancien graphique
+        if os.path.isfile('../site/static/catembert.png'):    #Si un graphe est déjà enregistré
+            os.remove('../site/static/catembert.png')         #On supprime l'ancien graphique
         if p!=[]:
             explode[max_indice(p)]=0.1
             explode=tuple(explode)
@@ -113,7 +115,7 @@ def catembert(p:List[int]):   #p la liste du nombre de votes par catégorie
             fig.savefig('../site/static/catembert.png')
         else:
             img=mpimg.imread('pas_d_info.jpg')
-            mpimg.imsave('../site/static/catembert.png', img)
+            mpimg.imsave('../site/static/catembert.png', img)   #Si aucun vote n'a été enregistré on enregistre un message d'information 
     else:
         print ('la longueur de la liste est incorrecte')
 
@@ -186,11 +188,11 @@ def age(agevote:List[int]): #liste de tuples contenant la date de naissance du v
         else:
             oui[t]=(100*p)/(p+non[t])       #On remplace les nombres par les pourcentages qu'ils représentent au sein de la catégorie
             non[t]=(100*non[t])/(p+non[t])
-    if os.path.isfile('../site/static/age.png'):
-        os.remove('../site/static/age.png')
+    if os.path.isfile('../site/static/age.png'):     #Si un graphe est déjà enregistré
+        os.remove('../site/static/age.png')          #On le supprime pour pouvoir en créer un nouveau
     if oui==[0]*7 and non==[0]*7 :
         img=mpimg.imread('pas_d_info.jpg')
-        mpimg.imsave('../site/static/age.png',img)
+        mpimg.imsave('../site/static/age.png',img)   #Si aucun vote n'a été enregistré on enregistre un message d'information 
     else:
         position=np.arange(len(cat))
         width=0.3
@@ -232,8 +234,8 @@ def camemb_age(date:List[int]):
         if age[j]!=0:
             labels.append(cat[j])
             age_présent.append(age[j])
-    if os.path.isfile('../site/static/camem_age.png'):
-        os.remove('../site/static/camem_age.png')
+    if os.path.isfile('../site/static/camem_age.png'):    #Si un graphe est déjà enregistré
+        os.remove('../site/static/camem_age.png')         #On le supprime pour pouvoir un créer un nouveau
     if age_présent!=[]:
         explode=len(labels)*[0]
         explode[max_indice(age_présent)]=0.1
@@ -243,13 +245,13 @@ def camemb_age(date:List[int]):
         fig.savefig('../site/static/camem_age.png')
     else:
         img=mpimg.imread('pas_d_info.jpg')
-        mpimg.imsave('../site/static/camem_age.png', img)
+        mpimg.imsave('../site/static/camem_age.png', img)   #Si aucun vote n'a été enregistré on enregistre un message d'information 
     
     
 def parents(oui:List[int],non:List[int]): #oui la liste dont le n-ième élément est le nombre d'individu votant oui pour la n-ième catégorie (idem pour non)
     parent=['Parent','Pas parent']
-    if os.path.isfile('../site/static/parents.png'):
-       os.remove('../site/static/parents.png')
+    if os.path.isfile('../site/static/parents.png'):     #Si un graphe est déjà enregistré
+       os.remove('../site/static/parents.png')           #On le supprime pour pouvoir en creer un nouveau
     if len(oui)==len(non)==2 and (oui!=[0]*2 or non!=[0]*2):  #On contrôle l'existence d'une valeurs pour chaque catégorie dans chacune des 2 listes
         for k in range (len(oui)):
             p=oui[k]
@@ -272,12 +274,12 @@ def parents(oui:List[int],non:List[int]): #oui la liste dont le n-ième élémen
         fig.savefig('../site/static/parents.png',bbox_inches='tight')
     elif oui==[0]*2 and non==[0]*2:
         img=mpimg.imread('pas_d_info.jpg')
-        mpimg.imsave('../site/static/parents.png', img)
+        mpimg.imsave('../site/static/parents.png', img)     #Si aucun vote n'a été enregistré on enregistre un message d'information 
     else:
         print ('la longueur de la liste est incorrecte')
 
 def parembert(p:List[int]):
-    if len(p)==2:  #On contrôle l'existance d'une valeurs pour chaque catégorie 
+    if len(p)==2:  #On contrôle l'existence d'une valeurs pour chaque catégorie 
         explode=[]
         présence=[]
         for k in range (len(p)):
@@ -291,8 +293,8 @@ def parembert(p:List[int]):
                 parent.append('Parent')
             if présence[t]==1:
                 parent.append('Pas parent')
-        if os.path.isfile('../site/static/parembert.png'):
-            os.remove('../site/static/parembert.png')
+        if os.path.isfile('../site/static/parembert.png'):   #Si un graphe est déjà enregistré
+            os.remove('../site/static/parembert.png')        #On le supprime pour pouvoir en créer un nouveau
         if p!=[]:
             explode[max_indice(p)]=0.1
             fig=plt.figure(figsize = (8, 8))
@@ -300,15 +302,15 @@ def parembert(p:List[int]):
             fig.savefig('../site/static/parembert.png')
         else:
             img=mpimg.imread('pas_d_info.jpg')
-            mpimg.imsave('../site/static/parembert.png', img)
+            mpimg.imsave('../site/static/parembert.png', img)  #Si aucun vote n'a été enregistré on enregistre un message d'information 
     else:
         print ('la longueur de la liste est incorrecte')
         
 
 def sexe(oui:List[int],non:List[int]):
-    if os.path.isfile('../site/static/sexe.png'):
-        os.remove('../site/static/sexe.png')
-    if len(oui)==len(non)==3 and (oui!=[0]*3 or non!=[0]*3): #On contrôle l'existance d'une valeurs pour chaque catégorie dans chacune des 2 listes
+    if os.path.isfile('../site/static/sexe.png'):    #Si un graphe est déjà enregistré
+        os.remove('../site/static/sexe.png')         #On le supprime pour pouvoir en créer un nouveau
+    if len(oui)==len(non)==3 and (oui!=[0]*3 or non!=[0]*3): #On contrôle l'existence d'une valeurs pour chaque catégorie dans chacune des 2 listes
         for k in range (len(oui)):
             p=oui[k]
             if p<0 or non[k]<0:
@@ -331,12 +333,12 @@ def sexe(oui:List[int],non:List[int]):
         fig.savefig('../site/static/sexe.png',bbox_inches='tight')
     elif len(oui)==len(non)==3 and oui==[0]*3 or non==[0]*3: 
         img=mpimg.imread('pas_d_info.jpg')
-        mpimg.imsave('../site/static/sexe.png', img)
+        mpimg.imsave('../site/static/sexe.png', img)     #Si aucun vote n'a été enregistré on enregistre un message d'information 
     else:
         print ('la longueur de la liste est incorrecte')
 
 def camembert_s(p:List[int]):    #p la liste du nombre de votes par catégories
-    if len(p)==3: #On contrôle l'existence d'une valeurs pour chaque catégorie 
+    if len(p)==3:                #On contrôle l'existence d'une valeurs pour chaque catégorie 
         explode=[]
         présence=[]
         for k in range (len(p)):
@@ -352,8 +354,8 @@ def camembert_s(p:List[int]):    #p la liste du nombre de votes par catégories
                 sexe.append('Femme')
             if présence[t]==2:
                 sexe.append('Autres')
-        if os.path.isfile('../site/static/camembert_s.png'):
-            os.remove('../site/static/camembert_s.png')
+        if os.path.isfile('../site/static/camembert_s.png'):  #Si un graphe est déjà enregistré
+            os.remove('../site/static/camembert_s.png')       #On le supprime pour pouvoir en créer un nouveau
         if p!=[]:
             explode[max_indice(p)]=0.1
             explode=tuple(explode)
@@ -362,7 +364,7 @@ def camembert_s(p:List[int]):    #p la liste du nombre de votes par catégories
             fig.savefig('../site/static/camembert_s.png')
         else:
             img=mpimg.imread('pas_d_info.jpg')
-            mpimg.imsave('../site/static/camembert_s.png', img) 
+            mpimg.imsave('../site/static/camembert_s.png', img)          #Si aucun vote n'a été enregistré on enregistre un message d'information 
     else:
         print ('la longueur de la liste est incorrecte')
         
