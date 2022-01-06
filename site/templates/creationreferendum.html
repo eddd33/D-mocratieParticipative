@@ -8,13 +8,25 @@
         .creationref{position:absolute;top:20px;left:20px;font-size: x-large; font-weight: bold;}
         .creationreffond{position:absolute;top:150px;left:400px;width: 1000px;height: 850px;background-color: rgb(229,217,242);border-radius: 30px;}
         .elements{position:absolute;top:60px;left:20px}
-        .nomutilisateur{position:absolute;top:20px;right:20px}
-        .deconnect{position: absolute; top:40px; right:20px}
+        .user{position:absolute;top:50px;left:1500px; width:300px;height:75px;border-radius:20px;background-color: rgb(165,148,249);}
+        .PP{position:absolute;top:5px;left:10px}
+        .nomutilisateur{position:absolute;top:20px;right:75px}
+        .deconnect{position: absolute; top:40px; right:75px}
     </style>
 
 
-    <a href="/deconnect" class=deconnect>Se déconnecter</a>
-    <a class=nomutilisateur>{{prénom}} {{nom}} </a>
+    <div class=user>
+        <div class=fonduser>
+        <div class=PP>
+            <i class="fas fa-user-tie fa-4x"></i>
+        </div>
+        <div class=nomutilisateur>
+            {{prénom}} {{nom}} 
+        </div>
+        <div class=deconnect>
+            <a href="/deconnect">Se déconnecter</a>
+        </div>
+    </div>
 
     <div class=creationreffond>
         <h1 class=creationref>Création d'un nouveau référendum :</h1>

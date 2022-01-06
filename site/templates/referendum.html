@@ -4,24 +4,35 @@
     <STYLE>
         *{font-family: Verdana, Geneva, Tahoma, sans-serif;}
         .titre{position: absolute; top:20px;left:810px;}
-        .deconnect{position: absolute; top:40px; right:20px}
         .icone{position: absolute; top: 300px; left: 500px;}
         .nomelu{position: absolute; top:460px;left: 800px;}
         .referendum{position: absolute; top:280px; left: 600px;font-size: x-large; font-weight: bold;}
         .oui{position: absolute; top:500px; left:850px}
         .non{position: absolute; top:500px; left:930px}
         .presentation{position: absolute; top:350px; left:800px;}
-        .PP{position:absolute;top:10px;right:180px}
-        .nomutilisateur{position:absolute;top:20px;right:20px}
+        .user{position:absolute;top:50px;left:1500px; width:300px;height:75px;border-radius:20px;background-color: rgb(165,148,249);}
+        .PP{position:absolute;top:5px;left:10px}
+        .nomutilisateur{position:absolute;top:20px;right:75px}
+        .deconnect{position: absolute; top:40px; right:75px}
         .periode{position:absolute;top:4400px;left:800px}
         .fond{position:absolute;top:150px;left:400px;width: 1000px;height: 850px;background-color: rgb(229,217,242);}
         </STYLE>
 
     
 
-    <a href="/deconnect" class=deconnect>Se déconnecter</a>
-    <a class=nomutilisateur>{{ prénom }} {{ nom }} </a>
-
+    <div class=user>
+        <div class=fonduser>
+        <div class=PP>
+            <i class="fas fa-user-tie fa-4x"></i>
+        </div>
+        <div class=nomutilisateur>
+            {{prénom}} {{nom}} 
+        </div>
+        <div class=deconnect>
+            <a href="/deconnect">Se déconnecter</a>
+        </div>
+    </div>
+    </div>
     <h1><center>{{ titre }}</center></h1>
     <div class=fond>
         <center>
